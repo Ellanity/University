@@ -334,7 +334,7 @@ void Quadtree::buildTree()
 		"Big Square must be N*N elements, where N is a power of two, enter N:\n";
 
 	std::string N;
-	std::cin >> N; clin;
+	std::cin >> N; //clin;
 	uns n = stringToUns(N);
 
 	if (((n & (n - 1)) == 0) && n > 0 && n <= pow(2, 15))
@@ -343,7 +343,7 @@ void Quadtree::buildTree()
 
 		std::cout << "Its cool!\nNow enter matrix N*N:\n";
 		this->matrix = this->readMatrix(n);
-		clin;
+		//clin;
 
 		std::cout << "The matrix that could be read:\n";
 		this->printTable(this->matrix);

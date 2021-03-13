@@ -1,0 +1,35 @@
+1) Build new tree from matrix
+2) Build new matrix from tree
+3) Print tree
+4) Print matrix
+5) Exit
+Now enter new "Quadtree":
+1) symbol '-' will create new node with 4 childs
+then you need enter this childs
+if you want to enter number, just do it
+if you want creare in node new node read 1
+
+Tree that could be read:
+root___
+       |___
+           |___
+               |___1
+               |___2
+               |___3
+               |___4
+           |___5
+           |___
+               |___6
+               |___6
+               |___7
+               |___6
+           |___8
+1 2 5 5 
+3 4 5 5 
+6 6 8 8 
+7 6 8 8 
+1) Build new tree from matrix
+2) Build new matrix from tree
+3) Print tree
+4) Print matrix
+5) Exit
