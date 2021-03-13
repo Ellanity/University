@@ -6,5 +6,7 @@
 > There ready labs Ready-made labs, essays, somewhere resources and literature.  
 
 
-`Please specify the source if you will use the code  
-Eldar Paplauski <contacts: eldarpoplauski111@gmail.com>`
+```
+Please specify the source if you will use the code  
+Eldar Paplauski <contacts: eldarpoplauski111@gmail.com>
+```
