@@ -3,7 +3,7 @@
 
 > I made this repository to help students of my university.  
 > I think my solutions can help them somehow.  
-> There ready labs Ready-made labs, essays, somewhere resources and literature.  
+> There ready-made labs, essays, somewhere resources and literature.  
 
 
 ```
