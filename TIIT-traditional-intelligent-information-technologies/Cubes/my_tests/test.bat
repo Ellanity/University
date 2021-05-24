@@ -3,7 +3,7 @@
 FOR %%f IN (input/*.txt) DO (
 
 	@ECHO TEST %%~nf
-	quadtree.exe input/%%f
+	cubes.exe input/%%f
 	
 	FC /b output.txt output/%%f > nul
 	IF ERRORLEVEL 1 ( 
@@ -18,5 +18,4 @@ FOR %%f IN (input/*.txt) DO (
 
 PAUSE
 EXIT
-
 
