@@ -1,0 +1,466 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#"
+     xml:base="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:TIIT="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#километр -->
+
+    <owl:AnnotationProperty rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#километр"/>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#метр -->
+
+    <owl:AnnotationProperty rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#метр"/>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#наивысшая -->
+
+    <owl:AnnotationProperty rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#наивысшая">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Точка_Беларуси"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#в_направлении -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#в_направлении">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Гора"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Сторона_света"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#внутри -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#внутри">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Гора"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Деревня"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#где_установлена -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#где_установлена">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Плита"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Гора"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#когда_изменено -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#когда_изменено">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Название"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Период_времени"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#когда_установлена -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#когда_установлена">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Плита"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Период_времени"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#наивысшая -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#наивысшая">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Точка_Беларуси"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#находится_в_пределах -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#находится_в_пределах">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Гора"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Возвышенность"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#неподалеку_от -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#неподалеку_от">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Гора"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Город"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#переименована -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#переименована">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Гора"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Название"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#раньше_называлась -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#раньше_называлась">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Гора"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Название"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#с_надписью -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#с_надписью">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Плита"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Надпись"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#составляющая -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#составляющая">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Точка_Беларуси"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Гора"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#точка_отсчета -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#точка_отсчета">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Гора"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Город"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#характеристика -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#характеристика">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Гора"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Название"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#является_частью -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#является_частью">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Возвышенность"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Гряда"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#язык -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#язык">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Надпись"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Язык"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#высота_над_уровнем_моря -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#высота_над_уровнем_моря">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Точка_Беларуси"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+        <метр></метр>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#на_расстоянии -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#на_расстоянии">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Гора"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+        <километр></километр>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Возвышенность -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Возвышенность"/>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Гора -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Гора"/>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Город -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Город"/>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Гряда -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Гряда"/>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Деревня -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Деревня"/>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Надпись -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Надпись"/>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Название -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Название"/>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Период_времени -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Период_времени"/>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Плита -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Плита"/>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Сторона_света -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Сторона_света"/>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Точка_Беларуси -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Точка_Беларуси"/>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Язык -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Язык"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Белорусская -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Белорусская">
+        <rdf:type rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Гряда"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Гранитная_плита -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Гранитная_плита">
+        <rdf:type rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Плита"/>
+        <где_установлена rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Дзержинская"/>
+        <когда_установлена rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#конец_1990-ых"/>
+        <с_надписью rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#«Гора__Дзержинская._Высшая_точка_Белоруссии._Высота_345_метровнад_уровнем_моря»"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Дзержинск -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Дзержинск">
+        <rdf:type rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Город"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Дзержинская -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Дзержинская">
+        <rdf:type rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Гора"/>
+        <в_направлении rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Запад"/>
+        <внутри rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Скирмантово"/>
+        <находится_в_пределах rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Минская"/>
+        <неподалеку_от rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Дзержинск"/>
+        <переименована rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Дзержинская_гора"/>
+        <раньше_называлась rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Святая_гора"/>
+        <точка_отсчета rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Минск"/>
+        <на_расстоянии rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">30</на_расстоянии>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Дзержинская_гора -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Дзержинская_гора">
+        <rdf:type rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Название"/>
+        <характеристика rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Дзержинская"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Запад -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Запад">
+        <rdf:type rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Сторона_света"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Минск -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Минск">
+        <rdf:type rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Город"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Минская -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Минская">
+        <rdf:type rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Возвышенность"/>
+        <является_частью rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Белорусская"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Святая_гора -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Святая_гора">
+        <rdf:type rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Название"/>
+        <когда_изменено rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#1958_год"/>
+        <характеристика rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Дзержинская"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Скирмантово -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Скирмантово">
+        <rdf:type rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Деревня"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#белорусский -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#белорусский">
+        <rdf:type rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Язык"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#вершина -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#вершина">
+        <rdf:type rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Точка_Беларуси"/>
+        <составляющая rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Дзержинская"/>
+        <высота_над_уровнем_моря rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">345</высота_над_уровнем_моря>
+        <наивысшая></наивысшая>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#конец_1990-ых -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#конец_1990-ых">
+        <rdf:type rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Период_времени"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#1958_год -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#1958_год">
+        <rdf:type rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Период_времени"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#«Гора__Дзержинская._Высшая_точка_Белоруссии._Высота_345_метровнад_уровнем_моря» -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#«Гора__Дзержинская._Высшая_точка_Белоруссии._Высота_345_метровнад_уровнем_моря»">
+        <rdf:type rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#Надпись"/>
+        <язык rdf:resource="http://www.semanticweb.org/eldar/ontologies/2021/4/TIIT#белорусский"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+

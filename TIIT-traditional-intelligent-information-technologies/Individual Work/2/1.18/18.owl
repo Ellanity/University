@@ -1,0 +1,318 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#"
+     xml:base="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#записали -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#записали">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#событие"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#ученые"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#местонахождение -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#местонахождение">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#газообразная_туманность"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#созвездие"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#отождествление -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#отождествление">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#физическое_тело"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#событие"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#первый -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#первый">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#газообразная_туманность"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#физическое_тело"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#первый_наблюдатель -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#первый_наблюдатель">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#газообразная_туманность"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#человек"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#является -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#является">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#газообразная_туманность"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#звезда"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#подпитывание_туманности"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#год_записи -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#год_записи">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#событие"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#год_наблюдения -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#год_наблюдения">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#человек"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#диаметр -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#диаметр">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#газообразная_туманность"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#расстояние_от_Земли -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#расстояние_от_Земли">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#газообразная_туманность"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#скорость_расширения -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#скорость_расширения">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#газообразная_туманность"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#topDataProperty -->
+
+    <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#topDataProperty">
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#double"/>
+    </rdf:Description>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#газообразная_туманность -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#газообразная_туманность">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#звезда -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#звезда">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#подпитывание_туманности -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#подпитывание_туманности">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#событие -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#событие">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#созвездие -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#созвездие">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#ученые -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#ученые">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#физическое_тело -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#физическое_тело">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#человек -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#человек">
+        <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Арабские_астрономы -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Арабские_астрономы">
+        <rdf:type rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#ученые"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Астрономический_объект -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Астрономический_объект">
+        <rdf:type rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#физическое_тело"/>
+        <отождествление rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Исторический_взрыв_сверхновой"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Джон_Бевис -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Джон_Бевис">
+        <rdf:type rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#человек"/>
+        <год_наблюдения rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1731</год_наблюдения>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Исторический_взрыв_сверхновой -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Исторический_взрыв_сверхновой">
+        <rdf:type rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#событие"/>
+        <записали rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Арабские_астрономы"/>
+        <записали rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Китайские_астрономы"/>
+        <год_записи rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1054</год_записи>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Китайские_астрономы -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Китайские_астрономы">
+        <rdf:type rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#ученые"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Крабовидная_туманность -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Крабовидная_туманность">
+        <rdf:type rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#газообразная_туманность"/>
+        <местонахождение rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Созвездие_Тельца"/>
+        <первый rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Астрономический_объект"/>
+        <первый_наблюдатель rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Джон_Бевис"/>
+        <является rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Остаток_сверхновой_SN_1054"/>
+        <является rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Плерион"/>
+        <диаметр>11 световых лет</диаметр>
+        <диаметр>3,4 кпк</диаметр>
+        <расстояние_от_Земли>2 кпк</расстояние_от_Земли>
+        <расстояние_от_Земли>6500 световых лет</расстояние_от_Земли>
+        <скорость_расширения>1500 км/с</скорость_расширения>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Остаток_сверхновой_SN_1054 -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Остаток_сверхновой_SN_1054">
+        <rdf:type rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#звезда"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Плерион -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Плерион">
+        <rdf:type rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#подпитывание_туманности"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Созвездие_Тельца -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#Созвездие_Тельца">
+        <rdf:type rdf:resource="http://www.semanticweb.org/shunk/ontologies/2019/2/untitled-ontology-32#созвездие"/>
+    </owl:NamedIndividual>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+

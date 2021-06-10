@@ -1,6 +1,6 @@
 ﻿/***********************************************|
 |_________INFORMATION_ABOUT_THE_PROGRAM_________|
-|    DEVELOPER: El							    |
+|    DEVELOPER: Поплавский Эльдар Эдуардович    |
 |		  DATE: 27.04.2021                      |
 |  DESCRIPTION: Программа читает из файла       |
 |				все  множества. Формирует       |
@@ -143,19 +143,19 @@ bool uset_check_input(string user_set_string) {
 			close_simple_brackets++; 
 			last_open_bracket_type.pop_back();
 
-			//if (open_simple_brackets == close_simple_brackets && open_simple_brackets != 0) {
-			//	// Check all tuples have only 2 elements 
-			//	// Count of '<' must be the same as count of ',' in tuples
-			//	if (open_simple_brackets != commas_between_simple_brackets) {
-			//		open_simple_brackets++;
-			//		break;
-			//	}
-			//	else {
-			//		open_simple_brackets = 0; 
-			//		close_simple_brackets = 0;
-			//		commas_between_simple_brackets = 0;
-			//	}
-			//}
+			if (open_simple_brackets == close_simple_brackets && open_simple_brackets != 0) {
+				// Check all tuples have only 2 elements 
+				// Count of '<' must be the same as count of ',' in tuples
+				if (open_simple_brackets != commas_between_simple_brackets) {
+					open_simple_brackets++;
+					break;
+				}
+				else {
+					open_simple_brackets = 0; 
+					close_simple_brackets = 0;
+					commas_between_simple_brackets = 0;
+				}
+			}
 		}
 
 		if (open_figure_brackets < close_figure_brackets || 
@@ -163,9 +163,9 @@ bool uset_check_input(string user_set_string) {
 			break;
 
 		/* Check commas between brackets in tuple */
-		/*if (user_set_body[j] == ',' && last_open_bracket_type[last_open_bracket_type.size() - 1] == 1)
+		if (user_set_body[j] == ',' && last_open_bracket_type[last_open_bracket_type.size() - 1] == 1)
 			if (open_simple_brackets > close_simple_brackets)
-				commas_between_simple_brackets++;*/
+				commas_between_simple_brackets++;
 
 		/**************************************************|
 		|_________________CORRECT EXAMPLES_________________|
