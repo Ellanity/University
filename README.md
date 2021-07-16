@@ -8,5 +8,5 @@
 
 ```
 Please specify the source if you will use the code  
-Eldar Paplauski <contacts: eldarpoplauski111@gmail.com>
+<contacts: eldarpoplauski111@gmail.com>
 ```
