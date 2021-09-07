@@ -386,3 +386,15 @@ FodyWeavers.xsd
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+
+
+
+# Pictures and documents
+*.jp?g
+*.png
+*.gif
+*.svg
+*.pdf
+*.xls?
+
