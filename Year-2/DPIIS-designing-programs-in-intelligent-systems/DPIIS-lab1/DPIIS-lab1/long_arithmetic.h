@@ -23,14 +23,14 @@ private:
 	void _remove_leading_zeros();
 
 public:
-    /* Constructors */
-    BigInt(std::string str);
-    BigInt(signed long long l);
-    BigInt(unsigned long long l);
-	
+	/* Constructors */
+	BigInt(std::string str);
+	BigInt(signed long long l);
+	BigInt(unsigned long long l);
+
 	/**/
 	/* Conversion operator */
-	/* Allows [explicitly/implicitly] cast an object to std::string. */ 
+	/* Allows [explicitly/implicitly] cast an object to std::string. */
 	const BigInt operator -() const;
 	const BigInt operator +() const;
 	operator std::string() const;
@@ -39,11 +39,28 @@ public:
 	/* But has access to private fields */
 	friend std::ostream& operator << (std::ostream& os, const BigInt& bi);
 
-	friend bool operator ==(const BigInt& left, const BigInt& right);
-	friend bool operator <(const BigInt& left, const BigInt& right);
-	
+	friend bool operator==(const BigInt& first, const BigInt& second);
+	friend bool  operator<(const BigInt& first, const BigInt& second);
+	friend bool operator!=(const BigInt& first, const BigInt& second);
+	friend bool operator<=(const BigInt& first, const BigInt& second);
+	friend bool  operator>(const BigInt& first, const BigInt& second);
+	friend bool operator>=(const BigInt& first, const BigInt& second);
 
+	friend const BigInt operator+(const BigInt first, const BigInt& second);
+	friend const BigInt operator-(const BigInt first, const BigInt& second);
+	friend const BigInt operator+(const BigInt first, signed long long second);
+	friend const BigInt operator-(const BigInt first, signed long long second);
 	
-}
+	/* Operations are performed directly only on the object itself */
+	BigInt& operator+=(const BigInt& value);
+	BigInt& operator-=(const BigInt& value);
+	BigInt& operator+=(const signed long long value);
+	BigInt& operator-=(const signed long long value);
+
+	const BigInt operator++();
+	const BigInt operator--();
+	const BigInt operator++(int);
+	const BigInt operator--(int);
+};
 
 #endif // !1

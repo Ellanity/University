@@ -78,16 +78,16 @@ BigInt::BigInt(unsigned long long num)
 }
 
 
+const BigInt BigInt::operator+() const
+{
+    return BigInt(*this);
+}
+
 const BigInt BigInt::operator-() const
 {
     BigInt copy(*this);
     copy._is_negative = !copy._is_negative;
     return copy;
-}
-
-const BigInt BigInt::operator+() const
-{
-    return BigInt(*this);
 }
 
 BigInt::operator std::string() const
@@ -122,6 +122,7 @@ std::ostream& operator<<(std::ostream& out, const BigInt& bi)
 
     return out;
 }
+
 
 bool operator==(const BigInt& first, const BigInt& second)
 {
@@ -168,10 +169,10 @@ bool operator==(const BigInt& first, const BigInt& second)
         }
     }
 
-    return false;
+    return true;
 }
 
-bool operator<(const BigInt& first, const BigInt& second)
+bool  operator<(const BigInt& first, const BigInt& second)
 {
     if (first == second) 
     {
@@ -210,3 +211,143 @@ bool operator<(const BigInt& first, const BigInt& second)
 
     return false;
 }
+
+bool operator!=(const BigInt& first, const BigInt& second)
+{
+    return !(first == second);
+}
+
+bool operator<=(const BigInt& first, const BigInt& second)
+{
+    return (first < second || first == second);;
+}
+
+bool  operator>(const BigInt& first, const BigInt& second)
+{
+    return !(first <= second);
+}
+
+bool operator>=(const BigInt& first, const BigInt& second)
+{
+    return !(first < second);
+}
+
+
+const BigInt operator+(BigInt first, const BigInt& second) {
+    /* Here is ONLY THE ADDITION of two positive numbers
+    the rest is written by changing the sign and subtracting */
+    if (first._is_negative)
+    {
+        if (second._is_negative) {
+            return -(-first + (-second));
+        }
+        else {
+            return second - (-first);
+        }
+    }
+    else if (second._is_negative) {
+        return first - (-second);
+    }
+    
+    int carry = 0;  /* Flag for transferring from the previous category */
+    for (size_t i = 0; i < std::max(first._digits.size(), second._digits.size()) || carry != 0; i++)
+    {
+        if (i == first._digits.size()) {
+            first._digits.push_back(0);
+        }
+        first._digits[i] += carry + (i < second._digits.size() ? second._digits[i] : 0);
+        carry = first._digits[i] >= BigInt::cell;
+        if (carry != 0) {
+            first._digits[i] -= BigInt::cell;
+        }
+    }
+
+    return first;
+}
+
+const BigInt operator-(BigInt first, const BigInt& second) {
+    
+    /* The same, only subtracting */
+    if (second._is_negative) {
+        return first + (-second);
+    }
+    else if (first._is_negative) {
+        return -(-first + second);
+    }
+    /* Reverse if second bigger then first */
+    else if (first < second) {
+        return -(second - first);
+    }
+    
+    int carry = 0;
+    for (size_t i = 0; i < second._digits.size() || carry != 0; ++i)
+    {
+        first._digits[i] -= carry + (i < second._digits.size() ? second._digits[i] : 0);
+        carry = first._digits[i] < 0;
+        if (carry != 0) {
+            first._digits[i] += BigInt::cell;
+        }
+    }
+
+    first._remove_leading_zeros();
+    return first;
+}
+
+const BigInt operator+(const BigInt first, signed long long second)
+{
+    BigInt a(second);
+    return (first + a);
+}
+
+const BigInt operator-(const BigInt first, signed long long second)
+{
+    BigInt a(second);
+    return (first - a);
+}
+
+
+BigInt& BigInt::operator+=(const BigInt& value)
+{
+    return *this = (*this + value);
+}
+
+BigInt& BigInt::operator-=(const BigInt& value)
+{
+    return *this = (*this - value);
+}
+
+BigInt& BigInt::operator+=(const signed long long value)
+{
+    BigInt a(value);
+    return *this = (*this + a);
+}
+
+BigInt& BigInt::operator-=(const signed long long value)
+{
+    BigInt a(value);
+    return *this = (*this - a);
+}
+
+
+const BigInt BigInt::operator++() {
+    BigInt a((unsigned long long)1);
+    return (*this += a);
+}
+
+const BigInt BigInt::operator ++(int) {
+    BigInt a((unsigned long long)1);
+    *this += a;
+    return *this - a;
+}
+
+const BigInt BigInt::operator --() {
+    BigInt a((unsigned long long)1);
+    return (*this -= a);
+}
+
+const BigInt BigInt::operator --(int) {
+    BigInt a((unsigned long long)1);
+    *this -= a;
+    return *this + a;
+}
+

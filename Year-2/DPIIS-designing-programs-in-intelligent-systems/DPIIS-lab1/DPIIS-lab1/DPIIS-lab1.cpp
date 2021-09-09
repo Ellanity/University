@@ -5,11 +5,24 @@
 #include "long_arithmetic.h"
 
 
+using std::cout;
+using std::cin;
+
 int main(int argc, char* argv[])
 {
     std::string num;
-    std::cin >> num;
+    cin >> num;
     BigInt a(num);
-    std::cout << a << "\n";
+    cin >> num;
+    BigInt b = num;
+    cout << "a: " << a << "\n" << "b: " << b << "\n";
+    cout << "a == b: " << (a == b) << "\n";
+    cout << "a - b: " << a - b << "\n";
+    cout << "a + b: " << a + b << "\n";
+    a++; b--; --b; ++a;
+    cout << "a++ ++a: " << a << "\n" << "b-- --b: " << b << "\n";
+    a -= 10; b += 10;
+    cout << "a -= 10: " << a << "\n" << "b += 10: " << b << "\n";
+    cout << "b + 10 == a - 10: " << ((b + 10) == (a - 10)) << "\n";
     return 0;
 }
