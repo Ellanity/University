@@ -1,7 +1,15 @@
 ﻿// DPIIS-lab1.cpp
-#include <iostream>
+#define _CRT_SECURE_NO_WARNINGS
 
-int main()
+#include <iostream>
+#include "long_arithmetic.h"
+
+
+int main(int argc, char* argv[])
 {
-    std::cout << "Hello World!\n";
+    std::string num;
+    std::cin >> num;
+    BigInt a(num);
+    std::cout << a << "\n";
+    return 0;
 }
