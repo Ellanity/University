@@ -21,9 +21,13 @@ private:
 
 	/**/
 	void _remove_leading_zeros();
+	void _shift_right();
+
+	class _divide_by_zero : public std::exception {};
 
 public:
 	/* Constructors */
+	BigInt();
 	BigInt(std::string str);
 	BigInt(signed long long l);
 	BigInt(unsigned long long l);
@@ -45,12 +49,24 @@ public:
 	friend bool operator<=(const BigInt& first, const BigInt& second);
 	friend bool  operator>(const BigInt& first, const BigInt& second);
 	friend bool operator>=(const BigInt& first, const BigInt& second);
+	friend bool operator==(const BigInt& first, signed long long second);
+	friend bool  operator<(const BigInt& first, signed long long second);
+	friend bool operator!=(const BigInt& first, signed long long second);
+	friend bool operator<=(const BigInt& first, signed long long second);
+	friend bool  operator>(const BigInt& first, signed long long second);
+	friend bool operator>=(const BigInt& first, signed long long second);
 
 	friend const BigInt operator+(const BigInt first, const BigInt& second);
 	friend const BigInt operator-(const BigInt first, const BigInt& second);
+	friend const BigInt operator*(const BigInt& first, const BigInt& second);
+	friend const BigInt operator/(const BigInt& first, const BigInt& second);
+	friend const BigInt operator%(const BigInt& first, const BigInt& second);
 	friend const BigInt operator+(const BigInt first, signed long long second);
 	friend const BigInt operator-(const BigInt first, signed long long second);
-	
+	friend const BigInt operator*(const BigInt& first, signed long long second);
+	friend const BigInt operator/(const BigInt& first, signed long long second);
+	friend const BigInt operator%(const BigInt& first, signed long long second);
+
 	/* Operations are performed directly only on the object itself */
 	BigInt& operator+=(const BigInt& value);
 	BigInt& operator-=(const BigInt& value);

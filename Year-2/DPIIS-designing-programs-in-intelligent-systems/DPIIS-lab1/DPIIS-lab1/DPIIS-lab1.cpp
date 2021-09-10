@@ -24,5 +24,12 @@ int main(int argc, char* argv[])
     a -= 10; b += 10;
     cout << "a -= 10: " << a << "\n" << "b += 10: " << b << "\n";
     cout << "b + 10 == a - 10: " << ((b + 10) == (a - 10)) << "\n";
+    cout << "\n\n" << "a: " << a << "\n" << "b: " << b << "\n";
+    cout << "a * 1001: " << a * 1001 << "\n";
+    cout << "a * b: " << a * b << "\n"; 
+    cout << "a / 1000: " << a / 1000 << "\n";
+    cout << "a / b: " << a / b << "\n"; 
+    cout << "a % b: " << a % b << "\n"; 
+
     return 0;
 }

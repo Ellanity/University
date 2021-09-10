@@ -14,6 +14,19 @@ void BigInt::_remove_leading_zeros()
     }
 }
 
+void BigInt::_shift_right() {
+    if (this->_digits.size() == 0) {
+        this->_digits.push_back(0);
+        return;
+    }
+    this->_digits.push_back(this->_digits[this->_digits.size() - 1]);
+    /* Here the size of the array is at least two and the search goes to the penultimate digit*/
+    for (size_t i = this->_digits.size() - 2; i > 0; --i) this->_digits[i] = this->_digits[i - 1];
+    this->_digits[0] = 0;
+}
+
+
+BigInt::BigInt(){}
 
 BigInt::BigInt(std::string str)
 {
@@ -233,6 +246,43 @@ bool operator>=(const BigInt& first, const BigInt& second)
 }
 
 
+bool operator==(const BigInt& first, signed long long second)
+{
+    BigInt a(second);
+    return (first == a);
+}
+
+bool  operator<(const BigInt& first, signed long long second)
+{
+    BigInt a(second);
+    return (first < a);
+}
+
+bool operator!=(const BigInt& first, signed long long second)
+{
+    BigInt a(second);
+    return (first != a);
+}
+
+bool operator<=(const BigInt& first, signed long long second)
+{
+    BigInt a(second);
+    return (first <= a);
+}
+
+bool  operator>(const BigInt& first, signed long long second)
+{
+    BigInt a(second);
+    return (first > a);
+}
+
+bool operator>=(const BigInt& first, signed long long second)
+{
+    BigInt a(second);
+    return (first >= a);
+}
+
+
 const BigInt operator+(BigInt first, const BigInt& second) {
     /* Here is ONLY THE ADDITION of two positive numbers
     the rest is written by changing the sign and subtracting */
@@ -293,6 +343,67 @@ const BigInt operator-(BigInt first, const BigInt& second) {
     return first;
 }
 
+const BigInt operator*(const BigInt& first, const BigInt& second)
+{
+    BigInt result;
+    result._digits.resize(first._digits.size() + second._digits.size());
+    for (size_t i = 0; i < first._digits.size(); i++)
+    {
+        int carry = 0;
+        long long cur;
+        for (size_t j = 0; j < second._digits.size() || carry != 0; ++j) 
+        {
+            cur = result._digits[i + j] +
+                first._digits[i] * 1LL * (j < second._digits.size() ? second._digits[j] : 0) + carry;
+            result._digits[i + j] = static_cast<int>(cur % BigInt::cell);
+            carry = static_cast<int>(cur / BigInt::cell);
+        }
+    }
+
+    result._is_negative = first._is_negative != second._is_negative;
+    result._remove_leading_zeros();
+    return result;
+}
+
+const BigInt operator/(const BigInt& first, const BigInt& second)
+{
+    // на ноль делить нельзя
+    if (second == 0) throw BigInt::_divide_by_zero();
+    BigInt b = second;
+    b._is_negative = false;
+    BigInt result, current;
+    result._digits.resize(first._digits.size());
+    for (long long i = static_cast<long long>(first._digits.size()) - 1; i >= 0; --i) {
+        current._shift_right();
+        current._digits[0] = first._digits[i];
+        current._remove_leading_zeros();
+        int x = 0, l = 0, r = BigInt::cell;
+        while (l <= r) {
+            int m = (l + r) / 2;
+            BigInt t = b * m;
+            if (t <= current) {
+                x = m;
+                l = m + 1;
+            }
+            else r = m - 1;
+        }
+
+        result._digits[i] = x;
+        current = current - b * x;
+    }
+
+    result._is_negative = first._is_negative != second._is_negative;
+    result._remove_leading_zeros();
+    return result;
+}
+
+const BigInt operator%(const BigInt& first, const BigInt& second)
+{
+    BigInt result = first - (first / second) * second;
+    if (result._is_negative) result += second;
+    return result;
+}
+
 const BigInt operator+(const BigInt first, signed long long second)
 {
     BigInt a(second);
@@ -303,6 +414,24 @@ const BigInt operator-(const BigInt first, signed long long second)
 {
     BigInt a(second);
     return (first - a);
+}
+
+const BigInt operator*(const BigInt& first, signed long long second)
+{
+    BigInt a(second);
+    return (first * a);
+}
+
+const BigInt operator/(const BigInt& first, signed long long second)
+{
+    BigInt a(second);
+    return (first / a);
+}
+
+const BigInt operator%(const BigInt& first, signed long long second)
+{
+    BigInt a(second);
+    return (first % a);
 }
 
 
@@ -350,4 +479,3 @@ const BigInt BigInt::operator --(int) {
     *this -= a;
     return *this + a;
 }
-
