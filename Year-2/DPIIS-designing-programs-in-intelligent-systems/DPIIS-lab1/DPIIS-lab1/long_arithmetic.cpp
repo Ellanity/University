@@ -1,5 +1,6 @@
 #include "long_arithmetic.h"
 
+/*! Procedure for removing leading zeros */
 void BigInt::_remove_leading_zeros()
 {
     while (this->_digits.size() > 1 &&
@@ -14,20 +15,28 @@ void BigInt::_remove_leading_zeros()
     }
 }
 
+/*! Еhe function of "shifting" the number to the right,
+    which allows you to iterate over the digits sequentially */
 void BigInt::_shift_right() {
-    if (this->_digits.size() == 0) {
+    if (this->_digits.size() == 0)
+    {
         this->_digits.push_back(0);
         return;
     }
     this->_digits.push_back(this->_digits[this->_digits.size() - 1]);
     /* Here the size of the array is at least two and the search goes to the penultimate digit*/
-    for (size_t i = this->_digits.size() - 2; i > 0; --i) this->_digits[i] = this->_digits[i - 1];
+    for (size_t i = this->_digits.size() - 2; i > 0; i--) {
+        this->_digits[i] = this->_digits[i - 1];
+    }
     this->_digits[0] = 0;
 }
 
-
+/*! The standard constructor does nothing*/
 BigInt::BigInt(){}
 
+/*! \brief A constructor that fills a vector inside an object with standart integer type of values 
+    \param[in] str - string consisting of digits and a postfix plus/minus sign
+*/
 BigInt::BigInt(std::string str)
 {
     /* If string is emty, then number is zero */
@@ -61,6 +70,9 @@ BigInt::BigInt(std::string str)
     }
 }
 
+/*! \brief A constructor that fills a vector inside an object with standart integer type of values 
+    \param[in] num - the number that the vector consists of (it can be either positive/negative)
+*/
 BigInt::BigInt(signed long long num)
 {
     if (num < 0) 
@@ -79,6 +91,9 @@ BigInt::BigInt(signed long long num)
     } while (num != 0);
 }
 
+/*! \brief A constructor that fills a vector inside an object with standart integer type of values
+    \param[in] num - the number that the vector consists of (only positive)
+*/
 BigInt::BigInt(unsigned long long num)
 {
     this->_is_negative = false;
@@ -90,12 +105,13 @@ BigInt::BigInt(unsigned long long num)
     } while (num != 0);
 }
 
-
+//! Changing the sign of a number to a positive one
 const BigInt BigInt::operator+() const
 {
     return BigInt(*this);
 }
 
+//! Changing the sign of a number to a negative one
 const BigInt BigInt::operator-() const
 {
     BigInt copy(*this);
@@ -103,6 +119,7 @@ const BigInt BigInt::operator-() const
     return copy;
 }
 
+//! Print a number to a stream and convert it to a string
 BigInt::operator std::string() const
 {
     std::stringstream ss;
@@ -110,7 +127,7 @@ BigInt::operator std::string() const
     return ss.str();
 }
 
-
+//! Output of a number
 std::ostream& operator<<(std::ostream& out, const BigInt& bi)
 {
     if (bi._digits.empty()) {
@@ -122,7 +139,7 @@ std::ostream& operator<<(std::ostream& out, const BigInt& bi)
             out << '-';
         }
         out << bi._digits.back();
-         
+        
         char old_fill = out.fill('0');  /* Saving the current placeholder character */
         
         /* Print the following numbers in groups of 9 digits */
@@ -212,7 +229,7 @@ bool  operator<(const BigInt& first, const BigInt& second)
         }
         else 
         {
-            for (long long i = first._digits.size() - 1; i >= 0; --i)
+            for (long long i = first._digits.size() - 1; i >= 0; i--)
             {
                 if (first._digits[i] != second._digits[i]) {
                     return (first._digits[i] < second._digits[i]);
@@ -298,7 +315,6 @@ const BigInt operator+(BigInt first, const BigInt& second) {
     else if (second._is_negative) {
         return first - (-second);
     }
-    
     int carry = 0;  /* Flag for transferring from the previous category */
     for (size_t i = 0; i < std::max(first._digits.size(), second._digits.size()) || carry != 0; i++)
     {
@@ -330,7 +346,7 @@ const BigInt operator-(BigInt first, const BigInt& second) {
     }
     
     int carry = 0;
-    for (size_t i = 0; i < second._digits.size() || carry != 0; ++i)
+    for (size_t i = 0; i < second._digits.size() || carry != 0; i++)
     {
         first._digits[i] -= carry + (i < second._digits.size() ? second._digits[i] : 0);
         carry = first._digits[i] < 0;
@@ -351,7 +367,7 @@ const BigInt operator*(const BigInt& first, const BigInt& second)
     {
         int carry = 0;
         long long cur;
-        for (size_t j = 0; j < second._digits.size() || carry != 0; ++j) 
+        for (size_t j = 0; j < second._digits.size() || carry != 0; j++) 
         {
             cur = result._digits[i + j] +
                 first._digits[i] * 1LL * (j < second._digits.size() ? second._digits[j] : 0) + carry;
@@ -365,15 +381,21 @@ const BigInt operator*(const BigInt& first, const BigInt& second)
     return result;
 }
 
+/*! \brief The division is made by the corner. 
+
+    Let's start dividing from the higher categories. We need to reduce 
+    the current value of the divisible by the maximum possible number 
+    of divisible. We will search for this maximum value using a binary
+    search. 
+*/
 const BigInt operator/(const BigInt& first, const BigInt& second)
 {
-    // на ноль делить нельзя
     if (second == 0) throw BigInt::_divide_by_zero();
     BigInt b = second;
     b._is_negative = false;
     BigInt result, current;
     result._digits.resize(first._digits.size());
-    for (long long i = static_cast<long long>(first._digits.size()) - 1; i >= 0; --i) {
+    for (long long i = static_cast<long long>(first._digits.size()) - 1; i >= 0; i--) {
         current._shift_right();
         current._digits[0] = first._digits[i];
         current._remove_leading_zeros();
@@ -400,7 +422,9 @@ const BigInt operator/(const BigInt& first, const BigInt& second)
 const BigInt operator%(const BigInt& first, const BigInt& second)
 {
     BigInt result = first - (first / second) * second;
-    if (result._is_negative) result += second;
+    if (result._is_negative) {
+        result += second;
+    }
     return result;
 }
 
