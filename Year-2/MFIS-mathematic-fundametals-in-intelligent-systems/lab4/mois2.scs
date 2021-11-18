@@ -1,0 +1,125 @@
+sc_node_not_relation -> concept_directed_graph; concept_graph; concept_directed_set;;
+sc_node_norole_relation -> nrel_sc_text_translation; nrel_main_idtf; nrel_using_constants; nrel_inclusion;;
+mois_2_1->[*
+
+concept_directed_graph => nrel_system_idtf: [concept_directed_graph];;
+concept_directed_graph => nrel_main_idtf:   [directed_graph]       (* <- lang_en;; *);;
+concept_directed_graph => nrel_main_idtf:   [ориентированный граф] (* <- lang_ru;; *);;
+concept_directed_graph => nrel_idtf:        [digraph]              (* <- lang_en;; *);;
+concept_directed_graph => nrel_idtf:        [орграф]               (* <- lang_ru;; *);;
+
+
+definition -> ..node1;;
+..node1 -> rrel_key_sc_element: concept_directed_graph;;
+..node1 <= nrel_sc_text_translation: ..node2 (*
+ 	-> rrel_example: [Ориентированный граф -- это граф, рёбрам которого присвоено направление] 
+	(* <- lang_ru;; *);;
+*);;
+..node1 => nrel_main_idtf: [Опр. Ориентированный граф] (* <- lang_ru;; *);;
+..node1 <= nrel_using_constants: ..node3 (* 
+	-> concept_graph; concept_directed_set; rrel_edge;;
+*);;
+
+
+statement -> ..node4;;
+..node4 -> rrel_key_sc_element: concept_directed_graph;;
+..node4 <= nrel_sc_text_translation: ..node5 (*
+	-> rrel_example: [Ориентированный граф, полученный из простого графа ориентацией рёбер, называется направленным.]
+	(* <- lang_ru;;*);;
+*);;
+..node4 => nrel_main_idtf:[Утв1. Об ориентированном графе](* <- lang_ru;; *);;
+..node4 <= nrel_using_constants:..node6(* 
+	-> concept_graph; concept_directed_graph;;
+*);;
+
+
+concept_directed_graph <= nrel_inclusion:concept_graph;;
+
+
+concept_directed_graph -> G1;;
+
+G1 -> rrel_node:..G1node1;;
+G1 -> rrel_node:..G1node2;;
+G1 -> rrel_node:..G1node3;;
+G1 -> rrel_node:..G1node4;;
+
+..G1node1 => rrel_edge: ..G1node2;;
+..G1node3 => rrel_edge: ..G1node2;;
+..G1node3 => rrel_edge: ..G1node4;;
+*];;
+
+
+
+sc_node_norole_relation -> nrel_shortest_path; nrel_path; nrel_domain_of_defenition; nrel_first_domain; nrel_second_domain;;
+
+mois_2_2->[*
+
+nrel_shortest_path => nrel_system_idtf: [nrel_shortest_path];;
+nrel_shortest_path => nrel_main_idtf:   [shortest path]   (* <- lang_en;; *);;
+nrel_shortest_path => nrel_main_idtf:   [кратчайший путь] (* <- lang_ru;; *);;
+
+
+definition -> ..node7;;
+..node7 -> rrel_key_sc_element: nrel_shortest_path;;
+..node7 <= nrel_sc_text_translation: ..node8 (*
+ 	-> rrel_example: [Кратчайший путь - самый короткий путь (цепь) между двумя точками (вершинами) на графе, в которой минимизируется количество рёбер, составляющих путь.] 
+	(* <- lang_ru;; *);;
+*);;
+..node5 => nrel_main_idtf: [Опр. Кратчайший путь] (* <- lang_ru;; *);;
+..node5 <= nrel_using_constants: ..node9 (* 
+	-> concept_graph; concept_directed_set; rrel_edge; rrel_node;;
+*);;
+
+
+statement -> ..node10;;
+..node8 -> rrel_key_sc_element: nrel_shortest_path;;
+..node8 <= nrel_sc_text_translation: ..node11 (*
+	-> rrel_example: [Кратчайший путь в графе из вершины один в вершину два существует только тогда, когда между данными вершинами существует хотя бы один путь.]
+	(* <- lang_ru;;*);;
+*);;
+..node10 => nrel_main_idtf:[Утв1. О кратчайшем пути](* <- lang_ru;; *);;
+..node10 <= nrel_using_constants:..node12(* 
+	-> concept_graph; nrel_path; rrel_node;;
+*);;
+
+nrel_shortest_path => nrel_domain_of_defenition: concept_graph;;
+nrel_shortest_path => nrel_first_domain: concept_graph;;
+nrel_shortest_path => nrel_second_domain: concept_graph;;
+
+
+sc_node_not_relation -> concept_attitude; concept_directed_attitude; concept_binary_attitude; concept_symmetric_attitude; concept_transitive_attitude; concept_reflexive_attitude;;
+
+concept_attitude => nrel_inclusion: concept_directed_attitude;;
+concept_attitude => nrel_inclusion: concept_binary_attitude;;
+concept_binary_attitude => nrel_inclusion: concept_symmetric_attitude;;
+concept_binary_attitude => nrel_inclusion: concept_transitive_attitude;;
+concept_binary_attitude => nrel_inclusion: concept_reflexive_attitude;;
+
+concept_symmetric_attitude -> nrel_shortest_path;;
+concept_transitive_attitude -> nrel_shortest_path;;
+concept_reflexive_attitude -> nrel_shortest_path;;
+concept_directed_attitude -> nrel_shortest_path;;
+
+
+concept_directed_graph -> G2; G3;;
+
+G2 -> rrel_node:..G2node1;;
+G2 -> rrel_node:..G2node2;;
+G2 -> rrel_node:..G2node3;;
+G2 -> rrel_node:..G2node4;;
+G2 -> rrel_node:..G2node5;;
+G2 -> rrel_node:..G2node6;;
+
+..G2node1 => rrel_edge: ..G2node2;;
+..G2node3 => rrel_edge: ..G2node2;;
+..G2node3 => rrel_edge: ..G2node4;;
+..G2node5 => rrel_edge: ..G2node2;;
+..G2node6 => rrel_edge: ..G2node5;;
+..G2node3 => rrel_edge: ..G2node6;;
+
+G3 -> rrel_node: ..G2node2;;
+G3 -> rrel_node: ..G2node3;;
+
+G1 => nrel_shortest_path: G3;;
+*];;
+

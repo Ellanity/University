@@ -1,0 +1,87 @@
+value -> X;;
+value -> Beta;;
+value -> Alpha;;
+value -> R;;
+
+concept_geometric_point -> M;;
+concept_geometric_point -> O;;
+concept_geometric_point -> A;;
+concept_geometric_point -> B;;
+concept_geometric_point -> C;;
+
+concept_straight_line -> L;;
+
+concept_segment -> MA;;
+concept_segment -> AB;;
+concept_segment -> CM;;
+concept_segment -> CB;;
+concept_segment -> CA;;
+concept_segment -> AB;;
+concept_segment -> OM;;
+
+concept_angle -> Угол_MAB;;
+concept_angle -> Угол_ACO;;
+
+concept_triangle -> ABC;;
+
+concept_circle -> MAB;;
+
+
+Угол_MAB => nrel_angle_measure: Beta;;
+Угол_ACO => nrel_angle_measure: Alpha;;
+
+Угол_MAB => nrel_side_of_angle: MA;;
+Угол_MAB => nrel_side_of_angle: AB;;
+Угол_ACO => nrel_side_of_angle: CO;;
+Угол_ACO => nrel_side_of_angle: CA;;
+
+MA => nrel_boundary_point: A;;
+MA => nrel_boundary_point: M;;
+CO => nrel_boundary_point: C;;
+CO => nrel_boundary_point: O;;
+AB => nrel_boundary_point: A;;
+AB => nrel_boundary_point: B;;
+CA => nrel_boundary_point: A;;
+CA => nrel_boundary_point: C;;
+CB => nrel_boundary_point: C;;
+CB => nrel_boundary_point: B;;
+CM => nrel_boundary_point: C;;
+CM => nrel_boundary_point: M;;
+OM => nrel_boundary_point: O;;
+OM => nrel_boundary_point: M;;
+
+ABC => nrel_side: AB;;
+ABC => nrel_side: CA;;
+ABC => nrel_side: CB;;
+
+CB -> M;;
+MAB -> M;;
+MAB -> A;;
+MAB -> B;;
+
+L => nrel_inclusion: CA;;
+
+M <= nrel_intersection: ...
+(*
+    -> CB;;
+    -> MAB;;
+*);;
+A <= nrel_intersection: ...
+(*
+    -> ABC;;
+    -> MAB;;
+*);;
+B <= nrel_intersection: ...
+(*
+    -> ABC;;
+    -> MAB;;
+*);;
+
+MAB => nrel_center: O;;
+
+MAB => nrel_tangent: L;;
+
+MAB => nrel_radius: OM;;
+
+OM => nrel_length: R;;
+CM => nrel_length: X;;

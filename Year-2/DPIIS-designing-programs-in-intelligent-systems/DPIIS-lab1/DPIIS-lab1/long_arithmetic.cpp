@@ -390,7 +390,8 @@ const BigInt operator*(const BigInt& first, const BigInt& second)
 */
 const BigInt operator/(const BigInt& first, const BigInt& second)
 {
-    if (second == 0) throw BigInt::_divide_by_zero();
+    if (second == 0) 
+        throw BigInt::_divide_by_zero();
     BigInt b = second;
     b._is_negative = false;
     BigInt result, current;
@@ -407,7 +408,8 @@ const BigInt operator/(const BigInt& first, const BigInt& second)
                 x = m;
                 l = m + 1;
             }
-            else r = m - 1;
+            else 
+                r = m - 1;
         }
 
         result._digits[i] = x;
