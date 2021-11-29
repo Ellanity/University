@@ -124,6 +124,7 @@ void World::generate_creatures()
 			this->creatures.push_back(predator);
 		}
 		this->creatures_generated = true;
+		this->counting_creatures();
 	}
 }
 
@@ -172,6 +173,7 @@ void World::generate_step()
 	for (auto it : died)
 		this->delete_creature(it);
 
+	this->counting_creatures();
 	this->count_of_steps++;
 }
 
@@ -479,6 +481,7 @@ void World::delete_creature(Creature* creature)
 	}
 }
 
+
 bool World::locate_creature_on_map(Creature* creature)
 {
 	if (creature->type_of_food == Creature::TYPE_OF_FOOD::NO) {
@@ -564,12 +567,37 @@ bool World::locate_creature_on_map(Creature* creature)
 		}
 	}
 	else {
-		creature->position = creature->position;
-		this->world_map.map[creature->position.first][creature->position.second].creatures.push_back(creature);
-		this->creatures.push_back(creature);
-		return true;
+		//if (this->world_map.map[creature->position.first][creature->position.second].creatures.size() < 4)
+		//{
+			creature->position = creature->position;
+			this->world_map.map[creature->position.first][creature->position.second].creatures.push_back(creature);
+			this->creatures.push_back(creature);
+			return true;
+		//}
+		//else {
+		//	delete creature;
+		//	return false;
+		//}
 	}
 	return false;
+}
+
+void World::counting_creatures()
+{
+	int count_of_plants = 0, count_of_herbivores = 0, count_of_predators = 0;
+	for (int creature_index = 0; creature_index < (int)this->creatures.size(); creature_index++)
+	{
+		if (this->creatures[creature_index]->type_of_food == NOf)
+			count_of_plants++;
+		else if (this->creatures[creature_index]->type_of_food == PLANTf)
+			count_of_herbivores++;
+		else if (this->creatures[creature_index]->type_of_food == MEATf)
+			count_of_predators++;
+	}
+	this->count_of_plants = count_of_plants;
+	this->count_of_herbivores = count_of_herbivores;
+	this->count_of_predators = count_of_predators;
+	return;
 }
 
 World::~World()

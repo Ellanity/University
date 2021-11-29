@@ -26,8 +26,9 @@ void WorldDirector::delete_world(World* world)
 		if ((world == this->worlds[world_index]) || (world->world_id == this->worlds[world_index]->world_id))
 		{
 			delete this->worlds[world_index];
-			this->worlds[world_index] = NULL;
+			this->worlds[world_index] = nullptr;
 			this->worlds.erase(this->worlds.begin() + world_index);
+			world = nullptr;
 			break;
 		}
 	}

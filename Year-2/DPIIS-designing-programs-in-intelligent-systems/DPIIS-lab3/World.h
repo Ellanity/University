@@ -56,6 +56,10 @@ public:
 	// Getters
 	std::pair <int, int> get_world_size() { return this->world_sizes; };
 	std::vector <Creature*>* get_creatures() { return &(this->creatures); };
+		
+	int count_of_plants, count_of_herbivores, count_of_predators;
+	void counting_creatures();
+	
 	int get_count_of_steps() { return this->count_of_steps; };
 	WorldMap* get_world_map() { return &(this->world_map); };
 

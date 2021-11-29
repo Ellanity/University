@@ -123,6 +123,11 @@ Creature* Predator::mooving()
 	bool no_food = false, instinct_of_reproduction = false;
 	if (food_points < 50)
 		no_food = true;
+	
+	//std::cout << this->world->count_of_predators << " " << this->world->count_of_herbivores << " ";
+	if (this->world->count_of_predators / this->world->count_of_herbivores >= 2)
+		no_food = false;
+
 	if (!no_food)
 		instinct_of_reproduction = true;
 
