@@ -1,9 +1,8 @@
 #include "Predator.h"
 
-//Plant::Plant(std::vector <Creature* >* creatures, bool random_parameters)
 Predator::Predator(World* world, bool random_parameters)
 {
-	//symbol_on_map = (char)(48 + rand() % 42);
+	type_id = 30;
 	symbol_on_map = char(178);
 	this->world = world;
 
@@ -44,7 +43,7 @@ std::pair <Creature::RESULT_OF_ACTION, Creature*>Predator::action()
 	short int num_of_action = 3;
 	bool can_eat = false, have_partner_in_cell = false, _die = false;
 	Creature* partner = nullptr, * creature_food = nullptr;
-	for (int creature_index = 0; creature_index < this->world->get_world_map()->map[this->position.first][this->position.second].creatures.size(); creature_index++) {
+	for (int creature_index = 0; creature_index < (int)this->world->get_world_map()->map[this->position.first][this->position.second].creatures.size(); creature_index++) {
 		if (this->world->get_world_map()->map[this->position.first][this->position.second].creatures[creature_index]->type_of_food == Creature::TYPE_OF_FOOD::PLANT &&
 			this->world->get_world_map()->map[this->position.first][this->position.second].creatures[creature_index]->health_points > 0)
 		{
@@ -53,7 +52,7 @@ std::pair <Creature::RESULT_OF_ACTION, Creature*>Predator::action()
 		}
 	}
 
-	for (int creature_index = 0; creature_index < this->world->get_world_map()->map[this->position.first][this->position.second].creatures.size(); creature_index++) {
+	for (int creature_index = 0; creature_index < (int)this->world->get_world_map()->map[this->position.first][this->position.second].creatures.size(); creature_index++) {
 		if (typeid(*this) == typeid(*(this->world->get_world_map()->map[this->position.first][this->position.second].creatures[creature_index])) &&
 			this->world->get_world_map()->map[this->position.first][this->position.second].creatures[creature_index]->gender != this->gender &&
 			this->world->get_world_map()->map[this->position.first][this->position.second].creatures[creature_index]->can_reproduce())
@@ -99,7 +98,7 @@ std::pair <Creature::RESULT_OF_ACTION, Creature*>Predator::action()
 	if (food_points <= 0)
 		count_of_steps_without_food++;
 	else
-		count_of_steps_without_food == 0;
+		count_of_steps_without_food = 0;
 
 	food_points -= need_food_for_one_step;
 	if (food_points < 0) food_points = 0;
@@ -127,23 +126,18 @@ Creature* Predator::mooving()
 	if (!no_food)
 		instinct_of_reproduction = true;
 
-	//std::cout << " S: " << this->symbol_on_map << " Rep: " << instinct_of_reproduction << " Gen: " << this->gender << " \n";
-
-	int dist_now = 1e8, index_now = -1;
+	int dist_now = (int)1e9, index_now = -1;
 	std::pair <int, int> begin_position, end_position, position_to_relocate;
 	begin_position = this->position;
 
 	int x1 = this->position.first, y1 = this->position.second;
-	//std::vector<std::pair<int, int>> distance;
-	for (int creature_index = 0; creature_index < this->world->get_creatures()->size(); creature_index++) {
+	for (int creature_index = 0; creature_index < (int)this->world->get_creatures()->size(); creature_index++) {
 		if (
 			(no_food && this->world->get_creatures()->at(creature_index)->type_of_food == Creature::TYPE_OF_FOOD::PLANT &&
 				this->world->get_creatures()->at(creature_index)->health_points > 0)
 			||
 			(instinct_of_reproduction &&
-				//((typeid(this->world->get_creatures()->at(creature_index)) == typeid(this)) &&
 				((typeid(*(this->world->get_creatures()->at(creature_index))) == typeid(*(this))) &&
-					//(((this->world->get_creatures()->at(creature_index)->have_gender)) &&
 					(this->world->get_creatures()->at(creature_index)->gender != this->gender) &&
 					(this->world->get_creatures()->at(creature_index)->can_reproduce()))
 				)
@@ -151,13 +145,10 @@ Creature* Predator::mooving()
 		{
 			int x2 = this->world->get_creatures()->at(creature_index)->position.first, y2 = this->world->get_creatures()->at(creature_index)->position.second;
 			int dist = (int)(sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
-			//if (instinct_of_reproduction)
-				//std::cout << dist << " to " << this->world->get_creatures()->at(creature_index)->symbol_on_map << "\n";
 			if (dist < dist_now)
 			{
 				dist_now = dist; index_now = creature_index;
 				position_to_relocate = this->world->get_creatures()->at(creature_index)->position;
-				//std::cout << this->world->get_creatures()->at(creature_index)->position.first << " " << this->world->get_creatures()->at(creature_index)->position.second << "\n";
 			}
 		}
 	}
@@ -185,12 +176,11 @@ Creature* Predator::mooving()
 		}
 	}
 	end_position = this->position;
-	//std::cout << " begin: " << begin_position.first << " " << begin_position.second << " end: " << end_position.first << " " << end_position.second << "\n";
-
+	
 	// changing position in map
 	if (begin_position != end_position)
 	{
-		for (int i = 0; i < this->world->get_world_map()->map[begin_position.first][begin_position.second].creatures.size(); i++)
+		for (int i = 0; i < (int)this->world->get_world_map()->map[begin_position.first][begin_position.second].creatures.size(); i++)
 			if (this->world->get_world_map()->map[begin_position.first][begin_position.second].creatures[i] == this)
 			{
 				this->world->get_world_map()->map[begin_position.first][begin_position.second].creatures.erase(this->world->get_world_map()->map[begin_position.first][begin_position.second].creatures.begin() + i);
@@ -201,10 +191,9 @@ Creature* Predator::mooving()
 
 	return this;
 }
-
+/*
 Creature* Predator::reproduction(Creature* creature)
 {
-	//std::cout << " reproduction ";
 	this->_size -= 30;
 	this->food_points -= 30;
 	creature->_size -= 30;
@@ -226,6 +215,4 @@ bool Predator::can_reproduce()
 		return true;
 	else
 		return false;
-}
-
-void Predator::die() {}
+}*/

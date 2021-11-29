@@ -1,15 +1,12 @@
 #include "Plant.h"
 
-//Plant::Plant(std::vector <Creature* >* creatures, bool random_parameters)
+
 Plant::Plant(bool random_parameters)
 {
 	symbol_on_map = char(176);
-	//symbol_on_map = (char)(48 + rand() % 42);
-
+	type_id = 10;
+	
 	if (random_parameters == true) {
-		//this->position = generate_random_position(*(world.get_creatures()), world.get_world_size(), *(world.get_occupied_positions()));
-		//world.add_position_to_occupied(position);
-
 		can_change_position = false;
 		distance_it_can_overcome = 0;
 
@@ -39,15 +36,6 @@ Plant::Plant(bool random_parameters)
 
 std::pair <Creature::RESULT_OF_ACTION, Creature*>Plant::action()
 {
-	//timely
-	//if (std::rand() % 2 == 0) {
-	//	health_points -= (rand() % 100);
-	//}
-	//if (health_points < 0)
-		//return std::make_pair(Creature::RESULT_OF_ACTION::DIE, this);
-
-
-
 	bool action_has_been_performed = false;
 	if (health_points < 100 && !action_has_been_performed)
 	{
@@ -82,21 +70,16 @@ Creature* Plant::mooving()
 	return nullptr;
 }
 
-Creature* Plant::reproduction(Creature* creature)
+/*Creature* Plant::reproduction(Creature* creature)
 {
 	this->health_points = 60;
 	Plant* plant = new Plant();
 	plant->position = this->position;
 	plant->health_points = rand() % 80;
 	return plant;
-}
+}*/
 
 bool Plant::can_reproduce()
 {
 	return true;
-}
-
-void Plant::die()
-{
-	
 }

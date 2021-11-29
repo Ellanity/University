@@ -12,11 +12,16 @@
 #define COLOR_LIGHT_YELLOW  "\x1b[37;1m"
 #define COLOR_BLUE			"\x1b[34m"
 
-#define COLOR_BLUE_LIGHT_ON_DARK	"\x1b[38;2;51;153;255m\x1b[48;2;0;0;153m"
-#define COLOR_RED_BACKGROUND		"\x1b[48;2;241;76;76m"
-#define COLOR_GREEN_BACKGROUND		"\x1b[48;2;0;204;102m"
-#define COLOR_YELLOW_BACKGROUND		"\x1b[48;2;226;213;92m"
-#define COLOR_BROWN					"\x1b[38;2;170;120;70m"
+#define COLOR_BLUE_LIGHT_ON_DARK		"\x1b[38;2;51;153;255m\x1b[48;2;0;0;153m"
+#define COLOR_RED_BACKGROUND			"\x1b[48;2;241;76;76m"
+
+#define COLOR_GREEN_BACKGROUND			"\x1b[48;2;0;204;102m"
+#define COLOR_DARK_GREEN_BACKGROUND		"\x1b[48;2;67;169;87m"
+#define COLOR_YELLOW_BACKGROUND			"\x1b[48;2;240;228;114m"
+#define COLOR_DARK_YELLOW_BACKGROUND	"\x1b[48;2;208;180;45m"
+
+#define COLOR_BROWN						"\x1b[38;2;170;120;70m"
+#define COLOR_PURPLE_BACKGROUND			"\x1b[48;2;220;100;235m"
 
 #define COLOR_BLACK		"\x1b[30m"
 #define COLOR_MAGENTA	"\x1b[35m"
@@ -69,34 +74,51 @@ void World::set_sizes(std::pair<int, int> sizes)
 // WORLD INITIAL BALANCE
 void World::generate_creatures()
 {
+	// Adjusting the formulas for the number of creatures will balance the game
 	if (this->sizes_determined == true) {
 		
 		int cells_count = this->world_sizes.first * this->world_sizes.second;
-
-		// Adjusting the formulas for the number of creatures 
-		// will balance the game
+		
 		//PLANTS
-		//short int plants_count = cells_count / ((this->world_sizes.first + this->world_sizes.second));
-		short int plants_count = cells_count / ((this->world_sizes.first + this->world_sizes.second) / 4);
-		for (int plant_index = 0; plant_index < plants_count; plant_index++) {
-			Plant* plant = new Plant();
+		short int plants_count = cells_count / ((this->world_sizes.first + this->world_sizes.second) / 8);
+		for (int plant_index = 0; plant_index < (int)(plants_count / 2); plant_index++) {
+			Plant_1* plant = new Plant_1();
 			plant->position = generate_random_position_for_creature();
 			world_map.map[plant->position.first][plant->position.second].creatures.push_back(plant);
 			this->creatures.push_back(plant);
 		}
+		for (int plant_index = 0; plant_index < (int)(plants_count / 2); plant_index++) {
+			Plant_2* plant = new Plant_2();
+			plant->position = generate_random_position_for_creature();
+			world_map.map[plant->position.first][plant->position.second].creatures.push_back(plant);
+			this->creatures.push_back(plant);
+		}
+		
 		//HERBIVORES
-		short int herbivores_count = cells_count / ((this->world_sizes.first + this->world_sizes.second));
-		//short int herbivores_count = cells_count / ((this->world_sizes.first + this->world_sizes.second));
-		for (int herbivore_index = 0; herbivore_index < herbivores_count; herbivore_index++) {
-			Herbivore* herbivore = new Herbivore(this);
+		short int herbivores_count = cells_count / ((this->world_sizes.first + this->world_sizes.second) / 2);
+		for (int herbivore_index = 0; herbivore_index < (int)(herbivores_count / 2); herbivore_index++) {
+			Herbivore_1* herbivore = new Herbivore_1(this);
 			herbivore->position = generate_random_position_for_creature();
 			world_map.map[herbivore->position.first][herbivore->position.second].creatures.push_back(herbivore);
 			this->creatures.push_back(herbivore);
 		}
+		for (int herbivore_index = 0; herbivore_index < (int)(herbivores_count / 2); herbivore_index++) {
+			Herbivore_2* herbivore = new Herbivore_2(this);
+			herbivore->position = generate_random_position_for_creature();
+			world_map.map[herbivore->position.first][herbivore->position.second].creatures.push_back(herbivore);
+			this->creatures.push_back(herbivore);
+		}
+		
 		//PREDATORS
-		short int predators_count = cells_count / ((this->world_sizes.first + this->world_sizes.second) * 3);
-		for (int predator_index = 0; predator_index < predators_count; predator_index++) {
-			Predator* predator = new Predator(this);
+		short int predators_count = cells_count / ((this->world_sizes.first + this->world_sizes.second));
+		for (int predator_index = 0; predator_index < (int)(predators_count / 2); predator_index++) {
+			Predator_1* predator = new Predator_1(this);
+			predator->position = generate_random_position_for_creature();
+			world_map.map[predator->position.first][predator->position.second].creatures.push_back(predator);
+			this->creatures.push_back(predator);
+		}
+		for (int predator_index = 0; predator_index < (int)(predators_count / 2); predator_index++) {
+			Predator_2* predator = new Predator_2(this);
 			predator->position = generate_random_position_for_creature();
 			world_map.map[predator->position.first][predator->position.second].creatures.push_back(predator);
 			this->creatures.push_back(predator);
@@ -117,65 +139,38 @@ void World::generate_step()
 	}
 
 	int count_of_creatures_this_step = this->creatures.size();
-	//std::cout << "count of creatures: " << count_of_creatures_this_step << "\n";
-	
 	std::set <Creature*> died;
 	
-	for (int creature_index = 0; creature_index < count_of_creatures_this_step; creature_index++) {
-		
-		//if (this->creatures[creature_index]->type_of_food == NOf)
-			//std::cout << COLOR_BLUE << "> Plant ";
-		//if (this->creatures[creature_index]->type_of_food == PLANTf)
-		//	std::cout << COLOR_BLUE << "> Herbivore ";
-
-		//if (this->creatures[creature_index]->type_of_food == PLANTf)
-			//std::cout << "[" << this->creatures[creature_index]->position.first << " " <<
-			//this->creatures[creature_index]->position.second  << "]: " << COLOR_RESET;
-
-
+	for (int creature_index = 0; creature_index < count_of_creatures_this_step; creature_index++) 
+	{
 		std::pair <Creature::RESULT_OF_ACTION, Creature*> result = this->creatures[creature_index]->action();
 
 		switch (result.first)
 		{
 		case Creature::RESULT_OF_ACTION::REPRODUCTION:
-			//if (this->creatures[creature_index]->type_of_food == PLANTf)
-			//	std::cout << COLOR_RED << "reproductions" << COLOR_RESET;
 			locate_creature_on_map(result.second);
 			break;
 		case MOOVING_:
-			//if (this->creatures[creature_index]->type_of_food == PLANTf)
-			//	std::cout << COLOR_YELLOW << "mooving" << COLOR_RESET;
 			this->creatures[creature_index]->mooving();
 			break;
 		case EATING_:
-			//if (this->creatures[creature_index]->type_of_food == PLANTf)
-			//	std::cout << COLOR_LIGHT_GREEN  << "eating" << COLOR_RESET;
 			this->creatures[creature_index]->eating(result.second);
 			if (result.second->health_points <= 0)
 				died.insert(result.second);
 			break;
 		case DIE_:
-			//if (this->creatures[creature_index]->type_of_food == PLANTf)
-			//	std::cout << COLOR_YELLOW << "die" << COLOR_RESET;
 			died.insert(result.second);
 			break;
 		case NO_:
-			//std::cout << COLOR_YELLOW << "no" << COLOR_RESET;
 			break;
 		default:
 			break;
 		}
-
-		//if (this->creatures[creature_index]->type_of_food == PLANTf)
-		//	std::cout << COLOR_GREEN << " [+] \n" << COLOR_RESET;
 	}
 
 	
-	for (auto it : died) {
-		//std::cout << it->symbol_on_map << " ";
-		//std::cout << it->position.first << " " << it->position.first << "\n";
+	for (auto it : died)
 		this->delete_creature(it);
-	}
 
 	this->count_of_steps++;
 }
@@ -211,7 +206,7 @@ void World::print_step()
 					{MEATf, false}
 				};
 
-				for (int k = 0; k < this->world_map.map[i][j].creatures.size(); k++) {
+				for (int k = 0; k < (int)this->world_map.map[i][j].creatures.size(); k++) {
 					if (this->world_map.map[i][j].creatures[k]->type_of_food == NOf)
 						types_of_creatures_in_cell[NOf] = true;
 					if (this->world_map.map[i][j].creatures[k]->type_of_food == PLANTf)
@@ -270,7 +265,7 @@ void World::print_step()
 						{MEATf, false}
 					};
 
-					for (int k = 0; k < this->world_map.map[i][j].creatures.size(); k++) {
+					for (int k = 0; k < (int)this->world_map.map[i][j].creatures.size(); k++) {
 						if (this->world_map.map[i][j].creatures[k]->type_of_food == NOf)
 							types_of_creatures_in_cell[NOf] = true;
 						if (this->world_map.map[i][j].creatures[k]->type_of_food == PLANTf)
@@ -281,21 +276,33 @@ void World::print_step()
 
 					if (types_of_creatures_in_cell[NOf] && types_of_creatures_in_cell[PLANTf] && types_of_creatures_in_cell[MEATf])
 						std::cout << COLOR_RED_BACKGROUND << COLOR_YELLOW << (char)222 << COLOR_RESET;
-
 					else if (types_of_creatures_in_cell[NOf] && types_of_creatures_in_cell[PLANTf] && !types_of_creatures_in_cell[MEATf])
 						std::cout << COLOR_YELLOW_BACKGROUND << COLOR_LIGHT_GREEN << (char)221 << COLOR_RESET;
 					else if (types_of_creatures_in_cell[NOf] && !types_of_creatures_in_cell[PLANTf] && types_of_creatures_in_cell[MEATf])
 						std::cout << COLOR_RED << (char)178 << COLOR_RESET;
 					else if (!types_of_creatures_in_cell[NOf] && types_of_creatures_in_cell[PLANTf] && types_of_creatures_in_cell[MEATf])
 						std::cout << COLOR_YELLOW_BACKGROUND << COLOR_RED << (char)222 << COLOR_RESET;
-					
-					else if (types_of_creatures_in_cell[NOf] && !types_of_creatures_in_cell[PLANTf] && !types_of_creatures_in_cell[MEATf])
-						std::cout << COLOR_GREEN_BACKGROUND << COLOR_BLACK << this->world_map.map[i][j].creatures[0]->symbol_on_map << COLOR_RESET;
+					else if (types_of_creatures_in_cell[NOf] && !types_of_creatures_in_cell[PLANTf] && !types_of_creatures_in_cell[MEATf]) 
+					{
+						if (this->world_map.map[i][j].creatures[0]->type_id == 11)
+							std::cout << COLOR_GREEN_BACKGROUND << COLOR_BLACK << this->world_map.map[i][j].creatures[0]->symbol_on_map << COLOR_RESET;
+						else if (this->world_map.map[i][j].creatures[0]->type_id == 12)
+							std::cout << COLOR_DARK_GREEN_BACKGROUND << COLOR_BLACK << this->world_map.map[i][j].creatures[0]->symbol_on_map << COLOR_RESET;
+					}
 					else if (!types_of_creatures_in_cell[NOf] && types_of_creatures_in_cell[PLANTf] && !types_of_creatures_in_cell[MEATf])
-						std::cout << COLOR_YELLOW_BACKGROUND << COLOR_BLACK << this->world_map.map[i][j].creatures[0]->symbol_on_map << COLOR_RESET;
+					{
+						if (this->world_map.map[i][j].creatures[0]->type_id == 21)
+							std::cout << COLOR_YELLOW_BACKGROUND << COLOR_BLACK << this->world_map.map[i][j].creatures[0]->symbol_on_map << COLOR_RESET;
+						else if (this->world_map.map[i][j].creatures[0]->type_id == 22)
+							std::cout << COLOR_DARK_YELLOW_BACKGROUND << COLOR_BLACK << this->world_map.map[i][j].creatures[0]->symbol_on_map << COLOR_RESET;
+					}
 					else if (!types_of_creatures_in_cell[NOf] && !types_of_creatures_in_cell[PLANTf] && types_of_creatures_in_cell[MEATf])
-						std::cout << COLOR_RED << this->world_map.map[i][j].creatures[0]->symbol_on_map << COLOR_RESET;
-						
+					{
+						if (this->world_map.map[i][j].creatures[0]->type_id == 31)
+							std::cout << COLOR_RED << this->world_map.map[i][j].creatures[0]->symbol_on_map << COLOR_RESET;
+						else if (this->world_map.map[i][j].creatures[0]->type_id == 32)
+							std::cout << COLOR_LIGHT_RED << this->world_map.map[i][j].creatures[0]->symbol_on_map << COLOR_RESET;
+					}
 				}
 			}
 			std::cout << COLOR_BLUE_LIGHT_ON_DARK << (char)186 << COLOR_RESET << "\n";
@@ -309,15 +316,15 @@ void World::print_step()
 	}
 	else
 	{
-		for (int symbol_index = 0; symbol_index <= out.str().size(); symbol_index++)
+		for (int symbol_index = 0; symbol_index <= (int)out.str().size(); symbol_index++)
 		{
 			if (prev_picture[symbol_index] != out.str()[symbol_index])
 			{
-				int x = (int)(symbol_index % (this->world_sizes.second + 3)); // x_ y|
-				int y = (int)(symbol_index / (this->world_sizes.second + 3)) - 1;
+				short int x = (short int)(symbol_index % (this->world_sizes.second + 3)); // x_ y|
+				short int y = (short int)(symbol_index / (this->world_sizes.second + 3)) - 1;
 				if ((symbol_index / (this->world_sizes.first + 3)) != 0) y += 1;
 
-				COORD symbol_position = {x, y};
+				COORD symbol_position = { x, y };
 				SetConsoleCursorPosition(h, symbol_position);
 
 				int i = y - 1, j = x - 1;
@@ -331,7 +338,7 @@ void World::print_step()
 						{MEATf, false}
 					};
 
-					for (int k = 0; k < this->world_map.map[i][j].creatures.size(); k++) {
+					for (int k = 0; k < (int)this->world_map.map[i][j].creatures.size(); k++) {
 						if (this->world_map.map[i][j].creatures[k]->type_of_food == NOf)
 							types_of_creatures_in_cell[NOf] = true;
 						if (this->world_map.map[i][j].creatures[k]->type_of_food == PLANTf)
@@ -351,12 +358,29 @@ void World::print_step()
 						std::cout << COLOR_YELLOW_BACKGROUND << COLOR_RED << out.str()[symbol_index] << COLOR_RESET;
 
 					else if (types_of_creatures_in_cell[NOf] && !types_of_creatures_in_cell[PLANTf] && !types_of_creatures_in_cell[MEATf])
-						std::cout << COLOR_GREEN_BACKGROUND << COLOR_BLACK << out.str()[symbol_index] << COLOR_RESET;
-					else if (!types_of_creatures_in_cell[NOf] && types_of_creatures_in_cell[PLANTf] && !types_of_creatures_in_cell[MEATf])
-						std::cout << COLOR_YELLOW_BACKGROUND << COLOR_BLACK << out.str()[symbol_index] << COLOR_RESET;
-					else if (!types_of_creatures_in_cell[NOf] && !types_of_creatures_in_cell[PLANTf] && types_of_creatures_in_cell[MEATf])
-						std::cout << COLOR_RED << out.str()[symbol_index] << COLOR_RESET;
+					{
+						if (this->world_map.map[i][j].creatures[0]->type_id == 11)
+							std::cout << COLOR_GREEN_BACKGROUND << COLOR_BLACK << out.str()[symbol_index] << COLOR_RESET;
+						else if (this->world_map.map[i][j].creatures[0]->type_id == 12)
+							std::cout << COLOR_DARK_GREEN_BACKGROUND << COLOR_BLACK << out.str()[symbol_index] << COLOR_RESET;
+						else
+							std::cout << COLOR_PURPLE_BACKGROUND << COLOR_BLACK << out.str()[symbol_index] << COLOR_RESET;
 					}
+					else if (!types_of_creatures_in_cell[NOf] && types_of_creatures_in_cell[PLANTf] && !types_of_creatures_in_cell[MEATf])
+					{
+						if (this->world_map.map[i][j].creatures[0]->type_id == 21)
+							std::cout << COLOR_YELLOW_BACKGROUND << COLOR_BLACK << out.str()[symbol_index] << COLOR_RESET;
+						else if (this->world_map.map[i][j].creatures[0]->type_id == 22)
+							std::cout << COLOR_DARK_YELLOW_BACKGROUND << COLOR_BLACK << out.str()[symbol_index] << COLOR_RESET;
+					}
+					else if (!types_of_creatures_in_cell[NOf] && !types_of_creatures_in_cell[PLANTf] && types_of_creatures_in_cell[MEATf])
+					{
+						if (this->world_map.map[i][j].creatures[0]->type_id == 31)
+							std::cout << COLOR_RED << out.str()[symbol_index] << COLOR_RESET;
+						else if (this->world_map.map[i][j].creatures[0]->type_id == 32)
+							std::cout << COLOR_LIGHT_RED << out.str()[symbol_index] << COLOR_RESET;
+					}
+				}
 			}
 		}
 		// clear console
@@ -436,22 +460,16 @@ void World::delete_creature(Creature* creature)
 {
 	if (creature != nullptr) {
 		// delete from world
-		for (int creature_index = 0; creature_index < this->creatures.size(); creature_index++) {
+		for (int creature_index = 0; creature_index < (int)this->creatures.size(); creature_index++) {
 			if (creature == (this->creatures[creature_index]))
-			{
 				creatures.erase(creatures.begin() + creature_index);
-				//break;
-			}
 		}
 
 		// delete from map
 		if (this->world_sizes.first >= abs(creature->position.first) && this->world_sizes.second >= abs(creature->position.second)) {
-			for (int creature_index = 0; creature_index < this->world_map.map[creature->position.first][creature->position.second].creatures.size(); creature_index++) {
+			for (int creature_index = 0; creature_index < (int)this->world_map.map[creature->position.first][creature->position.second].creatures.size(); creature_index++) {
 				if (creature == (this->world_map.map[creature->position.first][creature->position.second].creatures[creature_index]))
-				{
 					this->world_map.map[creature->position.first][creature->position.second].creatures.erase(world_map.map[creature->position.first][creature->position.second].creatures.begin() + creature_index);
-					//break;
-				}
 			}
 		}
 
@@ -556,7 +574,7 @@ bool World::locate_creature_on_map(Creature* creature)
 
 World::~World()
 {
-	for (int creature_index = 0; creature_index < this->creatures.size(); creature_index++) {
+	for (int creature_index = 0; creature_index < (int)this->creatures.size(); creature_index++) {
 		delete this->creatures[creature_index];
 		this->creatures[creature_index] = nullptr;
 	}
@@ -577,7 +595,7 @@ bool World::WorldMap::check_creature_with_same_type_in_cell(std::pair <int, int>
 {
 	if (position.first >= 0  && position.first < this->world_sizes.first &&
 		position.second >= 0 && position.second < this->world_sizes.second) {
-		for (int i = 0; i < map[position.first][position.second].creatures.size(); i++) {
+		for (int i = 0; i < (int)map[position.first][position.second].creatures.size(); i++) {
 			//if (dynamic_cast<(typeid(creature))>(map[position.first][position.second].creatures[i]) != nullptr)
 			if (typeid(creature) == typeid(map[position.first][position.second].creatures[i]))
 				return true;

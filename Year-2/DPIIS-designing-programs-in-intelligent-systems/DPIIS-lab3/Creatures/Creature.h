@@ -3,7 +3,7 @@
 #ifndef Creature_H
 #define Creature_H
 
-//#include "../World.h"
+// FOR ALGORITHMS
 #include <iostream>
 #include <vector>
 #include <string>
@@ -12,7 +12,7 @@
 #include <map>
 #include <set>
 
-
+// FOR PICTURE
 #include <stdio.h>
 #include <sstream>
 #include <windows.h>
@@ -21,7 +21,7 @@
 class Creature
 {
 public:
-	//std::vector <Creature*> creatures_near_list;
+	int type_id = 0;
 
 	char symbol_on_map;
 
@@ -40,9 +40,6 @@ public:
 	short int need_food_for_one_step;
 	short int count_of_steps_without_food;
 	short int count_of_steps_can_live_without_food;
-	
-	//enum class RESULT_OF_EATING { ATE, HUNGRY, DEATH };
-	//RESULT_OF_EATING eating();
 
 	short int chance_to_survive_in_danger_situation;
 
@@ -65,7 +62,7 @@ public:
 	virtual Creature* mooving () = 0;
 	virtual Creature* reproduction(Creature* creature) = 0;
 	virtual bool can_reproduce() = 0;
-	virtual void die() = 0;
+	virtual bool _interface() = 0;
 };
 
 #endif //!1

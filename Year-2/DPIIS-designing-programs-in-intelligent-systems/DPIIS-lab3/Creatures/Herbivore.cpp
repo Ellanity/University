@@ -1,15 +1,13 @@
 #include "Herbivore.h"
 
-//Plant::Plant(std::vector <Creature* >* creatures, bool random_parameters)
+
 Herbivore::Herbivore(World* world, bool random_parameters)
 {
-	symbol_on_map = char(177);//'H';
-	//symbol_on_map = (char)(48 + rand() % 42);
+	type_id = 20;
 	this->world = world;
 
+	symbol_on_map = char(177);
 	if (random_parameters == true) {
-		//std::vector <Creature*> creatures_near_list;
-		//pair <int, int> position;
 		can_change_position = true;
 		distance_it_can_overcome = 3;
 
@@ -44,7 +42,7 @@ std::pair <Creature::RESULT_OF_ACTION, Creature*>Herbivore::action()
 	short int num_of_action = 3;
 	bool can_eat = false, have_partner_in_cell = false, _die = false;
 	Creature *partner = nullptr , *creature_food = nullptr;
-	for (int creature_index = 0; creature_index < this->world->get_world_map()->map[this->position.first][this->position.second].creatures.size(); creature_index++) {
+	for (int creature_index = 0; creature_index < (int)this->world->get_world_map()->map[this->position.first][this->position.second].creatures.size(); creature_index++) {
 		if (this->world->get_world_map()->map[this->position.first][this->position.second].creatures[creature_index]->type_of_food == Creature::TYPE_OF_FOOD::NO &&
 			this->world->get_world_map()->map[this->position.first][this->position.second].creatures[creature_index]->health_points > 0)
 		{
@@ -53,7 +51,7 @@ std::pair <Creature::RESULT_OF_ACTION, Creature*>Herbivore::action()
 		}
 	}
 
-	for (int creature_index = 0; creature_index < this->world->get_world_map()->map[this->position.first][this->position.second].creatures.size(); creature_index++) {
+	for (int creature_index = 0; creature_index < (int)this->world->get_world_map()->map[this->position.first][this->position.second].creatures.size(); creature_index++) {
 		if (typeid(*this) == typeid(*(this->world->get_world_map()->map[this->position.first][this->position.second].creatures[creature_index])) &&
 			this->world->get_world_map()->map[this->position.first][this->position.second].creatures[creature_index]->gender != this->gender &&
 			this->world->get_world_map()->map[this->position.first][this->position.second].creatures[creature_index]->can_reproduce())
@@ -99,7 +97,7 @@ std::pair <Creature::RESULT_OF_ACTION, Creature*>Herbivore::action()
 	if (food_points <= 0)
 		count_of_steps_without_food++;
 	else
-		count_of_steps_without_food == 0;
+		count_of_steps_without_food = 0;
 
 	food_points -= need_food_for_one_step;
 	if (food_points < 0) food_points = 0;
@@ -150,22 +148,19 @@ Creature* Herbivore::mooving()
 	if (!no_food && !danger)
 		instinct_of_reproduction = true;
 
-	//std::cout << " S: " << this->symbol_on_map << " Rep: " << instinct_of_reproduction << " Gen: " << this->gender << " \n";
-	
-	int dist_now = 1e8, index_now = -1;
+	int dist_now = (int)1e9, index_now = -1;
 	std::pair <int, int> begin_position, end_position, position_to_relocate = this->position;
 	begin_position = this->position;
 
 	int x1 = this->position.first, y1 = this->position.second;
-	//std::vector<std::pair<int, int>> distance;
-
+	
 	if (danger) {
-		int safty_kf = 1e9;
+		int safty_kf = (int)1e9;
 		for (int i = this->position.first - distance_it_can_overcome; i <= this->position.first + 2; i++) {
 			for (int j = this->position.second - distance_it_can_overcome; j <= this->position.second + 2; j++) {
 				if (this->world->get_world_map()->check_exist_position(std::make_pair(i, j))) {
 					int safty_kf_now = 0;
-					for (int k = 0; k < danger_positions.size(); k++) {
+					for (int k = 0; k < (int)danger_positions.size(); k++) {
 						int x2 = danger_positions[k].first,
 							y2 = danger_positions[k].second;
 						safty_kf += (int)(sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
@@ -204,7 +199,7 @@ Creature* Herbivore::mooving()
 		}
 	}
 	else {
-		for (int creature_index = 0; creature_index < this->world->get_creatures()->size(); creature_index++) {
+		for (int creature_index = 0; creature_index < (int)this->world->get_creatures()->size(); creature_index++) {
 			if (
 				(no_food && this->world->get_creatures()->at(creature_index)->type_of_food == Creature::TYPE_OF_FOOD::NO &&
 					this->world->get_creatures()->at(creature_index)->health_points > 0)
@@ -255,7 +250,7 @@ Creature* Herbivore::mooving()
 	// changing position in map
 	if (begin_position != end_position)
 	{
-		for (int i = 0; i <  this->world->get_world_map()->map[begin_position.first][begin_position.second].creatures.size(); i++)
+		for (int i = 0; i < (int)this->world->get_world_map()->map[begin_position.first][begin_position.second].creatures.size(); i++)
 			if (this->world->get_world_map()->map[begin_position.first][begin_position.second].creatures[i] == this)
 			{
 				this->world->get_world_map()->map[begin_position.first][begin_position.second].creatures.erase(this->world->get_world_map()->map[begin_position.first][begin_position.second].creatures.begin() + i);
@@ -267,6 +262,7 @@ Creature* Herbivore::mooving()
 	return this;
 }
 
+/*
 Creature* Herbivore::reproduction(Creature* creature)
 {
 	//std::cout << " reproduction ";
@@ -283,14 +279,13 @@ Creature* Herbivore::reproduction(Creature* creature)
 	
 	return herbivore;
 }
+*/
 
-bool Herbivore::can_reproduce()
+/*bool Herbivore::can_reproduce()
 {
 	if (this->_size >= 70 && this->food_points >= 40 && age < 100 &&
 		this->world->get_world_map()->map[this->position.first][this->position.second].creatures.size() < 4)
 		return true;
 	else
 		return false;
-}
-
-void Herbivore::die() {}
+}*/
