@@ -5,8 +5,8 @@ from CreatureClass import Creature
 
 class Predator(Creature):
 
-    def __init__(self, coords, _world):
-        super().__init__(_world)
+    def __init__(self, coords, world):
+        super().__init__(world)
         self.parameters = {
             "type_id": 3,
             # "symbol_on_map": "H",
@@ -31,6 +31,7 @@ class Predator(Creature):
             "can_reproduce_in_neighboring_cell": False,
             "need_a_breeding_partner": True,
             "have_gender": True,
+            "count_of_child": 0,
             "gender": random.randint(1, 2)
         }
 
@@ -41,7 +42,7 @@ class Predator(Creature):
 
         exist_partner_in_cell = False
         exist_food_in_cell = False
-        for creature in self._world._map[self.parameters["coords"][0]][self.parameters["coords"][1]]._creatures_in_cell:
+        for creature in self.world.map[self.parameters["coords"][0]][self.parameters["coords"][1]].creatures_in_cell:
             if creature.parameters["gender"] != self.parameters["gender"] and \
                     creature.parameters["type_id"] == self.parameters["type_id"] and \
                     creature.possible_for_reproduction() is True and \
@@ -52,6 +53,7 @@ class Predator(Creature):
 
         self.parameters["food_points"] -= self.parameters["need_food_for_one_step"]
         if self.parameters["food_points"] <= 0:
+            self.parameters["food_points"] = 0
             self.parameters["count_of_steps_without_food"] += 1
         else:
             self.parameters["count_of_steps_without_food"] = 0
@@ -61,22 +63,23 @@ class Predator(Creature):
 
         if exist_partner_in_cell is True and self.possible_for_reproduction() is True:
             return "REPRODUCTION"
-        if exist_food_in_cell is True:
+        if exist_food_in_cell is True and (self.world.count_of_herbivores/self.world.count_of_predators > 2):
             return "EATING"
         else:
             return "MOVEMENT"
 
     def action_eating(self, creature_food=None):
-        for creature in self._world._map[self.parameters["coords"][0]][self.parameters["coords"][1]]._creatures_in_cell:
+        for creature in self.world.map[self.parameters["coords"][0]][self.parameters["coords"][1]].creatures_in_cell:
             if creature.parameters["type_of_food"] == "PLANT":
                 # print("eat:")
                 # print("before-eat: food:", self.parameters["food_points"], "size:", self.parameters["size"])
                 # print("before-eaten: health:", creature.parameters["health_points"])
-                if creature.parameters["chance_to_survive_in_danger_situation"] < random.randint(1, 100):
+                if creature.parameters["chance_to_survive_in_danger_situation"] < random.randint(1, 100) and \
+                        self.parameters["size"] >= (creature.parameters["size"] - 10):
                     eaten = creature.parameters["size"]
                     self.parameters["food_points"] += eaten
                     self.parameters["size"] += (eaten / 30)
-                    self.parameters["need_food_for_one_step"] = self.parameters["size"] / 12
+                    self.parameters["need_food_for_one_step"] = self.parameters["size"] / 24
                     creature.parameters["health_points"] = 0
                     # print("after-eat: food:", self.parameters["food_points"], "size:", self.parameters["size"])
                     # print("after-eaten: health:", creature.parameters["health_points"])
@@ -91,7 +94,7 @@ class Predator(Creature):
         coords_in_viewing_radius = list()
         for i in range(a - r, a + r):
             for j in range(b - r, b + r):
-                if 0 <= i < self._world._world_sizes[0] and 0 <= j < self._world._world_sizes[1] and \
+                if 0 <= i < self.world.world_sizes[0] and 0 <= j < self.world.world_sizes[1] and \
                         ((i - a) ^ 2 + (j - b) ^ 2 <= r ^ 2):
                     # print((i - a) ^ 2 + (j - b) ^ 2, r ^ 2, i, j)
                     coords_in_viewing_radius.append((i, j))
@@ -102,7 +105,7 @@ class Predator(Creature):
         coords_with_food = tuple()
         coords_with_partner = tuple()  # herd instinct
         for coords in coords_in_viewing_radius:
-            for creature in self._world._map[coords[0]][coords[1]]._creatures_in_cell:
+            for creature in self.world.map[coords[0]][coords[1]].creatures_in_cell:
                 if creature.parameters["type_of_food"] == "PLANT":
                     # print(coords, "plant")
                     if see_food is False:
@@ -121,7 +124,7 @@ class Predator(Creature):
                         if dist_to_food_it_see < dist_to_last_food:
                             coords_with_food = creature.parameters["coords"]
                     # pass
-                if creature.parameters["type_of_food"] == "MEAT" and creature is not self and\
+                if creature.parameters["type_of_food"] == "MEAT" and creature is not self and \
                         creature.parameters["gender"] != self.parameters["gender"]:
                     # print(coords, "partner")
                     if see_partner is False:
@@ -134,9 +137,9 @@ class Predator(Creature):
                                                            (abs(max(b, creature.parameters["coords"][1]) -
                                                                 min(b, creature.parameters["coords"][1])) ** 2))
                         dist_to_last_partner = math.sqrt((pow(abs(max(a, coords_with_partner[0]) -
-                                                              min(a, coords_with_partner[0])), 2)) +
+                                                                  min(a, coords_with_partner[0])), 2)) +
                                                          pow(abs(max(b, coords_with_partner[1]) -
-                                                              min(b, coords_with_partner[1])), 2))
+                                                                 min(b, coords_with_partner[1])), 2))
                         if dist_to_partner_it_see < dist_to_last_partner:
                             coords_with_partner = creature.parameters["coords"]
                 if creature.parameters["type_of_food"] == "NO":
@@ -147,9 +150,9 @@ class Predator(Creature):
         if in_danger is True:
             pass
         elif self.possible_for_reproduction() is True and see_partner is True:
-            #xlength = abs(max(coords_with_partner[0], self.parameters["coords"][0]) -
+            # x_length = abs(max(coords_with_partner[0], self.parameters["coords"][0]) -
             #              min(coords_with_partner[0], self.parameters["coords"][0]))
-            #ylength = abs(max(coords_with_partner[1], self.parameters["coords"][1]) -
+            # y_length = abs(max(coords_with_partner[1], self.parameters["coords"][1]) -
             #              min(coords_with_partner[1], self.parameters["coords"][1]))
 
             # print("ok")
@@ -189,22 +192,22 @@ class Predator(Creature):
                 point_to_go[1] += dist_vertical_can_overcome
             endpoint_coords = (point_to_go[0], point_to_go[1])
 
-
-        if self._world._map[endpoint_coords[0]][endpoint_coords[1]].creatures_count() < 4:
-            #if see_partner is True:
-                # print("in cell with partner:", self._world._map[endpoint_coords[0]][endpoint_coords[1]].creatures_count())
-            self._world._map[self.parameters["coords"][0]][self.parameters["coords"][1]].creature_remove(self)
+        if self.world.map[endpoint_coords[0]][endpoint_coords[1]].creatures_count() < 4:
+            # if see_partner is True:
+            # print("in cell with partner:", self.world._map[endpoint_coords[0]][endpoint_coords[1]].creatures_count())
+            self.world.map[self.parameters["coords"][0]][self.parameters["coords"][1]].creature_remove(self)
             self.parameters["coords"] = endpoint_coords
-            self._world._map[self.parameters["coords"][0]][self.parameters["coords"][1]].creature_add(self)
+            self.world.map[self.parameters["coords"][0]][self.parameters["coords"][1]].creature_add(self)
 
         # print("coords after:", self.parameters["coords"])
 
     def action_reproduction(self, creature=None):
         self.parameters["food_points"] -= 50
-        return Predator(self.parameters["coords"], self._world)
+        self.parameters["count_of_child"] += 1
+        return Predator(self.parameters["coords"], self.world)
 
     def possible_for_reproduction(self):
-        if self.parameters["food_points"] >= 100:
+        if self.parameters["food_points"] >= 200:
             return True
         else:
             return False

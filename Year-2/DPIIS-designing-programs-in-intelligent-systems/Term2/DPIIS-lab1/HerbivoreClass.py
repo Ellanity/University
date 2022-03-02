@@ -5,8 +5,8 @@ from CreatureClass import Creature
 
 class Herbivore(Creature):
 
-    def __init__(self, coords, _world):
-        super().__init__(_world)
+    def __init__(self, coords, world):
+        super().__init__(world)
         self.parameters = {
             "type_id": 2,
             # "symbol_on_map": "H",
@@ -14,13 +14,13 @@ class Herbivore(Creature):
             "coords": coords,
             "viewing_radius": 5,
             "can_change_position": True,
-            "distance_it_can_overcome": 3,
+            "distance_it_can_overcome": 4,
             "have_health_points": False,
             "health_points": 1,
             "need_food": True,
             "type_of_food": "PLANT",
-            "food_points": 100,
-            "need_food_for_one_step": 10,
+            "food_points": 80,
+            "need_food_for_one_step": 4,
             "count_of_steps_without_food": 0,
             "count_of_steps_can_live_without_food": 5,
             "chance_to_survive_in_danger_situation": 50,
@@ -31,6 +31,7 @@ class Herbivore(Creature):
             "can_reproduce_in_neighboring_cell": False,
             "need_a_breeding_partner": True,
             "have_gender": True,
+            "count_of_child": 0,
             "gender": random.randint(1, 2)
         }
 
@@ -41,7 +42,7 @@ class Herbivore(Creature):
 
         exist_partner_in_cell = False
         exist_food_in_cell = False
-        for creature in self._world._map[self.parameters["coords"][0]][self.parameters["coords"][1]]._creatures_in_cell:
+        for creature in self.world.map[self.parameters["coords"][0]][self.parameters["coords"][1]].creatures_in_cell:
             if creature.parameters["gender"] != self.parameters["gender"] and \
                     creature.parameters["type_id"] == self.parameters["type_id"] and \
                     creature.possible_for_reproduction() is True and \
@@ -52,6 +53,7 @@ class Herbivore(Creature):
 
         self.parameters["food_points"] -= self.parameters["need_food_for_one_step"]
         if self.parameters["food_points"] <= 0:
+            self.parameters["food_points"] = 0
             self.parameters["count_of_steps_without_food"] += 1
         else:
             self.parameters["count_of_steps_without_food"] = 0
@@ -59,25 +61,54 @@ class Herbivore(Creature):
         if self.parameters["count_of_steps_without_food"] > self.parameters["count_of_steps_can_live_without_food"]:
             return "DIE"
 
+        see_food = False
+        see_partner = False
+        see_danger = False
+        r = int(self.parameters["viewing_radius"])
+        a = int(self.parameters["coords"][0])
+        b = int(self.parameters["coords"][1])
+        coords_in_viewing_radius = list()
+        for i in range(a - r, a + r):
+            for j in range(b - r, b + r):
+                if 0 <= i < self.world.world_sizes[0] and 0 <= j < self.world.world_sizes[1] and \
+                        ((i - a) ^ 2 + (j - b) ^ 2 <= r ^ 2):
+                    coords_in_viewing_radius.append((i, j))
+        for coords in coords_in_viewing_radius:
+            for creature in self.world.map[coords[0]][coords[1]].creatures_in_cell:
+                if creature.parameters["type_of_food"] == "NO":
+                    see_food = True
+                if creature.parameters["type_of_food"] == "PLANT" and creature is not self and \
+                        creature.parameters["gender"] != self.parameters["gender"]:
+                    see_partner = True
+                if creature.parameters["type_of_food"] == "MEAT":
+                    see_danger = True
+
         if exist_partner_in_cell is True and self.possible_for_reproduction() is True:
             return "REPRODUCTION"
-        if exist_food_in_cell is True:
-            return "EATING"
-        else:
+        elif see_partner and self.possible_for_reproduction() is True:
             return "MOVEMENT"
 
+        if exist_food_in_cell is True and see_danger is False and self.parameters["food_points"] < 100: # and \
+            #self.world.map[self.parameters["coords"][0]][self.parameters["coords"][1]].creatures_count_with_type("PLANT") < 3:
+            return "EATING"
+        elif (see_food is True and see_danger is False) or \
+                (see_food is True and see_danger is True and self.parameters["food_points"] <= 55):
+            return "MOVEMENT"
+
+        return random.choice(["MOVEMENT", "EATING"])
+
     def action_eating(self, creature_food=None):
-        for creature in self._world._map[self.parameters["coords"][0]][self.parameters["coords"][1]]._creatures_in_cell:
+        for creature in self.world.map[self.parameters["coords"][0]][self.parameters["coords"][1]].creatures_in_cell:
             if creature.parameters["type_of_food"] == "NO":
                 # print("eat:")
                 # print("before-eat: food:", self.parameters["food_points"], "size:", self.parameters["size"])
                 # print("before-eaten: health:", creature.parameters["health_points"])
-                eaten = random.randint(0, 50) + 10
+                eaten = random.randint(0, 50) + 50
                 if eaten > creature.parameters["health_points"]:
                     eaten = creature.parameters["health_points"]
                 self.parameters["food_points"] += eaten
                 self.parameters["size"] += (eaten / 30)
-                self.parameters["need_food_for_one_step"] = self.parameters["size"] / 10
+                self.parameters["need_food_for_one_step"] = self.parameters["size"] / 40
                 creature.parameters["health_points"] -= eaten
                 # print("after-eat: food:", self.parameters["food_points"], "size:", self.parameters["size"])
                 # print("after-eaten: health:", creature.parameters["health_points"])
@@ -92,7 +123,7 @@ class Herbivore(Creature):
         coords_in_viewing_radius = list()
         for i in range(a - r, a + r):
             for j in range(b - r, b + r):
-                if 0 <= i < self._world._world_sizes[0] and 0 <= j < self._world._world_sizes[1] and \
+                if 0 <= i < self.world.world_sizes[0] and 0 <= j < self.world.world_sizes[1] and \
                         ((i - a) ^ 2 + (j - b) ^ 2 <= r ^ 2):
                     # print((i - a) ^ 2 + (j - b) ^ 2, r ^ 2, i, j)
                     coords_in_viewing_radius.append((i, j))
@@ -100,11 +131,14 @@ class Herbivore(Creature):
         # print(coords_in_viewing_radius)
         see_food = False
         see_partner = False
+        see_danger = False
         coords_with_food = tuple()
         coords_with_partner = tuple()  # herd instinct
+        coords_with_danger = list()
         for coords in coords_in_viewing_radius:
-            for creature in self._world._map[coords[0]][coords[1]]._creatures_in_cell:
-                if creature.parameters["type_of_food"] == "NO":
+            for creature in self.world.map[coords[0]][coords[1]].creatures_in_cell:
+                if creature.parameters["type_of_food"] == "NO" and \
+                        creature.parameters["coords"] != self.parameters["coords"]:
                     # print(coords, "plant")
                     if see_food is False:
                         see_food = True
@@ -122,7 +156,7 @@ class Herbivore(Creature):
                         if dist_to_food_it_see < dist_to_last_food:
                             coords_with_food = creature.parameters["coords"]
                     # pass
-                if creature.parameters["type_of_food"] == "PLANT" and creature is not self and\
+                if creature.parameters["type_of_food"] == "PLANT" and creature is not self and \
                         creature.parameters["gender"] != self.parameters["gender"]:
                     # print(coords, "partner")
                     if see_partner is False:
@@ -135,27 +169,37 @@ class Herbivore(Creature):
                                                            (abs(max(b, creature.parameters["coords"][1]) -
                                                                 min(b, creature.parameters["coords"][1])) ** 2))
                         dist_to_last_partner = math.sqrt((pow(abs(max(a, coords_with_partner[0]) -
-                                                              min(a, coords_with_partner[0])), 2)) +
+                                                                  min(a, coords_with_partner[0])), 2)) +
                                                          pow(abs(max(b, coords_with_partner[1]) -
-                                                              min(b, coords_with_partner[1])), 2))
+                                                                 min(b, coords_with_partner[1])), 2))
                         if dist_to_partner_it_see < dist_to_last_partner:
                             coords_with_partner = creature.parameters["coords"]
                 if creature.parameters["type_of_food"] == "MEAT":
-                    pass
+                    coords_with_danger.append(creature.parameters["coords"])
+                    see_danger = True
 
-        in_danger = False
         endpoint_coords = tuple()
-        if in_danger is True:
-            pass
+        if see_danger is True and see_partner is False:
+            min_sum_of_distances = 0
+            for coords in coords_in_viewing_radius:
+                sum_of_distances = 0
+                for danger in coords_with_danger:
+                    x_length = abs(max(coords[0], danger[0]) - min(coords[0], danger[0]))
+                    y_length = abs(max(coords[1], danger[1]) - min(coords[1], danger[1]))
+                    distance_to_danger = math.sqrt(x_length ** 2 + y_length ** 2)
+                    sum_of_distances += distance_to_danger
+                if sum_of_distances > min_sum_of_distances:
+                    endpoint_coords = coords
+            print(self.parameters["coords"], endpoint_coords)
         elif self.possible_for_reproduction() is True and see_partner is True:
-            #xlength = abs(max(coords_with_partner[0], self.parameters["coords"][0]) -
+            # x_length = abs(max(coords_with_partner[0], self.parameters["coords"][0]) -
             #              min(coords_with_partner[0], self.parameters["coords"][0]))
-            #ylength = abs(max(coords_with_partner[1], self.parameters["coords"][1]) -
+            # y_length = abs(max(coords_with_partner[1], self.parameters["coords"][1]) -
             #              min(coords_with_partner[1], self.parameters["coords"][1]))
 
             # print("ok")
             endpoint_coords = coords_with_partner
-        elif see_food is True and self.parameters["food_points"] < 120:
+        elif see_food is True and self.parameters["food_points"]:
             endpoint_coords = coords_with_food
         else:
             endpoint_coords = random.choice(coords_in_viewing_radius)
@@ -190,22 +234,22 @@ class Herbivore(Creature):
                 point_to_go[1] += dist_vertical_can_overcome
             endpoint_coords = (point_to_go[0], point_to_go[1])
 
-
-        if self._world._map[endpoint_coords[0]][endpoint_coords[1]].creatures_count() < 4:
-            #if see_partner is True:
-                # print("in cell with partner:", self._world._map[endpoint_coords[0]][endpoint_coords[1]].creatures_count())
-            self._world._map[self.parameters["coords"][0]][self.parameters["coords"][1]].creature_remove(self)
+        if self.world.map[endpoint_coords[0]][endpoint_coords[1]].creatures_count() < 4:
+            # if see_partner is True:
+            # print("in cell with partner:", self.world._map[endpoint_coords[0]][endpoint_coords[1]].creatures_count())
+            self.world.map[self.parameters["coords"][0]][self.parameters["coords"][1]].creature_remove(self)
             self.parameters["coords"] = endpoint_coords
-            self._world._map[self.parameters["coords"][0]][self.parameters["coords"][1]].creature_add(self)
+            self.world.map[self.parameters["coords"][0]][self.parameters["coords"][1]].creature_add(self)
 
         # print("coords after:", self.parameters["coords"])
 
     def action_reproduction(self, creature=None):
-        self.parameters["food_points"] -= 50
-        return Herbivore(self.parameters["coords"], self._world)
+        self.parameters["count_of_child"] += 1
+        self.parameters["food_points"] -= 20
+        return Herbivore(self.parameters["coords"], self.world)
 
     def possible_for_reproduction(self):
-        if self.parameters["food_points"] >= 100:
+        if self.parameters["food_points"] >= 80:
             return True
         else:
             return False

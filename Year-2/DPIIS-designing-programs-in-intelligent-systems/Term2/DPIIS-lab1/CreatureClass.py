@@ -26,9 +26,9 @@ class Creature:
         "gender": 0
     }
 
-    def __init__(self, _world=None):
-        if _world is not None:
-            self._world = _world
+    def __init__(self, world=None):
+        if world is not None:
+            self.world = world
 
     def action(self):
         pass
@@ -43,7 +43,4 @@ class Creature:
         pass
 
     def possible_for_reproduction(self):
-        pass
-
-    def __del__(self):
         pass
