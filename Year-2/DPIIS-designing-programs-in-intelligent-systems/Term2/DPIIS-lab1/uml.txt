@@ -1,0 +1,79 @@
+World
+
+creatures: list()
+world_sizes: tuple()
+map: list()
+count_of_plants: int
+count_of_herbivores: int
+count_of_predators: int
+count_of_steps: int
+
+creature_generate(): void
+creature_find_position(creature: Creature): void
+creature_locate(creature: Creature): void
+creature_add(creature: Creature, coords: tuple()): bool
+creature_remove(creature: Creature): void
+step_generate(): void
+command(command: string): bool
+
+--------------------------------------
+
+Cell
+
+coords: tuple()
+creatures_in_cell: list()
+
+creature_add(creature): void
+creature_remove(creature): void
+creatures_count(): int
+creatures_count_with_type(type_of_food): int
+presentation(): chr
+
+--------------------------------------
+
+~Creature
+
+parameters: dict()
+
+action(): void
+action_eating(creature_food: string): void
+action_movement(): void
+action_reproduction(creature: Creature): void
+possible_for_reproduction(): void
+
+--------------------------------------
+
+Plant
+
+parameters: dict()
+
+action(): void
+action_reproduction(creature: Creature): void
+possible_for_reproduction(): bool
+
+--------------------------------------
+
+Herbivore
+
+parameters: dict()
+
+action(): void
+action_eating(): Creature
+action_movement(): void
+action_reproduction(creature: Creature): void
+possible_for_reproduction(): bool
+
+--------------------------------------
+
+Predator
+
+parameters: dict()
+
+action(): void
+action_eating(): Creature
+action_movement(): void
+action_reproduction(creature: Creature): void
+possible_for_reproduction(): bool
+
+--------------------------------------
+

@@ -187,42 +187,6 @@ class World:
                     self.count_of_predators += 1
                 self.creatures.append(creature)
                 self.map[creature.parameters["coords"][0]][creature.parameters["coords"][1]].creature_add(creature)
-        """if creature.parameters["type_of_food"] == "PLANT" or creature.parameters["type_of_food"] == "MEAT":
-            empty_cells_near = {
-                (creature.parameters["coords"][0] - 1, creature.parameters["coords"][1] - 1): False,
-                (creature.parameters["coords"][0] - 1, creature.parameters["coords"][1] + 0): False,
-                (creature.parameters["coords"][0] - 1, creature.parameters["coords"][1] + 1): False,
-                (creature.parameters["coords"][0] + 0, creature.parameters["coords"][1] - 1): False,
-                (creature.parameters["coords"][0] + 0, creature.parameters["coords"][1] + 1): False,
-                (creature.parameters["coords"][0] + 1, creature.parameters["coords"][1] - 1): False,
-                (creature.parameters["coords"][0] + 1, creature.parameters["coords"][1] + 0): False,
-                (creature.parameters["coords"][0] + 1, creature.parameters["coords"][1] + 1): False
-            }
-            have_empty_cells_near = False
-            for coords in empty_cells_near:
-                if (0 <= coords[0] < self.world_sizes[0]) and (0 <= coords[1] < self.world_sizes[1]) and \
-                        self.map[coords[0]][coords[1]].creatures_count_with_type("NO") == 0:
-                    empty_cells_near[coords] = True
-                    have_empty_cells_near = True
-
-            if have_empty_cells_near is True:
-                empty_cells_near_list = list(empty_cells_near)
-                while True:
-                    way = random.choice(empty_cells_near_list)
-                    if empty_cells_near[way] is True:
-                        creature.parameters["coords"] = way
-                        # print("new plant:", creature.parameters["coords"],
-                        # f"in cell {way} with {self._map[way[0]][way[1]].creatures_count_with_type('NO')} plants")
-                        self.count_of_plants += 1
-                        self.creatures.append(creature)
-                        self.map[way[0]][way[1]].creature_add(creature)
-                        if creature.parameters["type_of_food"] == "PLANT":
-                            self.count_of_herbivores += 1
-                        if creature.parameters["type_of_food"] == "MEAT":
-                            self.count_of_predators += 1
-                        break
-            else:
-                self.creature_remove(creature)"""
 
     def creature_add(self, creature, coords):
         if 0 <= int(coords[0]) < self.world_sizes[0] and 0 <= int(coords[1]) < self.world_sizes[1]:
@@ -304,12 +268,6 @@ class World:
             self.creature_locate(creature)
 
         self.count_of_steps += 1
-        """ 
-        Тут крч ошибка скорее всего когда-то выскочит. 
-        В том случае если несколько существ будут пытаться занять одну
-        клетку locate расположение не укажет для остальных существ
-        ps. вроде все поправил, но надо быть внимательным
-        """
 
     def step_print(self):
         for row in self.map:
