@@ -17,7 +17,7 @@ class World:
         def creature_add(self, creature):
             if len(self.creatures_in_cell) < 4:
                 self.creatures_in_cell.append(creature)
-            elif creature.parameters["type_of_food"] == "NO":
+            elif creature.parameters["type_of_food"] == "NO" and self.creatures_count_with_type("NO") == 0:
                 self.creatures_in_cell.append(creature)
             return
 
@@ -88,9 +88,11 @@ class World:
 
     def creature_generate(self):
         # Generate plants
-        plants_count = int((self.world_sizes[0] * self.world_sizes[1]) / ((self.world_sizes[0] +
-                                                                           self.world_sizes[1])) * 2)
-        # plants_count = 4
+        if self.world_sizes[0] > 3 and self.world_sizes[1] > 3:
+            plants_count = int((self.world_sizes[0] * self.world_sizes[1]) / ((self.world_sizes[0] +
+                                                                               self.world_sizes[1])) * 2)
+        else:
+            plants_count = 2
         for i in range(plants_count):
             new_plant = Plant(self.creature_find_position(), self)
             self.creatures.append(new_plant)
@@ -100,9 +102,11 @@ class World:
             self.map[x][y].creature_add(new_plant)
 
         # Generate herbivores
-        herbivores_count = int((self.world_sizes[0] * self.world_sizes[1]) / ((self.world_sizes[0] +
-                                                                               self.world_sizes[1])) * 2)
-        # herbivores_count = 4
+        if self.world_sizes[0] > 3 and self.world_sizes[1] > 3:
+            herbivores_count = int((self.world_sizes[0] * self.world_sizes[1]) / ((self.world_sizes[0] +
+                                                                                   self.world_sizes[1])) * 2)
+        else:
+            herbivores_count = 2
         for i in range(herbivores_count):
             new_herbivore = Herbivore(self.creature_find_position(), self)
             self.creatures.append(new_herbivore)
@@ -112,9 +116,11 @@ class World:
             self.map[x][y].creature_add(new_herbivore)
 
         # Generate predators
-        predators_count = int((self.world_sizes[0] * self.world_sizes[1]) / ((self.world_sizes[0] +
-                                                                              self.world_sizes[1])) * 2)
-        # predators_count = 4
+        if self.world_sizes[0] > 3 and self.world_sizes[1] > 3:
+            predators_count = int((self.world_sizes[0] * self.world_sizes[1]) / ((self.world_sizes[0] +
+                                                                                  self.world_sizes[1])) * 2)
+        else:
+            predators_count = 0
         for i in range(predators_count):
             new_predators = Predator(self.creature_find_position(), self)
             self.creatures.append(new_predators)
@@ -216,8 +222,7 @@ class World:
                             self.count_of_predators += 1
                         break
             else:
-                self.creature_remove(creature)
-"""
+                self.creature_remove(creature)"""
 
     def creature_add(self, creature, coords):
         if 0 <= int(coords[0]) < self.world_sizes[0] and 0 <= int(coords[1]) < self.world_sizes[1]:
@@ -313,42 +318,50 @@ class World:
                 row_str += cell.presentation()
             print(row_str)
 
-    def step_save(self):
-        pass
-
     def command(self, command):
         com = command.split(" ")
-        if com[0] == "iga":
+        # commands for debug
+        if command == "help":
+            print("ig  - info grass\nigm - info grass map\nih  - info herbivore\nihm - info herbivore map\n"
+                  "ip  - info predators\nipm - info predators map\nia  - info all\n"
+                  "cgc x y - count of grass in coords\n"
+                  "chc x y - count of herbivores in coords\n"
+                  "cpc x y - count of predators in coords\n"
+                  "ag  x y - add grass\n"
+                  "ah  x y - add herbivore\n"
+                  "ap  x y - add predator")
+            return True
+        if com[0] == "ig" or command == "info grass":
             for creature in self.creatures:
                 if creature.parameters["type_of_food"] == "NO":
                     print(creature.parameters)
             return True
-        if com[0] == "igam":
+        if com[0] == "igm" or command == "info grass map":
             for row in self.map:
                 for cell in row:
                     for creature in cell.creatures_in_cell:
                         if creature.parameters["type_of_food"] == "NO":
                             print(creature.parameters)
             return True
-        if com[0] == "iha":
+        if com[0] == "ih" or command == "info herbivore":
             for creature in self.creatures:
                 if creature.parameters["type_of_food"] == "PLANT":
                     print(creature.parameters)
             return True
-        if com[0] == "iham":
+        if com[0] == "ihm" or command == "info herbivore map":
             for row in self.map:
                 for cell in row:
                     for creature in cell.creatures_in_cell:
                         if creature.parameters["type_of_food"] == "PLANT":
                             print(creature.parameters)
             return True
-        if com[0] == "ipa":
+        if com[0] == "ip" or command == "info predators":
             for creature in self.creatures:
                 if creature.parameters["type_of_food"] == "MEAT":
                     # print(creature)
                     print(creature.parameters)
             return True
-        if com[0] == "ipam":
+        if com[0] == "ipm" or command == "info predators map":
             for row in self.map:
                 for cell in row:
                     for creature in cell.creatures_in_cell:
@@ -356,11 +369,12 @@ class World:
                             print(creature.parameters)
                             # print(creature)
             return True
-        if com[0] == "iam":
+        if com[0] == "ia" or command == "info all":
             for creature in self.creatures:
                 print(creature.parameters)
                 # print(creature)
             return True
+
         # count of grass in coords
         if com[0] == "cgc" and len(com) == 3:
             x = int(com[1])
@@ -382,7 +396,7 @@ class World:
                 for j in range(0, self.world_sizes[1]):
                     print(f"{i} {j})", self.map[i][j].creatures_count_with_type('PLANT'))
             return True
-        if com[0] == "cgc" and len(com) == 3:
+        if com[0] == "cpc" and len(com) == 3:
             x = int(com[1])
             y = int(com[2])
             print(self.map[x][y].creatures_count_with_type('MEAT'))

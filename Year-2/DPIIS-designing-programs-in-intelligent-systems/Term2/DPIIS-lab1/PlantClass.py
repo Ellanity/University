@@ -4,8 +4,8 @@ from CreatureClass import Creature
 
 class Plant(Creature):
 
-    def __init__(self, coords, _world):
-        super().__init__(_world)
+    def __init__(self, coords, world):
+        super().__init__(world)
         self.parameters = {
             "type_id": 1,
             # "symbol_on_map": "G",

@@ -1,5 +1,6 @@
 import os
 import pickle
+from Tests import *
 
 from WorldClass import World
 
@@ -9,6 +10,7 @@ def main():
     first_command = input()
     os.system("cls")
     if first_command == "start" or first_command == "":
+        # world = World((2, 2))
         world = World((8, 50))
         # world = World((2, 4))
         # world = World((15, 100))
@@ -60,8 +62,8 @@ def main():
                 print("saved")
                 it_is_command = True
             if step == "exit":
-                exit()
-                pass
+                # exit()
+                break
 
             if it_is_command is False:
                 it_is_command = world.command(step)
@@ -82,14 +84,18 @@ def print_short_world_info(world):
           "herbivores:", world.count_of_herbivores,
           "predators:", world.count_of_predators)
 
+
+TEST = False
+
+if __name__ == "__main__":
+    if TEST:
+        unittest.main()
+    main()
+
+
 """
 Доделать
  - сбалансировать мир, что бы дольше работал 
 Исправлено
- + сохранение в файл
- + добавление существ на клетку поля
+ + добавлены тесты
  """
-
-
-if __name__ == "__main__":
-    main()
