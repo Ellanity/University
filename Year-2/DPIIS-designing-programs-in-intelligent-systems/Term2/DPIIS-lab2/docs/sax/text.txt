@@ -1,0 +1,220 @@
+
+Video Courses Sale
+Home
+Jobs
+Tools
+Coding Ground
+Current Affairs
+UPSC Notes
+Online Tutors
+Whiteboard
+Tutorix
+Login
+tutorialspoint
+Library
+eBooks
+Courses
+Q/A
+Technical Questions and Answers
+
+    Trending Categories
+    Data Structure Data Structure
+    Networking Networking
+    RDBMS RDBMS
+    Operating System Operating System
+    Java Java
+    iOS iOS
+    HTML HTML
+    CSS CSS
+    Android Android
+    Python Python
+    C Programming C Programming
+    C++ C++
+    C# C#
+    MongoDB MongoDB
+    MySQL MySQL
+    Javascript Javascript
+    PHP PHP
+
+    Selected Reading
+    UPSC IAS Exams Notes
+    Developer's Best Practices
+    Questions and Answers
+    Effective Resume Writing
+    HR Interview Questions
+    Computer Glossary
+    Who is Who
+
+Parsing XML with SAX APIs in Python
+PythonServer Side ProgrammingProgramming
+
+SAX is a standard interface for event-driven XML parsing. Parsing XML with SAX generally requires you to create your own ContentHandler by subclassing xml.sax.ContentHandler.
+
+Your ContentHandler handles the particular tags and attributes of your flavor(s) of XML. A ContentHandler object provides methods to handle various parsing events. Its owning parser calls ContentHandler methods as it parses the XML file.
+
+The methods startDocument and endDocument are called at the start and the end of the XML file. The method characters(text) is passed character data of the XML file via the parameter text.
+
+The ContentHandler is called at the start and end of each element. If the parser is not in namespace mode, the methods startElement(tag, attributes) and endElement(tag) are called; otherwise, the corresponding methods startElementNS and endElementNS are called. Here, tag is the element tag, and attributes is an Attributes object.
+
+Here are other important methods to understand before proceeding −
+The make_parser Method
+
+Following method creates a new parser object and returns it. The parser object created will be of the first parser type the system finds.
+
+xml.sax.make_parser( [parser_list] )
+
+Here is the detail of the parameters −
+
+    parser_list − The optional argument consisting of a list of parsers to use which must all implement the make_parser method.
+
+The parse Method
+
+Following method creates a SAX parser and uses it to parse a document.
+
+xml.sax.parse( xmlfile, contenthandler[, errorhandler])
+
+Here is the detail of the parameters −
+
+    xmlfile − This is the name of the XML file to read from.
+    contenthandler − This must be a ContentHandler object.
+    errorhandler − If specified, errorhandler must be a SAX ErrorHandler object.
+
+The parseString Method
+
+There is one more method to create a SAX parser and to parse the specified XML string.
+
+xml.sax.parseString(xmlstring, contenthandler[, errorhandler])
+
+Here is the detail of the parameters −
+
+    xmlstring − This is the name of the XML string to read from.
+    contenthandler − This must be a ContentHandler object.
+    errorhandler − If specified, errorhandler must be a SAX ErrorHandler object.
+
+Example
+
+#!/usr/bin/python
+import xml.sax
+class MovieHandler( xml.sax.ContentHandler ):
+   def __init__(self):
+      self.CurrentData = ""
+      self.type = ""
+      self.format = ""
+      self.year = ""
+      self.rating = ""
+      self.stars = ""
+      self.description = ""
+# Call when an element starts
+def startElement(self, tag, attributes):
+   self.CurrentData = tag
+      if tag == "movie":
+         print "*****Movie*****"
+         title = attributes["title"]
+         print "Title:", title
+
+# Call when an elements ends
+def endElement(self, tag):
+if self.CurrentData == "type":
+print "Type:", self.type
+   elif self.CurrentData == "format":
+print "Format:", self.format
+   elif self.CurrentData == "year":
+print "Year:", self.year
+   elif self.CurrentData == "rating":
+   print "Rating:", self.rating
+elif self.CurrentData == "stars":
+   print "Stars:", self.stars
+elif self.CurrentData == "description":
+   print "Description:", self.description
+self.CurrentData = ""
+
+   # Call when a character is read
+   def characters(self, content):
+      if self.CurrentData == "type":
+         self.type = content
+      elif self.CurrentData == "format":
+         self.format = content
+         elif self.CurrentData == "year":
+         self.year = content
+         elif self.CurrentData == "rating":
+         self.rating = content
+      elif self.CurrentData == "stars":
+         self.stars = content
+      elif self.CurrentData == "description":
+         self.description = content
+   
+if ( __name__ == "__main__"):
+
+   # create an XMLReader
+   parser = xml.sax.make_parser()
+   # turn off namepsaces
+   parser.setFeature(xml.sax.handler.feature_namespaces, 0)
+   # override the default ContextHandler
+Handler = MovieHandler()
+parser.setContentHandler( Handler )
+parser.parse("movies.xml")
+
+This would produce following result −
+
+*****Movie*****
+Title: Enemy Behind
+Type: War, Thriller
+Format: DVD
+Year: 2003
+Rating: PG
+Stars: 10
+Description: Talk about a US-Japan war
+*****Movie*****
+Title: Transformers
+Type: Anime, Science Fiction
+Format: DVD
+Year: 1989
+Rating: R
+Stars: 8
+Description: A schientific fiction
+*****Movie*****
+Title: Trigun
+Type: Anime, Action
+Format: DVD
+Rating: PG
+Stars: 10
+Description: Vash the Stampede!
+*****Movie*****
+Title: Ishtar
+Type: Comedy
+Format: VHS
+Rating: PG
+Stars: 2
+Description: Viewable boredom
+
+For a complete detail on SAX API documentation, please refer to standard Python SAX APIs.
+raja
+Mohd Mohtashim
+Published on 31-Jan-2020 10:30:33
+
+    Related Questions & Answers
+    Parsing XML with DOM APIs in Python
+    XML parsing in Python?
+    Fast XML parsing using Expat in Python
+    Argument Parsing in Python
+    How to generate XML documents with namespaces in Python?
+    XML Processing Modules in Python
+    Parsing A Boolean Expression in Python
+    The ElementTree XML API in Python
+    Parsing SAP Logon ticket with .NET
+    Parsing JSON array with PHP foreach
+    How to generate XML using Python?
+    How to generate XML with nested values ?
+    Number Parsing in Golang
+    How to serialize Python dictionary to XML?
+    How to generate XML from Python dictionary?
+
+Previous Page Print Page
+Next Page  
+Tutorials Point
+
+    About us Terms of use Cookies Policy FAQ's Helping Contact 
+
+© Copyright 2021. All Rights Reserved.
+
+We make use of cookies to improve our user experience. By using this website, you agree with our Cookies Policy. Agree Learn more

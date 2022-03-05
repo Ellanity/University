@@ -8,7 +8,7 @@
 		<column title="address" type_of_data="str"/>
 	</columns>
 	<records>
-		<record>
+	<record>
 			<element id="0"/>
 			<element name="admin"/>
 			<element age="10"/>
@@ -35,13 +35,6 @@
 			<element age="30"/>
 			<element gender="1"/>
 			<element address="baker street 222b"/>
-		</record>
-		<record>
-			<element id="4"/>
-			<element name="moderator4"/>
-			<element age="25"/>
-			<element gender="1"/>
-			<element address="baker street 222a"/>
 		</record>
 	</records>
 </table>
