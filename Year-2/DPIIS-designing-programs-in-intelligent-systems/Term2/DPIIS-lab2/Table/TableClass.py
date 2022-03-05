@@ -62,9 +62,13 @@ class Table:
 
     def record_find(self, title, data):
         relevant_records = list()
+        index = 0
+        if title in self.columns:
+            index = self.columns.index(title)
+
         for record in self.records:
             if record.element_get(title) is not None and \
-                    record.element_get(title) == data:
+                    record.element_get(title) == self.columns[index].data_convert(data):
                 relevant_records.append(record)
         return relevant_records
 
