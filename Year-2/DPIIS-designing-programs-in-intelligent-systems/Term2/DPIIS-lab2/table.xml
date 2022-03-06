@@ -1,17 +1,74 @@
 <?xml version="1.0" ?>
 <table title="table">
 	<columns>
-		<column title="column_title2" type_of_data="int"/>
-		<column title="column_title" type_of_data="str"/>
+		<column title="id" type_of_data="int"/>
 	</columns>
 	<records>
 		<record>
-			<element column_title2="0"/>
-			<element column_title="str1"/>
+			<element id="1"/>
 		</record>
 		<record>
-			<element column_title2="1"/>
-			<element column_title="str2"/>
+			<element id="2"/>
+		</record>
+		<record>
+			<element id="3"/>
+		</record>
+		<record>
+			<element id="4"/>
+		</record>
+		<record>
+			<element id="5"/>
+		</record>
+		<record>
+			<element id="6"/>
+		</record>
+		<record>
+			<element id="7"/>
+		</record>
+		<record>
+			<element id="8"/>
+		</record>
+		<record>
+			<element id="9"/>
+		</record>
+		<record>
+			<element id="10"/>
+		</record>
+		<record>
+			<element id="11"/>
+		</record>
+		<record>
+			<element id="12"/>
+		</record>
+		<record>
+			<element id="13"/>
+		</record>
+		<record>
+			<element id="14"/>
+		</record>
+		<record>
+			<element id="15"/>
+		</record>
+		<record>
+			<element id="16"/>
+		</record>
+		<record>
+			<element id="17"/>
+		</record>
+		<record>
+			<element id="18"/>
+		</record>
+		<record>
+			<element id="19"/>
+		</record>
+		<record>
+			<element id="20"/>
+		</record>
+		<record>
+			<element id="21"/>
+		</record>
+		<record>
+			<element id="0"/>
 		</record>
 	</records>
 </table>

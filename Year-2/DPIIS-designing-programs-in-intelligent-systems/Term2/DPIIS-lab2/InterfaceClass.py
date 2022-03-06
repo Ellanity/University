@@ -1,21 +1,29 @@
+from kivy.metrics import dp
+
 from Table.TableClass import Table
 from kivy.app import App
+from kivy.core.window import Window
 from kivy.uix.label import Label
 from kivy.uix.button import Button
-from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.popup import Popup
+# from kivy.graphics import Rectangle, Color
 
+# from kivymd.app import MDApp
+# from kivymd.uix.datatables import MDDataTable
 
 import os
+import math
 
 
-# Window.size = (1200, 600)
+Window.size = (800, 600)
 Window.title = "Tables"
+# Window.clearcolor = (40/255, 40/255, 40/255, 1)
 
 
+# class Interface(MDApp):
 class Interface(App):
 
     def __init__(self, **kwargs):
@@ -24,12 +32,15 @@ class Interface(App):
         self.main_layout = BoxLayout()
         self.menu_choose_table()
 
+        self.current_page = 1
+        self.records_on_page = 5
+        # self.theme_cls.theme_style = "Dark"
+
     # #########################################################################
     # ### -------------------------- main_menu ui ------------------------- ###
     # #########################################################################
     def menu_choose_table(self, obj=None):
         self.main_layout.clear_widgets()
-        # self.table = Table()
         table_buttons_widget = BoxLayout()
         table_buttons_widget.orientation = 'vertical'
 
@@ -64,6 +75,7 @@ class Interface(App):
 
     def open_table(self, button):
         self.main_layout.clear_widgets()
+        self.current_page = 1
         self.table.load_from_xml(str(button.text + ".xml"))
         self.table_ui()
 
@@ -106,24 +118,78 @@ class Interface(App):
     # ### ---- table ---- ###
     # #######################
     def generate_table_widget(self):
-        pagination = False
+        container_table_and_pages = BoxLayout(orientation='vertical')
+
         table_widget = GridLayout()
+        table_widget.cols = len(self.table.columns)
 
-        if pagination:
-            pass
-        else:
-            table_widget.cols = len(self.table.columns)
-            for column in self.table.columns:
-                column_title = Label(text=column.title)
-                column_title.color = (100, 100, 100, 1)
-                table_widget.add_widget(column_title)
+        for column in self.table.columns:
+            column_title = Label(text=column.title, size_hint_y=0.5)
+            column_title.color = (160/255, 160/255, 160/255, 1)
+            table_widget.add_widget(column_title)
 
-            for record in self.table.records:
-                for element in record.elements:
-                    element_widget = Label(text=str(element))
+        for index in range((self.current_page - 1) * self.records_on_page, self.current_page * self.records_on_page):
+            if index < len(self.table.records):
+                for element in self.table.records[index].elements:
+                    # element_widget = Label(text=str(element), size_hint_x=1)
+                    element_widget = Button(text=str(element), background_color=(80/255,80/255,80/255,1))
                     table_widget.add_widget(element_widget)
 
-        return table_widget
+        """ # MDApp
+        column_data = list()
+        for column in self.table.columns:
+            column_data.append((column.title, dp(int((Window.size[0] / 20)/len(self.table.columns)))))
+
+        print(column_data)
+        row_data = list()
+        for index in range((self.current_page - 1) * self.records_on_page, self.current_page * self.records_on_page):
+            if index < len(self.table.records):
+                row_data.append(tuple(self.table.records[index].elements))
+
+        print(row_data)
+        table_widget = MDDataTable(column_data=column_data, row_data=row_data)
+        """
+
+        # buttons of pagination
+        pages_buttons = BoxLayout(size_hint_y=0.1)
+        button_page_first = Button(text="<<")
+        button_page_previous = Button(text="<")
+        button_page_next = Button(text=">")
+        button_page_last = Button(text=">>")
+
+        button_page_first.bind(on_release=self.table_page_first)
+        button_page_previous.bind(on_release=self.table_page_previous)
+        button_page_next.bind(on_release=self.table_page_next)
+        button_page_last.bind(on_release=self.table_page_last)
+
+        pages_buttons.add_widget(button_page_first)
+        pages_buttons.add_widget(button_page_previous)
+        pages_buttons.add_widget(button_page_next)
+        pages_buttons.add_widget(button_page_last)
+
+        # container
+        container_table_and_pages.add_widget(table_widget)
+        container_table_and_pages.add_widget(pages_buttons)
+
+        return container_table_and_pages
+
+    def table_page_next(self, obj=None):
+        if self.current_page < math.ceil(len(self.table.records)/self.records_on_page):
+            self.current_page += 1
+            self.table_ui()
+
+    def table_page_previous(self, obj=None):
+        if self.current_page > 1:
+            self.current_page -= 1
+            self.table_ui()
+
+    def table_page_first(self, obj=None):
+        self.current_page = 1
+        self.table_ui()
+
+    def table_page_last(self, obj=None):
+        self.current_page = math.ceil(len(self.table.records)/self.records_on_page)
+        self.table_ui()
 
     # #######################
     # ### ---- tools ---- ###
@@ -248,12 +314,6 @@ class Interface(App):
         self.generate_search_record_widget()
         self.table.records = all_records
 
-        # ### ---------------------------------------------------------------------------------------------
-        # ### self.main_layout.children[0].children[0].children[2].children[0].children: # condition values
-        # ### self.main_layout.children[0].children[0].children[2].children[0] # box with one condition
-        # ### self.main_layout.children[0].children[0].children[2] # box with conditions boxes
-        # ### self.main_layout.children[0].children[0] # record_remove_widget
-
     # ADD RECORD
     """
     ,__________,__________,_____,_______,
@@ -368,7 +428,6 @@ class Interface(App):
     """
     def generate_remove_record_widget(self, obj=None):
         self.table_ui()
-
 
         remove_record_widget = BoxLayout(size_hint_y=0.2)
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<table title="main">
+<table title="main2">
 	<columns>
 		<column title="id" type_of_data="int"/>
 		<column title="name" type_of_data="str"/>
@@ -48,7 +48,7 @@
 			<element name="admin 2"/>
 			<element age="14"/>
 			<element gender="3"/>
-			<element address="pushkina dom kolotushkina kv 10"/>
+			<element address="pushkina dom kolotushkina"/>
 		</record>
 	</records>
 </table>
