@@ -22,16 +22,16 @@ class Column:
         return False
 
     def data_convert(self, data):
-        try:
-            converted_data = data
-            if self.type_of_data == "int":
+
+        converted_data = data
+        if self.type_of_data == "int":
+            try:
                 converted_data = int(data)
-            if self.type_of_data == "str":
-                converted_data = str(data)
-            return converted_data
-        except Exception as ex:
-            # print(ex)
-            return data
+            except Exception:
+                converted_data = 0
+        if self.type_of_data == "str":
+            converted_data = str(data)
+        return converted_data
 
     def create_xml_element(self, xml_file):
         column = xml_file.createElement("column")

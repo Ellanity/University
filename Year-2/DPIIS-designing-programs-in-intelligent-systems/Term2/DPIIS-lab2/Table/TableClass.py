@@ -17,18 +17,27 @@ class Table:
             self.title = title
         pass
 
+    # +
     def column_add(self, type_of_data, title):
-        new_column = Column(type_of_data, title)
-        self.columns.append(new_column)
-        for record in self.records:
-            record.column_add(new_column)
+        have_such_column = False
+        for column in self.columns:
+            if column.title == title:
+                have_such_column = True
+                break
+        if have_such_column is False:
+            new_column = Column(type_of_data, title)
+            self.columns.append(new_column)
+            for record in self.records:
+                record.column_add(new_column)
 
+    # n/a
     def column_get(self, title):
         for column in self.columns:
             if column.title == title:
                 return column
         return None
 
+    # +
     def column_remove(self, title):
 
         column = self.column_get(title)
@@ -51,15 +60,18 @@ class Table:
             if all_records_doesnt_have_column:
                 self.columns.remove(column)
 
+    # +
     def record_add(self, elements):
-        if len(elements) > 0:
+        if len(elements) == len(self.columns):
             record = Record(self.columns, elements)
             if len(record.elements) == len(elements):
                 self.records.append(record)
 
+    # -
     def record_remove(self, record):
         self.records.remove(record)
 
+    # +
     def record_find(self, title, data):
         relevant_records = list()
         index = 0
@@ -72,6 +84,7 @@ class Table:
                 relevant_records.append(record)
         return relevant_records
 
+    # +
     def save_to_xml(self):
 
         xml_file = minidom.Document()
@@ -99,6 +112,7 @@ class Table:
         with open(save_path_file, "w") as f:
             f.write(xml_str)
 
+    # +
     def load_from_xml(self, file):
 
         self.columns.clear()
@@ -153,9 +167,11 @@ class Table:
         parser.parse(file)
         self.title = file.split(".")[0]
 
+    # -
     def record_change(self, record, title, new_element):
         record.element_change(title, new_element)
 
+    # +-
     def print(self):
         for record in self.records:
             print(record.elements)

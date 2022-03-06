@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<table title="table">
+	<columns>
+		<column title="column_title2" type_of_data="int"/>
+	</columns>
+	<records>
+		<record>
+			<element column_title2="0"/>
+		</record>
+		<record>
+			<element column_title2="1"/>
+		</record>
+	</records>
+</table>

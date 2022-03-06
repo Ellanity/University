@@ -8,9 +8,9 @@ class Record:
         if len(columns) == len(elements):
             for i in range(0, len(columns)):
                 if columns[i].data_check(elements[i]) is False:
-
-                    right_record = False
-                    break
+                    elements[i] = columns[i].data_convert(elements[i])
+                    # right_record = False
+                    # break
 
         if right_record:
             self.elements = list(elements)

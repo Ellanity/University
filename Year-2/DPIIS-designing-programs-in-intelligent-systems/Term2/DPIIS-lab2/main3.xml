@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<table title="main">
+<table title="main3">
 	<columns>
 		<column title="id" type_of_data="int"/>
 		<column title="name" type_of_data="str"/>
@@ -27,7 +27,7 @@
 			<element name="moderator2"/>
 			<element age="35"/>
 			<element id="2"/>
-			<element address="baker street 221b"/>
+			<element address="baker street 221a"/>
 		</record>
 		<record>
 			<element id="3"/>
@@ -38,10 +38,24 @@
 		</record>
 		<record>
 			<element id="4"/>
-			<element name="me"/>
-			<element age="18"/>
+			<element name="moderator4"/>
+			<element age="25"/>
 			<element gender="1"/>
-			<element address="optimisticheskaya 8"/>
+			<element address="baker street 222a"/>
+		</record>
+		<record>
+			<element id="5"/>
+			<element name="admin 2"/>
+			<element age="14"/>
+			<element gender="3"/>
+			<element address="pushkina dom kolotushkina kv 10"/>
+		</record>
+		<record>
+			<element id="1"/>
+			<element name="2"/>
+			<element age="3"/>
+			<element gender="4"/>
+			<element address="5"/>
 		</record>
 	</records>
 </table>
