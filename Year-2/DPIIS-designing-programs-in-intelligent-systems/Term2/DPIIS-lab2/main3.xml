@@ -57,5 +57,12 @@
 			<element gender="4"/>
 			<element address="5"/>
 		</record>
+		<record>
+			<element id="6"/>
+			<element name="me"/>
+			<element age="18"/>
+			<element gender="1"/>
+			<element address="tut"/>
+		</record>
 	</records>
 </table>

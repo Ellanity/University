@@ -67,20 +67,23 @@ class Table:
             if len(record.elements) == len(elements):
                 self.records.append(record)
 
-    # -
+    # +
     def record_remove(self, record):
         self.records.remove(record)
 
-    # +/-
-    # ERROR: the search in columns with rows does not work
+    # +
     def record_find(self, title, data):
         relevant_records = list()
-        index = 0
-        if title in self.columns:
-            index = self.columns.index(title)
+        index = -1
+        for i in range(len(self.columns)):
+            if self.columns[i].title == title:
+                index = i
+                break
 
         for record in self.records:
-            print(record.element_get(title), self.columns[index].data_convert(data))
+            # print(record.element_get(title),"converted data:", self.columns[index].data_convert(data),
+            #      "| get data:", data, "| type of data:", self.columns[index].type_of_data, "titles:",
+            #      self.columns[index].title, title, index)
             if record.element_get(title) is not None and \
                     record.element_get(title) == self.columns[index].data_convert(data):
                 relevant_records.append(record)
@@ -130,10 +133,7 @@ class Table:
 
             # Call when an element starts
             def startElement(self, tag, attributes):
-                # print("new tag:", tag)
                 self.CurrentData = tag
-                # if self.CurrentData == 'record':
-                # print("lol")
                 if tag == 'column':
                     title = attributes['title']
                     type_of_data = attributes['type_of_data']
@@ -169,7 +169,7 @@ class Table:
         parser.parse(file)
         self.title = file.split(".")[0]
 
-    # -
+    # +
     def record_change(self, record, title, new_element):
         record.element_change(title, new_element)
 
