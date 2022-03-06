@@ -6,6 +6,8 @@ from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
+from kivy.uix.popup import Popup
+
 
 import os
 
@@ -142,6 +144,10 @@ class Interface(App):
         button_add_record.bind(on_press=self.generate_add_record_widget)
         tools_widget.add_widget(button_add_record)
 
+        button_remove_record = Button(text="remove record", size_hint_y=0.1)
+        button_remove_record.bind(on_press=self.generate_remove_record_widget)
+        tools_widget.add_widget(button_remove_record)
+
         button_add_column = Button(text="add column", size_hint_y=0.1)
         button_add_column.bind(on_press=self.generate_add_column_widget)
         tools_widget.add_widget(button_add_column)
@@ -245,7 +251,7 @@ class Interface(App):
         # self.table_ui()
         type_of_data = self.main_layout.children[0].children[0].children[1].text
         column_title = self.main_layout.children[0].children[0].children[2].text
-        column_title= column_title.replace(' ', '_')
+        column_title = column_title.replace(' ', '_')
 
         if column_title != "":
             self.table.column_add(type_of_data, column_title)
@@ -270,6 +276,108 @@ class Interface(App):
         self.table.column_remove(column_title)
         self.table_ui()
         self.generate_remove_column_widget()
+
+    # remove record
+    def generate_remove_record_widget(self, obj=None):
+        self.table_ui()
+
+        """
+        ,_____________________________,
+        | column | element |          |
+        |--------|---------|          |
+        | column | element |          |
+        |--------|---------|  remove  |
+        |  ...   |   ...   |          |
+        |------------------|          |
+        |   add condition  |          |
+        |__________________|__________|
+        """
+
+        remove_record_widget = BoxLayout(size_hint_y=0.2)
+
+        # several conditions
+        conditions = BoxLayout(orientation='vertical', size_hint_x=4)
+
+        # first condition
+        condition = BoxLayout()
+        condition.add_widget(TextInput(multiline=False, size_hint_x=1, text="column title"))
+        condition.add_widget(TextInput(multiline=False, size_hint_x=1, text="element"))
+
+        conditions.add_widget(condition)
+
+        # buttons
+        button_add_condition = Button(text="add_condition")
+        button_add_condition.bind(on_press=self.table_tool_remove_record_add_condition)
+
+        button_remove = Button(text="remove")
+        button_remove.bind(on_press=self.table_tool_remove_record)
+
+        remove_record_widget.add_widget(conditions)
+        remove_record_widget.add_widget(button_add_condition)
+        remove_record_widget.add_widget(button_remove)
+
+        self.main_layout.children[0].add_widget(remove_record_widget)
+
+    def table_tool_remove_record_add_condition(self, obj=None):
+        condition = BoxLayout()
+        condition.add_widget(TextInput(multiline=False, size_hint_x=1, text="column title"))
+        condition.add_widget(TextInput(multiline=False, size_hint_x=1, text="element"))
+        self.main_layout.children[0].children[0].children[2].add_widget(condition)
+
+    def table_tool_remove_record(self, obj=None):
+
+        conditions = dict()
+        for condition_box in self.main_layout.children[0].children[0].children[2].children:
+            column_title = condition_box.children[1].text
+            element = condition_box.children[0].text
+            conditions[str(column_title)] = element
+
+        records_to_remove = list()
+        first_condition = True
+
+        for condition in conditions:
+
+            #   condition    | conditions.get(condition)
+            #  column_title  |         element
+
+            print(condition, conditions.get(condition))
+            suitable_records = self.table.record_find(condition, conditions.get(condition))
+            print(suitable_records)
+            if first_condition:
+                records_to_remove = suitable_records
+                first_condition = False
+            else:
+                records_to_remove = list(set(records_to_remove) & set(suitable_records))
+
+        quantity_of_records_were_deleted = len(records_to_remove)
+        for record in records_to_remove:
+            # print(record.elements)
+            self.table.record_remove(record)
+
+        # ### self.main_layout.children[0].children[0].children[2].children[0].children: # condition values
+        # ### self.main_layout.children[0].children[0].children[2].children[0] # box with one condition
+        # ### self.main_layout.children[0].children[0].children[2] # box with conditions boxes
+        # ### self.main_layout.children[0].children[0] # record_remove_widget
+
+        self.table_ui()
+        self.generate_remove_record_widget()
+
+        info_text = "There are no records with the specified conditions"
+        if quantity_of_records_were_deleted != 0:
+            info_text = f"{quantity_of_records_were_deleted} records where deleted"
+            print(info_text)
+        self.open_popup(info_text)
+
+    def open_popup(self, text):
+        popup_layout = BoxLayout(orientation="vertical")
+        button = Button(text='Закрыть')
+        label = Label(text=text)
+        popup_layout.add_widget(label)
+        popup_layout.add_widget(button)
+
+        popup = Popup(title='Remove record', content=popup_layout, size_hint=(0.5, 0.3))
+        button.bind(on_press=popup.dismiss)
+        popup.open()
 
     def build(self):
         return self.main_layout

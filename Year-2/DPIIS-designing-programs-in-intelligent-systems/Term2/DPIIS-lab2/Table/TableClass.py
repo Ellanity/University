@@ -71,7 +71,8 @@ class Table:
     def record_remove(self, record):
         self.records.remove(record)
 
-    # +
+    # +/-
+    # ERROR: the search in columns with rows does not work
     def record_find(self, title, data):
         relevant_records = list()
         index = 0
@@ -79,6 +80,7 @@ class Table:
             index = self.columns.index(title)
 
         for record in self.records:
+            print(record.element_get(title), self.columns[index].data_convert(data))
             if record.element_get(title) is not None and \
                     record.element_get(title) == self.columns[index].data_convert(data):
                 relevant_records.append(record)
@@ -171,7 +173,7 @@ class Table:
     def record_change(self, record, title, new_element):
         record.element_change(title, new_element)
 
-    # +-
+    # +/-
     def print(self):
         for record in self.records:
             print(record.elements)

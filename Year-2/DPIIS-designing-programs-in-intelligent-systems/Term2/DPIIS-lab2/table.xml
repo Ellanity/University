@@ -2,13 +2,16 @@
 <table title="table">
 	<columns>
 		<column title="column_title2" type_of_data="int"/>
+		<column title="column_title" type_of_data="str"/>
 	</columns>
 	<records>
 		<record>
 			<element column_title2="0"/>
+			<element column_title="str1"/>
 		</record>
 		<record>
 			<element column_title2="1"/>
+			<element column_title="str2"/>
 		</record>
 	</records>
 </table>
