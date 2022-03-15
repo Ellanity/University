@@ -79,13 +79,13 @@ class Table:
             if self.columns[i].title == title:
                 index = i
                 break
-
         for record in self.records:
             # print(record.element_get(title),"converted data:", self.columns[index].data_convert(data),
             #      "| get data:", data, "| type of data:", self.columns[index].type_of_data, "titles:",
             #      self.columns[index].title, title, index)
             if record.element_get(title) is not None and \
-                    record.element_get(title) == self.columns[index].data_convert(data):
+                    str(record.element_get(title)) == str(data):
+                pass
                 relevant_records.append(record)
         return relevant_records
 

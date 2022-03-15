@@ -129,11 +129,25 @@ class Interface(App):
             table_widget.add_widget(column_title)
 
         for index in range((self.current_page - 1) * self.records_on_page, self.current_page * self.records_on_page):
-            if index < len(self.table.records):
+            if index < len(self.table.records) != 0:
                 for element in self.table.records[index].elements:
-                    # element_widget = Label(text=str(element), size_hint_x=1)
-                    element_widget = Button(text=str(element), background_color=(80/255,80/255,80/255,1))
+                    element_widget = Label(text=str(element), size_hint_x=1)
+                    # element_widget = Button(text=str(element), background_color=(80/255,80/255,80/255,1))
                     table_widget.add_widget(element_widget)
+
+                    # make multiline text
+                    """ text_width = element_widget.text_size
+                    chars_count = len(element_widget.text)
+                    char_width = math.ceil(text_width/chars_count)
+                    print(text_width, chars_count, char_width)
+                    #
+                    # must_be_chars_in_line = math.floor((table_widget.width / len(self.table.records)) / char_width)
+
+                    # for i in range(math.ceil(text_width / must_be_chars_in_line)):
+                    #     element_widget.text = element_widget.text[(i - 1) * 
+                    must_be_chars_in_line: i * must_be_chars_in_line] + '\n' +
+                     element_widget.text[i * must_be_chars_in_line:]
+                    """
 
         """ # MDApp
         column_data = list()
@@ -307,11 +321,11 @@ class Interface(App):
                 first_condition = False
             else:
                 found_records = list(set(found_records) & set(suitable_records))
-
+        # print(found_records)
         all_records = self.table.records
         self.table.records = found_records
         self.table_ui()
-        self.generate_search_record_widget()
+        # self.generate_search_record_widget()
         self.table.records = all_records
 
     # ADD RECORD
