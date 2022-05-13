@@ -3,6 +3,7 @@ import sys
 
 DISPLAY_WIDTH = 300
 DISPLAY_HEIGHT = 400
+pygame.init()
 
 
 class Button(pygame.sprite.Sprite):
@@ -46,7 +47,7 @@ class Button(pygame.sprite.Sprite):
     def set_field_coords(self, coords):
         self.field_coords = coords
 
-    def set_item(self, item):
+    def set_item(self, item):        
         self.item = item
 
         text_size = 30
@@ -88,7 +89,7 @@ class TicTackToe:
     #     \___>| user |____/
     #          !______!
     #
-    
+
     # updates view
     class Model:
         def __init__(self):
@@ -107,6 +108,7 @@ class TicTackToe:
                     if action == "click":
                         if button.type_name == "restart":
                             self.restart = True
+                            self.restart_game()
                             return
                         if not button.disabled:
                             button.set_item(self.step_item)
@@ -126,15 +128,15 @@ class TicTackToe:
             self.init_buttons()
 
         def init_buttons(self):
-            # GAME BUTTONS
-            game_button_width = game_button_height = DISPLAY_WIDTH / 3
+            margin = 1
+            game_button_width = game_button_height = (DISPLAY_WIDTH / 3) - margin * 2
             for index in range(9):
-                button_x = game_button_width * (index % 3)
-                button_y = game_button_height * int(index / 3)
+                button_x = margin + (game_button_width + margin * 2) * (index % 3)
+                button_y = margin + (game_button_height + margin * 2) * int(index / 3)
                 button_image = pygame.Surface((game_button_width, game_button_height))
 
                 game_button = Button(button_image, (button_x, button_y), "game")
-                game_button.set_field_coords(((index % 3), int(index / 3)))
+                game_button.field_coords = ((index % 3), int(index / 3))
                 self.buttons.append(game_button)
 
             # RESTART
@@ -177,12 +179,11 @@ class TicTackToe:
     # user see it (display)
     class View:
         def __init__(self, model):
-            self.model = model
             # window
-            pygame.init()
             self.display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
             pygame.display.set_caption("TicTackToe")
             self.clock = pygame.time.Clock()
+            self.model = model
 
         def render(self):
             for button in self.model.buttons:
