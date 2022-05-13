@@ -2,6 +2,31 @@ import pygame
 import sys
 
 
+class Button(pygame.sprite.Sprite):
+    def __init__(self, image, coords, type_name):
+        super().__init__()
+        # coords
+        self.position_x = coords[0]
+        self.position_y = coords[1]
+
+        # image
+        self.image = image
+        self.image_color_standard = (96, 96, 96)
+        self.image_color_press = (100, 140, 140)
+        self.image_color_disables = (64, 64, 64)
+        self.color_for_item = (255, 255, 255)
+        self.rect = pygame.Rect(self.position_x, self.position_y, self.image.get_width(), self.image.get_height())
+
+        # states
+        self.type_name = type_name
+        self.disabled = False
+        self.pressed = False
+
+        # for game
+        self.field_coords = tuple()
+        self.item = str()
+
+
 class TicTackToe:
 
     def __init__(self):
@@ -31,33 +56,36 @@ class TicTackToe:
                         pygame.quit()
                         sys.exit()
                     if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-                        self.buttons_controller(event.pos, "click")
+                        self.action(event.pos, "click")
 
                 if pygame.mouse.get_pressed()[0]:
-                    self.buttons_controller(pygame.mouse.get_pos(), "press")
+                    self.action(pygame.mouse.get_pos(), "press")
 
                 self.interface()
 
                 # check game states
+                self.check_win()
                 if self.restart:
-                    self.restart_game()
-                if not self.win:
-                    self.check_win()
+                    self.win = False
+                    self.restart = False
+                    self.buttons = list()
+                    self.init_buttons()
 
             except Exception as ex:
                 print(ex)
 
     def init_buttons(self):
         # GAME BUTTONS
-        game_button_width = game_button_height = self.display.get_width() / self.COUNT_OF_BUTTONS_IN_ROW
+        margin = 1
+        game_button_width = game_button_height = (self.display.get_width() / self.COUNT_OF_BUTTONS_IN_ROW) - margin * 2
         for index in range(9):
-            button_x = game_button_width * (index % self.COUNT_OF_BUTTONS_IN_ROW)
-            button_y = game_button_height * int(index / self.COUNT_OF_BUTTONS_IN_COLUMN)
+            button_x = margin + (game_button_width + margin * 2) * (index % self.COUNT_OF_BUTTONS_IN_ROW)
+            button_y = margin + (game_button_height + margin * 2) * int(index / self.COUNT_OF_BUTTONS_IN_COLUMN)
             button_image = pygame.Surface((game_button_width, game_button_height))
 
-            game_button = self.Button(button_image, (button_x, button_y), "game")
-            game_button.set_field_coords(((index % self.COUNT_OF_BUTTONS_IN_ROW),
-                                          int(index / self.COUNT_OF_BUTTONS_IN_COLUMN)))
+            game_button = Button(button_image, (button_x, button_y), "game")
+            game_button.field_coords = ((index % self.COUNT_OF_BUTTONS_IN_ROW),
+                                        int(index / self.COUNT_OF_BUTTONS_IN_COLUMN))
             self.buttons.append(game_button)
 
         # RESTART
@@ -67,113 +95,60 @@ class TicTackToe:
         restart_button_y = self.display.get_height() - restart_button_height
         restart_button_image = pygame.Surface((restart_button_width, restart_button_height))
 
-        restart_button = self.Button(restart_button_image, (restart_button_x, restart_button_y), "restart")
-        restart_button.set_item("restart")
+        restart_button = Button(restart_button_image, (restart_button_x, restart_button_y), "restart")
+        self.set_button_item(restart_button, "restart")
         self.buttons.append(restart_button)
-
-    class Button(pygame.sprite.Sprite):
-        def __init__(self, image, coords, type_name):
-            super().__init__()
-            # coords
-            self.position_x = coords[0]
-            self.position_y = coords[1]
-
-            # image
-            self.image = image
-            self.image_color_standard = (96, 96, 96)
-            self.image_color_press = (100, 140, 140)
-            self.image_color_disables = (64, 64, 64)
-            self.color_for_item = (255, 255, 255)
-            self.rect = pygame.Rect(self.position_x, self.position_y, self.image.get_width(), self.image.get_height())
-
-            # states
-            self.type_name = type_name
-            self.disabled = False
-            self.pressed = False
-
-            # for game
-            self.field_coords = tuple()
-            self.item = str()
-
-        def disable(self):
-            self.disabled = True
-
-        def press(self):
-            self.pressed = True
-
-        def impress(self):
-            self.pressed = False
-
-        def render(self, display):
-            self.fill_button()
-            self.set_item(self.item)
-            display.blit(self.image, (self.position_x, self.position_y))
-
-        def set_field_coords(self, coords):
-            self.field_coords = coords
-
-        def set_item(self, item):
-            self.item = item
-
-            text_size = 20
-            if self.type_name == "game":
-                text_size = 50
-
-            font = pygame.font.Font("CONSOLA.TTF", text_size)
-            text = font.render(self.item, True, self.color_for_item)
-
-            pos_x_for_text = (self.image.get_width() - text.get_width()) / 2
-            pos_y_for_text = (self.image.get_height() - text.get_height()) / 2
-
-            self.image.blit(text, (pos_x_for_text, pos_y_for_text))
-
-        def fill_button(self):
-            if self.disabled:
-                color = self.image_color_disables
-            elif self.pressed:
-                color = self.image_color_press
-            else:
-                color = self.image_color_standard
-
-            self.image.fill(color)
 
     def interface(self):
         for button in self.buttons:
-            button.render(self.display)
+            if button.disabled:
+                color = button.image_color_disables
+            elif button.pressed:
+                color = button.image_color_press
+            else:
+                color = button.image_color_standard
+
+            button.image.fill(color)
+            self.set_button_item(button, button.item)
+            self.display.blit(button.image, (button.position_x, button.position_y))
 
         pygame.display.flip()
         self.clock.tick(20)
 
-    def buttons_controller(self, position, action):
+    def action(self, position, action):
         for button in self.buttons:
             if button.rect.collidepoint(position):
                 if action == "press":
-                    button.press()
+                    button.pressed = True
                 if action == "click":
                     if button.type_name == "restart":
                         self.restart = True
                         return
                     if not button.disabled:
-                        button.set_item(self.step_item)
-                        button.disable()
+                        self.set_button_item(button, self.step_item)
+                        button.disabled = True
                         step_item_index = self.step_items.index(self.step_item) + 1
                         if step_item_index >= len(self.step_items):
                             step_item_index = 0
                         self.step_item = self.step_items[step_item_index]
             else:
                 if action == "press":
-                    button.impress()
+                    button.pressed = False
 
-    def restart_game(self):
-        self.win = False
-        self.restart = False
-        self.buttons = list()
-        self.init_buttons()
+    def set_button_item(self, button, item):
+        button.item = item
 
-    def disable_all_game_buttons(self):
-        for button in self.buttons:
-            if button.type_name in "game":
-                button.disable()
+        text_size = 30
+        if button.type_name == "game":
+            text_size = 70
+
+        font = pygame.font.Font(None, text_size)
+        text = font.render(button.item, True, button.color_for_item)
+
+        pos_x_for_text = (button.image.get_width() - text.get_width()) / 2
+        pos_y_for_text = (button.image.get_height() - text.get_height()) / 2
+
+        button.image.blit(text, (pos_x_for_text, pos_y_for_text))
 
     def check_win(self):
         win_coordinates = (
@@ -191,10 +166,12 @@ class TicTackToe:
 
             if buttons_items.count('X') == 3 or buttons_items.count('O') == 3:
                 self.win = True
-                self.disable_all_game_buttons()
+                for button in self.buttons:
+                    if button.type_name == "game":
+                        button.disabled = True
                 for button in buttons:
                     button.color_for_item = (0, 255, 0)
-                    button.set_item(button.item)
+                    self.set_button_item(button, button.item)
 
 
 if __name__ == "__main__":
