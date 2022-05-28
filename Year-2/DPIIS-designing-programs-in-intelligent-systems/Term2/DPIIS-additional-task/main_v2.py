@@ -2,11 +2,41 @@ import pygame
 import sys
 
 
+#         ,-------,
+#    ,----| model |<____,
+#    |    !_______!     |
+# updates           manipulates
+#    |                  |
+#   \/                  |
+# ,------,         ,----------,
+# | view |         |controller|
+# !______!         !__________!
+#     |                /\
+#   sees   ,------,   uses
+#     \___>| user |____/
+#          !______!
+# Model
+#     The central component of the pattern.
+#     It is the application's dynamic data
+#     structure, independent of the user
+#     interface. It directly manages the data,
+#     logic and rules of the application.
+# View
+#     Any representation of information
+#     such as a chart, diagram or table.
+#     Multiple views of the same information
+#     are possible, such as a bar chart
+#     for management and a tabular view
+#     for accountants.
+# Controller
+#     Accepts input and converts it to
+#     commands for the model or view.
+
+
 class TicTackToe:
 
     class Model:
         def __init__(self):
-
             self.step_items = ["X", "O"]
             self.win_coordinates = (
                 (0, 1, 2), (3, 4, 5), (6, 7, 8),
@@ -19,8 +49,14 @@ class TicTackToe:
             self.step_item = self.step_items[0]
 
         def step(self, field_index):
+            if len(self.win_coords) > 0:
+                return
+
             if field_index > len(self.fields) - 1:
                 self.restart()
+                return
+
+            if self.fields[field_index] != '':
                 return
 
             self.fields[field_index] = self.step_item
@@ -44,6 +80,10 @@ class TicTackToe:
                     for coord in coordinates:
                         self.win_coords.append(coord)
 
+            if len(self.win_coords) > 0:
+                for field in self.fields:
+                    field = " " if field == '' else field
+
         def get_fields(self):
             return self.fields
 
@@ -51,7 +91,14 @@ class TicTackToe:
             return self.win_coords
 
     class Controller:
-        def __init__(self, model):
+        def __init__(self):
+            self.view = None
+            self.model = None
+
+        def set_view(self, view):
+            self.view = view
+
+        def set_model(self, model):
             self.model = model
 
         def get_fields(self):
@@ -65,6 +112,33 @@ class TicTackToe:
 
         def restart(self):
             self.model.restart()
+            self.view.restart()
+
+        def event_handler(self):
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                    self.event(event.pos, "click")
+
+            if pygame.mouse.get_pressed()[0]:
+                self.event(pygame.mouse.get_pos(), "press")
+                self.event(pygame.mouse.get_pos(), "impress")
+
+        def event(self, position, action_type_name):
+            for button in self.view.buttons:
+                if button.rect.collidepoint(position):
+                    if action_type_name == "press":
+                        button.pressed = True
+                    if action_type_name == "click":
+                        button.disabled = True
+                        self.step(button.field_index)
+                        if button.field_index == 9:
+                            self.restart()
+                elif not button.rect.collidepoint(position):
+                    if action_type_name == "impress":
+                        button.pressed = False
 
     class View:
         class Button(pygame.sprite.Sprite):
@@ -98,17 +172,15 @@ class TicTackToe:
                     color = self.image_color_disables
                 elif self.pressed:
                     color = self.image_color_press
+
                 self.image.fill(color)
-                self.set_item(self.item)
+                self.set_content(self.item)
                 display.blit(self.image, (self.position_x, self.position_y))
 
-            def set_item(self, item):
+            def set_content(self, item):
                 self.item = item
 
-                text_size = 30
-                if self.type_name == "game":
-                    text_size = 70
-
+                text_size = 70 if self.type_name == "game" else 30
                 font = pygame.font.Font(None, text_size)
                 text = font.render(self.item, True, self.color_for_item)
 
@@ -117,8 +189,8 @@ class TicTackToe:
 
                 self.image.blit(text, (pos_x_for_text, pos_y_for_text))
 
-        def __init__(self, controller):
-            self.controller = controller
+        def __init__(self):
+            self.controller = None
             # window
             self.DISPLAY_WIDTH = 300
             self.DISPLAY_HEIGHT = 400
@@ -129,6 +201,9 @@ class TicTackToe:
             # entities
             self.buttons = []
             self.init_buttons()
+
+        def set_controller(self, controller):
+            self.controller = controller
 
         def init_buttons(self):
             # GAME
@@ -151,72 +226,47 @@ class TicTackToe:
             restart_button_image = pygame.Surface((restart_button_width, restart_button_height))
 
             restart_button = self.Button(restart_button_image, (restart_button_x, restart_button_y), "restart")
-            restart_button.set_item("restart")
+            restart_button.set_content("restart")
             restart_button.field_index = 9
             self.buttons.append(restart_button)
 
         def render(self):
             fields_items = self.controller.get_fields()
             for index in range(9):
-                self.buttons[index].set_item(fields_items[index])
+                self.buttons[index].set_content(fields_items[index])
 
             win_coords = self.controller.get_win_coords()
             for button in self.buttons:
-                if button.field_index in win_coords:
-                    button.color_for_item = button.win_color_for_item
+                if len(win_coords) > 0:
+                    if button.field_index in win_coords:
+                        button.color_for_item = button.win_color_for_item
+                    if button.field_index != 9:
+                        button.disabled = True
+                else:
+                    button.color_for_item = button.color_for_item
                 button.render(self.display)
 
             pygame.display.flip()
             self.clock.tick(20)
 
-        def event_handler(self):
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-                    self.event(event.pos, "click")
-
-            if pygame.mouse.get_pressed()[0]:
-                self.event(pygame.mouse.get_pos(), "press")
-
-            win_coords = self.controller.get_win_coords()
-            if len(win_coords) > 0:
-                self.win()
-
-        def event(self, position, action_type_name):
-            for button in self.buttons:
-                if button.rect.collidepoint(position) and not button.disabled:
-                    if action_type_name == "press":
-                        button.pressed = True
-                    if action_type_name == "click":
-                        button.disabled = True
-                        self.controller.step(button.field_index)
-                        if button.field_index == 9:
-                            self.restart()
-                else:
-                    if action_type_name == "press":
-                        button.pressed = False
-
         def restart(self):
             self.buttons.clear()
             self.init_buttons()
 
-        def win(self):
-            for button in self.buttons:
-                if button.field_index < 9:
-                    button.disabled = True
-
     def __init__(self):
         self.model = self.Model()
-        self.controller = self.Controller(model=self.model)
-        self.view = self.View(controller=self.controller)
+        self.view = self.View()
+        self.controller = self.Controller()
+        # ###
+        self.view.set_controller(self.controller)
+        self.controller.set_view(self.view)
+        self.controller.set_model(self.model)
 
     def run(self):
         while True:
             try:
                 self.view.render()
-                self.view.event_handler()
+                self.controller.event_handler()
             except Exception as ex:
                 print(ex)
 
