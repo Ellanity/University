@@ -1,17 +1,17 @@
 from SQLiteDataBaseClass import SQLiteDataBase
 from InterfaceClass import Interface
-from AppModelClass import AppModel
+from AppControllerClass import AppController
 
 
 class MainApp:
 
     def __init__(self):
         self.database = SQLiteDataBase()
-        self.model = AppModel(self.database)
-        self.interface = Interface(self.model)
+        self.controller = AppController(self.database)
+        self.interface = Interface(self.controller)
 
     def run(self):
-        self.model.start()
+        self.controller.start()
         self.interface.run()
 
 
