@@ -168,3 +168,16 @@ class AppController:
         except Exception as ex:
             print(ex)
         return
+
+    def getAllHallsInCityNow(self, *args):
+        try:
+            self.additional_info = None
+            query = f"SELECT * FROM \"halls\" WHERE \"city\"=\"{args[0].text}\""
+            self.current_records = self.database.executeSQLiteQuery(query=query)
+            self.current_columns = [(0, "hall_id",), (1, "name",), (2, "size",),
+                                    (3, "city",), (4, "address",), (5, "phone",), (5, "owner_id",),]
+            self.current_page = 0
+
+        except Exception as ex:
+            print(ex)
+        return

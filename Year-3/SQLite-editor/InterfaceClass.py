@@ -57,10 +57,9 @@ class Interface(App):
 
         if self.table_mode == 1:
             change_mode_button.bind(on_press=partial(self.changeTableDisplayMode, 0))
-            # Exhibition Info
             argument_input = TextInput(text="ARG", size_hint=(1, 0.2))
+            # Exhibition Info
             buttons.add_widget(argument_input)
-
             exhibition_info_button = Button(text="Exhibition\n[ARG=ID]",
                                             background_color=(130 / 255, 160 / 255, 150 / 255, 1),
                                             halign="center", valign="middle", size_hint=(1, 0.2))
@@ -68,6 +67,15 @@ class Interface(App):
                                                          self.model.getInfoAboutExhibition,
                                                          argument_input))
             exhibition_info_button.bind(size=exhibition_info_button.setter('text_size'))
+            # Halls in City Info
+
+            halls_info_button = Button(text="Halls\n[ARG=CITY]",
+                                            background_color=(130 / 255, 160 / 255, 150 / 255, 1),
+                                            halign="center", valign="middle", size_hint=(1, 0.2))
+            halls_info_button.bind(on_press=partial(self.widgetEventFunction,
+                                                    self.model.getAllHallsInCityNow,
+                                                    argument_input))
+            halls_info_button.bind(size=halls_info_button.setter('text_size'))
             # All Exhibitions Now Info
             all_exhibitions_in_city_info_button = Button(text="All Exhibitions Now\n[ARG=CITY]",
                                                          background_color=(130 / 255, 160 / 255, 150 / 255, 1),
@@ -78,6 +86,7 @@ class Interface(App):
                                                                       argument_input))
 
             buttons.add_widget(exhibition_info_button)
+            buttons.add_widget(halls_info_button)
             buttons.add_widget(all_exhibitions_in_city_info_button)
             additional_info_label = Label(size_hint=(1, 0.4))
             if self.model.additional_info:
