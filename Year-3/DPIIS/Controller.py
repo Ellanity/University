@@ -1,4 +1,5 @@
 from Model import ModelDiary
+import re
 
 
 class Controller:
@@ -17,7 +18,9 @@ class Controller:
         pass
 
     def addTask(self, name: str, category: str, date_finish: str, frequency: str):
-        pass
+        r = re.compile('\d{2}:\d{2} \d{2}:\d{2}:\d{4}')
+        if r.match(date_finish) is not None:
+            self.__model.addTask({"name": name, "category": category, "date": date_finish.replace(' ', '\n'), "periodicity": frequency})
 
     def changeTask(self, task_index_in_table: int, delete_task: bool, complete_task: bool,
                    name: str, category: str, date_finish: str, frequency: str):

@@ -1,12 +1,13 @@
 class ModelDiary:
     def __init__(self):
         self.tasks = [
-            {"name": "Eat", "category": "Personal", "date": "14:44\n12:12:2022", "overdue": 1},
-            {"name": "Sleep", "category": "Personal", "date": "23:00\n12:12:2022", "overdue": 0},
+            {"name": "Eat", "category": "Personal", "date": "14:44\n12:12:2022", "overdue": 1, "periodicity": "0"},
+            {"name": "Sleep", "category": "Personal", "date": "23:00\n12:12:2022", "overdue": 0, "periodicity": "0"},
         ]
 
     def addTask(self, task):
-        pass
+        self.tasks.append({"name": task["name"], "category": task["category"], "date": task["date"],
+                           "overdue": 0, "periodicity": task["periodicity"]})
 
     def changeTask(self, task_index: int, delete_task: bool, complete_task: bool,
                    name: str, category: str, date_finish: str, frequency: str):

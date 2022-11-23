@@ -35,6 +35,7 @@ class ManagingElements:
     def updateAndActivate(self, screen_name):
         for name in self.screens_and_names:
             self.screens_and_names[name].place(relx=0, rely=0, relwidth=0, relheight=0)
+        self.screens_and_names[screen_name].update()
         self.screens_and_names[screen_name].place(relx=0, rely=0, relwidth=1, relheight=1)
 
 
@@ -43,14 +44,15 @@ class DisplayScreen(tk.Frame):
         super().__init__(**kwargs)
         self._name = name
         self._managing_elements = managing_elements
-        self._window_name_label = tk.Label(self, text=f"{self._name}", bg=BG_COLOR, font=("Arial", 12), fg=SECOND_COLOR)
-        self._window_name_label.place(relwidth=1, relheight=0.1, anchor="nw")
+        _window_name_label = tk.Label(self, text=f"{self._name}", bg=BG_COLOR, font=("Arial", 12), fg=SECOND_COLOR)
+        _window_name_label.place(relwidth=1, relheight=0.1, anchor="nw")
 
     def update(self):
-        try:
-            self._managing_elements.updateAndActivate(self._name)
-        except Exception as ex:
-            print(ex)
+        pass
+        #try:
+        #    self._managing_elements.updateAndActivate(self._name)
+        #except Exception as ex:
+        #    print(ex)
 
 
 class VerticalScrolledFrame(ttk.Frame):
@@ -101,6 +103,17 @@ class ScreenWithTable(DisplayScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self._table_tasks_frame = tk.Frame(self)
+        if self._name == "ScreenMain":
+            self._table_tasks_frame.place(relx=0, rely=0.1, relwidth=1, relheight=0.75)
+        elif self._name == "ScreenTaskListDisplay":
+            self._table_tasks_frame.place(relx=0, rely=0.25, relwidth=1, relheight=0.6)
+        self.update()
+
+    def update(self):
+        super(ScreenWithTable, self).update()
+        print("updating")
+        #for name in self._table_tasks_frame:
+        #    self._table_tasks_frame[name].place(relx=0, rely=0, relwidth=0, relheight=0)
 
         table = VerticalScrolledFrame(self._table_tasks_frame)
         table.place(relx=0, rely=0.1, relwidth=1, relheight=0.9)
@@ -138,11 +151,6 @@ class ScreenWithTable(DisplayScreen):
             formatted_tasks.append(task_frame)
             formatted_tasks[-1].pack()
 
-        if self._name == "ScreenMain":
-            self._table_tasks_frame.place(relx=0, rely=0.1, relwidth=1, relheight=0.75)
-        elif self._name == "ScreenTaskListDisplay":
-            self._table_tasks_frame.place(relx=0, rely=0.25, relwidth=1, relheight=0.6)
-
     def _openScreenEditingTask(self):  # , task_index_in_output_table: int):
         self._managing_elements.updateAndActivate("ScreenEditingTask")
 
@@ -151,16 +159,16 @@ class ScreenMain(ScreenWithTable):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.buttons_frame = tk.Frame(master=self, bg=BG_COLOR)
-        self.button_open_screen_entering_new_task = tk.Button(self.buttons_frame, text="New Task", bg=MAIN_COLOR,
+        buttons_frame = tk.Frame(master=self, bg=BG_COLOR)
+        self.button_open_screen_entering_new_task = tk.Button(buttons_frame, text="New Task", bg=MAIN_COLOR,
                                                               fg=BG_COLOR, font=("Arial", 10), border=0,
                                                               command=self._openScreenEnteringNewTask)
-        self.button_open_screen_task_list_display = tk.Button(self.buttons_frame, text="Task List", bg=MAIN_COLOR,
+        self.button_open_screen_task_list_display = tk.Button(buttons_frame, text="Task List", bg=MAIN_COLOR,
                                                               fg=BG_COLOR, font=("Arial", 10), border=0,
                                                               command=self._openScreenTaskListDisplay)
         self.button_open_screen_entering_new_task.place(rely=0.1, relx=0.05, relwidth=0.4, relheight=0.8, anchor="nw")
         self.button_open_screen_task_list_display.place(rely=0.1, relx=0.55, relwidth=0.4, relheight=0.8, anchor="nw")
-        self.buttons_frame.place(rely=0.85, relwidth=1, relheight=0.15, anchor="nw")
+        buttons_frame.place(rely=0.85, relwidth=1, relheight=0.15, anchor="nw")
 
     def _openScreenEnteringNewTask(self):
         self._managing_elements.updateAndActivate("ScreenEnteringNewTask")
@@ -168,30 +176,35 @@ class ScreenMain(ScreenWithTable):
 
     def _openScreenTaskListDisplay(self):
         self._managing_elements.updateAndActivate("ScreenTaskListDisplay")
+        
+    def update(self):
+        super(ScreenMain, self).update()
 
 
 class ScreenTaskListDisplay(ScreenWithTable):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # buttons frame
-        self.buttons_frame = tk.Frame(master=self, bg=BG_COLOR)
-        self.button_open_screen_main = tk.Button(self.buttons_frame, text="Main Screen", bg=MAIN_COLOR,
+        buttons_frame = tk.Frame(master=self, bg=BG_COLOR)
+        self.button_open_screen_main = tk.Button(buttons_frame, text="Main Screen", bg=MAIN_COLOR,
                                                  fg=BG_COLOR, font=("Arial", 10), border=0,
                                                  command=self._openScreenMain)
         self.button_open_screen_main.place(rely=0.1, relx=0.05, relwidth=0.9, relheight=0.8, anchor="nw")
-        self.buttons_frame.place(rely=0.85, relwidth=1, relheight=0.15, anchor="nw")
+        buttons_frame.place(rely=0.85, relwidth=1, relheight=0.15, anchor="nw")
         # search frame
-        self.search_frame = tk.Frame(master=self, bg=BG_COLOR)
-        self.input_text_for_search = tk.Entry(self.search_frame, highlightthickness=1, border=0,
+        search_frame = tk.Frame(master=self, bg=BG_COLOR)
+
+        self.input_text_for_search = tk.Entry(search_frame, highlightthickness=1, border=0,
                                               fg=SECOND_COLOR, font=("Arial", 10))
         self.input_text_for_search.config(highlightbackground=THIRD_COLOR, highlightcolor=THIRD_COLOR)
 
-        self.button_search_task = tk.Button(self.search_frame, text="Search Tasks", bg=MAIN_COLOR,
+        self.button_search_task = tk.Button(search_frame, text="Search Tasks", bg=MAIN_COLOR,
                                             fg=BG_COLOR, font=("Arial", 10), border=0,
                                             command=None)
+
         self.input_text_for_search.place(rely=0, relx=0.05, relwidth=0.9, relheight=0.4, anchor="nw")
         self.button_search_task.place(rely=0.5, relx=0.05, relwidth=0.9, relheight=0.45, anchor="nw")
-        self.search_frame.place(rely=0.1, relwidth=1, relheight=0.15, anchor="nw")
+        search_frame.place(rely=0.1, relwidth=1, relheight=0.15, anchor="nw")
 
     def _openScreenMain(self):
         self._managing_elements.updateAndActivate("ScreenMain")
@@ -204,51 +217,51 @@ class ScreenEnteringNewTask(DisplayScreen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         # buttons frame
-        self.buttons_frame = tk.Frame(master=self, bg=BG_COLOR)
+        buttons_frame = tk.Frame(master=self, bg=BG_COLOR)
 
-        self.button_open_screen_main = tk.Button(self.buttons_frame, text="Main Screen", bg=MAIN_COLOR,
+        self.button_open_screen_main = tk.Button(buttons_frame, text="Main Screen", bg=MAIN_COLOR,
                                                  fg=BG_COLOR, font=("Arial", 10), border=0,
                                                  command=self._openScreenMain)
-        self.button_save_new_task = tk.Button(self.buttons_frame, text="Save Task", bg=MAIN_COLOR,
+        self.button_save_new_task = tk.Button(buttons_frame, text="Save Task", bg=MAIN_COLOR,
                                               fg=BG_COLOR, font=("Arial", 10), border=0,
                                               command=self._saveNewTask)
         self.button_open_screen_main.place(rely=0.1, relx=0.05, relwidth=0.4, relheight=0.8, anchor="nw")
         self.button_save_new_task.place(rely=0.1, relx=0.55, relwidth=0.4, relheight=0.8, anchor="nw")
 
-        self.buttons_frame.place(rely=0.85, relwidth=1, relheight=0.15, anchor="nw")
+        buttons_frame.place(rely=0.85, relwidth=1, relheight=0.15, anchor="nw")
         # entering new task frame
         self.search_frame = tk.Frame(master=self, bg=BG_COLOR)
 
-        self.text_1 = tk.Label(self.search_frame, text="What is to be done?", bg=BG_COLOR,
+        text_1 = tk.Label(self.search_frame, text="What is to be done?", bg=BG_COLOR,
                                fg=MAIN_COLOR, font=("Arial", 10), anchor="w")
-        self.bg_1 = tk.Label(self.search_frame, text="", bg=MAIN_COLOR)
+        bg_1 = tk.Label(self.search_frame, text="", bg=MAIN_COLOR)
         self.input_1 = tk.Entry(self.search_frame, border=0, fg=MAIN_COLOR, font=("Arial", 10))
-        self.text_1.place(rely=0.0, relx=0.05, relwidth=0.9, relheight=0.05, anchor="nw")
-        self.bg_1.place(rely=0.063, relx=0.05, relwidth=0.9, relheight=0.1, anchor="nw")
+        text_1.place(rely=0.0, relx=0.05, relwidth=0.9, relheight=0.05, anchor="nw")
+        bg_1.place(rely=0.063, relx=0.05, relwidth=0.9, relheight=0.1, anchor="nw")
         self.input_1.place(rely=0.06, relx=0.05, relwidth=0.9, relheight=0.1, anchor="nw")
 
-        self.text_2 = tk.Label(self.search_frame, text="Due date", bg=BG_COLOR,
+        text_2 = tk.Label(self.search_frame, text="Category", bg=BG_COLOR,
                                fg=MAIN_COLOR, font=("Arial", 10), anchor="w")
-        self.bg_2 = tk.Label(self.search_frame, text="", bg=MAIN_COLOR)
+        bg_2 = tk.Label(self.search_frame, text="", bg=MAIN_COLOR)
         self.input_2 = tk.Entry(self.search_frame, border=0, fg=MAIN_COLOR, font=("Arial", 10))
-        self.text_2.place(rely=0.2, relx=0.05, relwidth=0.9, relheight=0.05, anchor="nw")
-        self.bg_2.place(rely=0.263, relx=0.05, relwidth=0.9, relheight=0.1, anchor="nw")
+        text_2.place(rely=0.2, relx=0.05, relwidth=0.9, relheight=0.05, anchor="nw")
+        bg_2.place(rely=0.263, relx=0.05, relwidth=0.9, relheight=0.1, anchor="nw")
         self.input_2.place(rely=0.26, relx=0.05, relwidth=0.9, relheight=0.1, anchor="nw")
 
-        self.text_3 = tk.Label(self.search_frame, text="Category", bg=BG_COLOR,
+        text_3 = tk.Label(self.search_frame, text="Due date", bg=BG_COLOR,
                                fg=MAIN_COLOR, font=("Arial", 10), anchor="w")
-        self.bg_3 = tk.Label(self.search_frame, text="", bg=MAIN_COLOR)
+        bg_3 = tk.Label(self.search_frame, text="", bg=MAIN_COLOR)
         self.input_3 = tk.Entry(self.search_frame, border=0, fg=MAIN_COLOR, font=("Arial", 10))
-        self.text_3.place(rely=0.4, relx=0.05, relwidth=0.9, relheight=0.05, anchor="nw")
-        self.bg_3.place(rely=0.463, relx=0.05, relwidth=0.9, relheight=0.1, anchor="nw")
+        text_3.place(rely=0.4, relx=0.05, relwidth=0.9, relheight=0.05, anchor="nw")
+        bg_3.place(rely=0.463, relx=0.05, relwidth=0.9, relheight=0.1, anchor="nw")
         self.input_3.place(rely=0.46, relx=0.05, relwidth=0.9, relheight=0.1, anchor="nw")
 
-        self.text_4 = tk.Label(self.search_frame, text="Periodicity", bg=BG_COLOR,
+        text_4 = tk.Label(self.search_frame, text="Periodicity", bg=BG_COLOR,
                                fg=MAIN_COLOR, font=("Arial", 10), anchor="w")
-        self.bg_4 = tk.Label(self.search_frame, text="", bg=MAIN_COLOR)
+        bg_4 = tk.Label(self.search_frame, text="", bg=MAIN_COLOR)
         self.input_4 = tk.Entry(self.search_frame, border=0, fg=MAIN_COLOR, font=("Arial", 10))
-        self.text_4.place(rely=0.6, relx=0.05, relwidth=0.9, relheight=0.05, anchor="nw")
-        self.bg_4.place(rely=0.663, relx=0.05, relwidth=0.9, relheight=0.1, anchor="nw")
+        text_4.place(rely=0.6, relx=0.05, relwidth=0.9, relheight=0.05, anchor="nw")
+        bg_4.place(rely=0.663, relx=0.05, relwidth=0.9, relheight=0.1, anchor="nw")
         self.input_4.place(rely=0.66, relx=0.05, relwidth=0.9, relheight=0.1, anchor="nw")
 
         self.search_frame.place(rely=0.1, relwidth=1, relheight=0.75, anchor="nw")
@@ -256,30 +269,41 @@ class ScreenEnteringNewTask(DisplayScreen):
     def _openScreenMain(self):
         self._managing_elements.updateAndActivate("ScreenMain")
 
+
     def _saveNewTask(self):
-        pass
+        self._managing_elements.controller.addTask(name=self.input_1.get(), category=self.input_2.get(),
+                                                   date_finish=self.input_3.get(), frequency=self.input_4.get())
+        self._managing_elements.updateAndActivate("ScreenMain")
 
 
 class ScreenEditingTask(ScreenEnteringNewTask):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+        self.button_save_new_task.command = self._changeTask
         # editing/deleting task
-        r_var = tk.BooleanVar()
-        r_var.set(0)
-        self.radio_text_1 = tk.Label(self.search_frame, text="Delete task", bg=BG_COLOR,
+        var1 = tk.BooleanVar()
+        var2 = tk.BooleanVar()
+        var1.set(0)
+        var2.set(0)
+        checkbox_text_1 = tk.Label(self.search_frame, text="Delete task", bg=BG_COLOR,
                                      fg=SECOND_COLOR, font=("Arial", 11), anchor="nw")
-        self.radio_1 = tk.Radiobutton(self.search_frame, bg=BG_COLOR, anchor="nw", variable=r_var, value=1)
-        self.radio_text_1.place(rely=0.8, relx=0.15, relwidth=0.85, relheight=0.1, anchor="nw")
-        self.radio_1.place(rely=0.8, relx=0.05, relwidth=0.1, relheight=0.1, anchor="nw")
-        self.radio_text_2 = tk.Label(self.search_frame, text="Task finished", bg=BG_COLOR,
+        self.checkbox_1 = tk.Checkbutton(self.search_frame, bg=BG_COLOR, anchor="nw", variable=var1,
+                                      onvalue=1, offvalue=0)
+        checkbox_text_1.place(rely=0.8, relx=0.15, relwidth=0.85, relheight=0.1, anchor="nw")
+        self.checkbox_1.place(rely=0.8, relx=0.05, relwidth=0.1, relheight=0.1, anchor="nw")
+        checkbox_text_2 = tk.Label(self.search_frame, text="Task finished", bg=BG_COLOR,
                                      fg=SECOND_COLOR, font=("Arial", 11), anchor="nw")
-        self.radio_2 = tk.Radiobutton(self.search_frame, bg=BG_COLOR, border=2, anchor="nw", variable=r_var, value=0)
-        self.radio_text_2.place(rely=0.88, relx=0.15, relwidth=0.85, relheight=0.1, anchor="nw")
-        self.radio_2.place(rely=0.88, relx=0.05, relwidth=0.1, relheight=0.1, anchor="nw")
+        self.checkbox_2 = tk.Checkbutton(self.search_frame, bg=BG_COLOR, border=2, anchor="nw", variable=var2,
+                                      onvalue=1, offvalue=0)
+        checkbox_text_2.place(rely=0.88, relx=0.15, relwidth=0.85, relheight=0.1, anchor="nw")
+        self.checkbox_2.place(rely=0.88, relx=0.05, relwidth=0.1, relheight=0.1, anchor="nw")
         self.search_frame.place(rely=0.1, relwidth=1, relheight=0.75, anchor="nw")
 
     def _openScreenMain(self):
         self._managing_elements.updateAndActivate("ScreenMain")
 
-    def _saveNewTask(self):
-        pass
+    def _changeTask(self):
+        self._managing_elements.controller.changeTask(
+            task_index_in_table=0, delete_task=self.checkbox_1.state(), complete_task=self.checkbox_2.state(),
+                   name=self.input_1.get(), category=self.input_2.get(), date_finish=self.input_3.get(), frequency=self.input_4.get())
