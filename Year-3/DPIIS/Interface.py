@@ -111,7 +111,7 @@ class ScreenWithTable(DisplayScreen):
 
     def update(self):
         super(ScreenWithTable, self).update()
-        print("updating")
+        # print("updating")
         #for name in self._table_tasks_frame:
         #    self._table_tasks_frame[name].place(relx=0, rely=0, relwidth=0, relheight=0)
 
