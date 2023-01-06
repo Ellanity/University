@@ -77,7 +77,7 @@ class NeuralNetwork:
                 image = image + "\n"
         return image
 
-    def return_weights_matrix(self):
+    def get_weights_matrix(self):
         return self.weights_matrix
 
 
@@ -146,7 +146,7 @@ def training_network_with_standards(neural_network):
     if save_input != "":
         # save_input = "alphabet-weights"
         with open(add_txt_to_file_name(save_input), "w") as weights_matrix_file:
-            weights_matrix_file.write(str(neural_network.return_weights_matrix()))
+            weights_matrix_file.write(str(neural_network.get_weights_matrix()))
 
 
 def image_recognition(neural_network):
