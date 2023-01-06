@@ -1,5 +1,5 @@
 <h1 align = "center">University</h1>
-<p>Programming tasks that I have to solve at the university and other different shit</p>
+<p>Programming tasks that I solved at the university
 
 > I made this repository to help students of my university.  
 > I think my solutions can help them somehow.  
