@@ -56,7 +56,7 @@ class Model:
     def finish_line(self):
         if len(self.lines) > 0:
             if len(self.lines[len(self.lines) - 1].points) > 0:
-                self.lines[len(self.lines) - 1].color = list(self.lines[len(self.lines) - 1].points[0][2])
+                self.lines[len(self.lines) - 1].color = self.lines[len(self.lines) - 1].points[0][2]
             
         self.drawing = False
         self.add_new_line()
@@ -139,7 +139,8 @@ class View:
             for line_index in range(len(self.model.lines)):
                 for point_index in range(len(self.model.lines[line_index].points)-1):
                     point = self.model.lines[line_index].points[point_index]
-                    pygame.draw.line(self.screen, point[2], point[0], self.model.lines[line_index].points[point_index + 1][0], point[1])
+                    if self.model.lines[line_index].color == point[2]:
+                        pygame.draw.line(self.screen, point[2], point[0], self.model.lines[line_index].points[point_index + 1][0], point[1])
         except:
             pass
             
@@ -170,6 +171,7 @@ class Controller:
             if self.model.drawing is True:
                 if self.selected_tool == 'pencil':
                     self.model.lines[len(self.model.lines) - 1].points.append([event.pos, self.view.draw_radius, self.view.draw_color])
+                    self.model.lines[len(self.model.lines) - 1].color = self.view.draw_color
                 if self.selected_tool == 'eraser':
                     self.model.clear_point(event.pos, self.view.background_color)
         
@@ -192,16 +194,17 @@ class Controller:
                 if not self.model.drawing:
                     self.model.remove_last_line()
                     
-            elif event.key == pygame.KMOD_LSHIFT:
-                self.model.lines.pop()
-                self.model.drawing = True
+            #elif event.key == pygame.KMOD_LSHIFT:
+            #    self.model.lines.pop()
+            #    self.model.drawing = True
+                
         self.view.draw()
 
 
 if __name__ == '__main__':
     pygame.init()
     clock = pygame.time.Clock()
-    clock.tick(120)
+    
     model = Model()
     view = View(model, (DISPLAY_WIDTH, DISPLAY_HEIGHT))
     controller = Controller(model, view)
@@ -213,8 +216,8 @@ if __name__ == '__main__':
             if event.type == pygame.QUIT:
                 running = False
                 break
-
-        view.draw()
+        clock.tick(100)
+        # view.draw()
         pygame.display.update()
 
     pygame.quit()
