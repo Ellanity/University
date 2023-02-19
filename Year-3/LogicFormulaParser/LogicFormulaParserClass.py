@@ -71,7 +71,7 @@ class LogicFormulaParser:
             return True
 
         # atomic_formula
-        elif input_string[0] in self.latin_letters:
+        elif len(input_string) > 0 and input_string[0] in self.latin_letters:
             if len(input_string) > 1:
                 chars_counter: int = 0
                 for char_ in input_string[1:]:
@@ -89,7 +89,8 @@ class LogicFormulaParser:
             else:
                 new_vertex(vertex_type="atomic_formula")
                 return True
-        elif input_string[0] == self.open_bracket_round and input_string[-1] == self.close_bracket_round:
+        elif len(input_string) > 0 and \
+                input_string[0] == self.open_bracket_round and input_string[-1] == self.close_bracket_round:
             # unary_complex_formula
             if input_string[1] == self.negation:  # or not have_binary_bounds:
                 new_vertex_index = new_vertex(vertex_type="unary_complex_formula")
@@ -150,9 +151,11 @@ class LogicFormulaParser:
                 try:
                     parser_answer = self.is_formula(formula)
                 except Exception as ex:
-                    print(f"TestParserError: {ex}")
+                    print(f"TestParserError: test failed: {tests.index(test)} error: {ex}")
                 if parser_answer != test_answer:
+                    print(formula)
                     raise self.TestParserException(f"TestParserError: {tests.index(test)} "
                                                    f"test failed, parser answer: {parser_answer}, "
                                                    f"test answer: {test_answer}")
             self.formulas.clear()
+
