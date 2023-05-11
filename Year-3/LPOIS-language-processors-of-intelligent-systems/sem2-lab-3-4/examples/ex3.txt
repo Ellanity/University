@@ -1,0 +1,50 @@
+// example of code in Viola language provided by eldarpoplauski111@gmail.com 
+subr addTwo(ref int num) -> void;
+subr printArray(int[] arr, int size) -> void;
+subr printArray(char[] arr, int size) -> void;
+
+// Example using Built-in operations 
+string str1 = "Hello";
+string str2 = "World";
+string result = str1 + " " + str2 + "!";
+result = result + " Length: " + result.length();
+char ch = result[6];
+int index = result.find("Length");
+result = result.substr(index, 6);
+
+// Example using Built-in read/write functions
+int num;
+write("Enter a number: ");
+read(num);
+write("You entered: ", num);
+
+// Example using complex expressions
+int a, b, c = 2, 3, 4;
+int result = (a + b) * c / (b - a);
+
+// Example using Passing parameters based on the ref result
+subr addTwo(ref int num) -> void:
+    num = num + 2;
+	return num;
+
+int a = 5;
+addTwo(a);
+write("a: ", a); // Output: a: 7
+
+// Example using overload of subroutines and while loop operators
+subr printArray(int[] arr, int size) -> void:
+    for (int i=0; i<size; i++):
+        write(arr[i], " ");
+	return;
+
+subr printArray(char[] arr, int size) -> void:
+    for (int i=0; i<size; i++):
+        write(arr[i], " ");
+	return;
+
+int i = 0;
+while (i < 5):
+    write("Iteration ", i, ": ");
+    printArray("Hello World", 11);
+    printArray([1, 2, 3], 3);
+    i = i + 1;

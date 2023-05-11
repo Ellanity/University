@@ -1,0 +1,56 @@
+// example of code in Viola language provided by eldarpoplauski111@gmail.com 
+subr test(string input, ref int startIndex) -> void;
+subr test(int input, ref int startIndex) -> void;
+subr calculate(int a, int b, ref int sum, ref int product) -> void;
+
+// Example with complex expressions and array string type
+string[] words = ["apple", "banana", "cherry", "date", "elderberry";
+int i, j = 0, 3;
+char c = "c";
+string result = words[i + 2] + words[i + 1] + c;
+write(result); // Output: hrr
+
+// Example with while loop operator and built-in write function
+string str = "Viola is a string language";
+int i = 0;
+while (i < str.length()):
+    write(str[i]);
+    i++;
+
+// Example with overloaded subroutines and passing parameters by ref
+subr test(string input, ref int startIndex) -> void:
+    startIndex = startIndex + input.length();
+    write(startIndex);
+	return;
+    
+subr test(int input, ref int startIndex) -> void:
+    startIndex = startIndex + input;
+    write(startIndex);
+	return;
+
+int index = 0;
+test("Viola is", index); // Output: 8
+test(10, index); // Output: 18
+
+// Example with built-in operations and reading input
+char c = "a";
+string s = "b";
+int i = 5;
+string result = s + c + (i + 2) + "abc" + s[0] + (c * "a");
+write(result); // Output: bab7ab1
+
+// Example with passing parameters by ref and while loop operator
+subr calculate(int a, int b, ref int sum, ref int product) -> void:
+    sum = a + b;
+    product = a * b;
+	return product;
+
+int x, y, s, p = 3, 4, 0, 0;
+calculate(x, y, s, p);
+write(s + " " + p); // Output: 7 12
+
+while (p > 0):
+    p = p - x;
+    s = s + y;
+
+write(s); // Output: 10

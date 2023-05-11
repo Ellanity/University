@@ -1,0 +1,39 @@
+// example of code in Viola language provided by eldarpoplauski111@gmail.com 
+// Example of subroutines overload and passing parameters:
+subr countWords(string text, string word) -> int;
+subr countWords(string[] words) -> int;
+subr reverseString(string text) -> string;
+subr main() -> void;
+
+subr main() -> void:
+    string text = "The quick brown fox jumps over the lazy dog.";
+    string word = "the";
+    int count = countWords(text, word);
+    write("The word '" + word + "' appears " + count + " times in the text.");
+    string reversed = reverseString(text);
+    write(reversed);
+	return;
+
+subr countWords(string text, string word) -> int:
+    int count = 0;
+    int startIndex = 0;
+    int foundIndex = findIndex(text, word, startIndex);
+    while (foundIndex != -1):
+        count = count + 1;
+        startIndex = foundIndex + len(word);
+        foundIndex = findIndex(text, word, startIndex);
+    return count;
+	
+subr countWords(string[] words) -> int:
+    int count = 0;
+    for (int i=0; i<len(words); i++):
+        count = count + countWords(text, words[i]);
+    return count;
+
+subr reverseString(string text) -> string:
+    string reversed = "";
+    for (int i= len(text) - 1; i>=0; i--):
+        reversed = reversed + text[i];
+    return reversed;
+
+main();

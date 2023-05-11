@@ -1,0 +1,110 @@
+section_subject_domain_of_art
+=> nrel_main_idtf: [Section. Subject domain of art];
+=> nrel_main_idtf: [Раздел. Предметная область исскуство];;
+
+concept_lang_ru
+-> [Раздел. Предметная область исскуства];
+-> [Предметная область исскуства];;
+
+concept_lang_en
+-> [Section. Subject domain of art];
+-> [Subject domain of art];;
+
+section_subject_domain_of_art <= nrel_section_decomposition: 
+{
+	section_subject_domain_of_pictorial_arts;
+	section_subject_domain_of_silent_spectacular;
+	section_subject_domain_of_not_pictorial_arts
+};;
+
+section_subject_domain_of_pictorial_arts <= nrel_section_decomposition: 
+{
+	section_subject_domain_of_painting;
+	section_subject_domain_of_graphics;
+	section_subject_domain_of_decorative_and_applied_art;
+	section_subject_domain_of_sculpture;
+	section_subject_domain_of_photography;
+	section_subject_domain_of_graffiti;	
+	section_subject_domain_of_comics;
+	section_subject_domain_of_silent_movies
+};;
+
+section_subject_domain_of_silent_spectacular <= nrel_section_decomposition: 
+{
+	section_subject_domain_of_theater;
+	section_subject_domain_of_opera;
+	section_subject_domain_of_stage;
+	section_subject_domain_of_circus;
+	section_subject_domain_of_cinematography;
+	section_subject_domain_of_computer_games
+};;
+
+section_subject_domain_of_not_pictorial_arts <= nrel_section_decomposition: 
+{
+	section_subject_domain_of_architecture;
+	section_subject_domain_of_literature;
+	section_subject_domain_of_music;
+	section_subject_domain_of_choreography;
+	section_subject_domain_of_ballet;
+	section_subject_domain_of_radio_art
+};;
+
+
+
+section_subject_domain_of_art 
+-> rrel_key_sc_element: concept_artist;
+-> rrel_key_sc_element: concept_object_of_art;
+-> rrel_key_sc_element: concept_image;
+-> rrel_key_sc_element: concept_sculpture;
+-> rrel_key_sc_element: concept_comprehension;
+-> rrel_key_sc_element: concept_reality;
+-> rrel_key_sc_element: concept_conscience;
+-> rrel_key_sc_element: concept_creativity;
+-> rrel_key_sc_element: concept_aesthetics;
+-> rrel_key_sc_element: concept_culture;
+-> rrel_key_sc_element: nrel_truth;
+-> rrel_key_sc_element: nrel_period_of_time;
+-> rrel_key_sc_element: nrel_technical;;
+
+section_subject_domain_of_art <- non_atomic_section;;  
+
+
+section_subject_domain_of_art = [* 
+    subject_domain_of_art
+=> nrel_private_subject_domain: subject_domain_of_pictorial_arts;
+=> nrel_private_subject_domain: subject_domain_of_silent_spectacular;
+=> nrel_private_subject_domain: subject_domain_of_not_pictorial_arts;
+=> nrel_private_subject_domain: subject_domain_of_painting;
+=> nrel_private_subject_domain: subject_domain_of_graphics;
+=> nrel_private_subject_domain: subject_domain_of_decorative_and_applied_art;
+=> nrel_private_subject_domain: subject_domain_of_sculpture;
+=> nrel_private_subject_domain: subject_domain_of_photography;
+=> nrel_private_subject_domain: subject_domain_of_graffiti;	
+=> nrel_private_subject_domain: subject_domain_of_comics;
+=> nrel_private_subject_domain: subject_domain_of_silent_movies;
+=> nrel_private_subject_domain: subject_domain_of_theater;
+=> nrel_private_subject_domain: subject_domain_of_opera;
+=> nrel_private_subject_domain: subject_domain_of_stage;
+=> nrel_private_subject_domain: subject_domain_of_circus;
+=> nrel_private_subject_domain: subject_domain_of_cinematography;
+=> nrel_private_subject_domain: subject_domain_of_computer_games;
+=> nrel_private_subject_domain: subject_domain_of_architecture;
+=> nrel_private_subject_domain: subject_domain_of_literature;
+=> nrel_private_subject_domain: subject_domain_of_music;
+=> nrel_private_subject_domain: subject_domain_of_choreography;
+=> nrel_private_subject_domain: subject_domain_of_ballet;
+<= nrel_private_subject_domain: subject_domain_of_radio_art;
+
+=> nrel_main_idtf: [Subject domain of art];
+=> nrel_main_idtf: [Предметная область исскуства];
+
+-> rrel_maximum_studied_object_class: concept_object_of_art;
+-> rrel_not_maximum_studied_object_class: concept_image;
+-> rrel_not_maximum_studied_object_class: concept_sculpture;
+
+-> rrel_explored_relation: nrel_truth;
+-> rrel_explored_relation: nrel_technical;
+-> rrel_explored_relation: nrel_period_of_time;
+
+<- subject_domain;;
+*];;

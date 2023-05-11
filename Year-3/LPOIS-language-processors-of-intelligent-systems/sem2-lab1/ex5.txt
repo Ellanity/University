@@ -1,0 +1,52 @@
+// example of code in Viola language provided by eldarpoplauski111@gmail.com 
+string a, b = "First string", "Viola is a string language";
+string substr = "string";
+int char_index = a.find(substr);
+write(char_index); // Output 6
+char_index = b.find(substr, 13, len(substr)); // string, substr, indexes of chars to search in
+write(char_index); // Output -1
+
+string substr_sliced = b.slice(0, 4);
+write(substr_sliced); // Output "Viola"
+
+string[] sliced_str = b.split(" "); 
+write(sliced_str); // Output ["Viola", "is", "a", "string", "language"];
+
+string template = "The quick [animal] [action] over the [color] [animal]";
+string[] animals = ["fox", "cat", "dog"];
+string[] actions = ["jumps", "runs", "walks"];
+string[] colors = ["brown", "white", "black"];
+
+//// For loops
+// string sentence = "The quick brown fox jumps over the lazy dog";
+// string[] words = sentence.split(" "); // Splits the sentence into an array of words
+// for(int i=0; i<words.length; i++):
+//     write(words[i]); // Outputs each word in the sentence on a new line
+
+for (int i = 0; i < animals.length(); i++):
+	for (int j = 0; j < actions.length(); j++):
+		for (int k = 0; k < colors.length(); k++):
+			string text = template.replace("[animal]", animals[i]).replace("[action]", actions[j]).replace("[color]", colors[k]);
+			write(text); // Outputs a combination of animal, action, and color for each iteration of the loop
+
+string a_string, b_string = "abc", "def";
+write(a_string + b_string); // Output "abcdef"
+write(a_string * b_string); // Output ["adef", "bdef", "cdef"] | 
+write(a_string - b_string); // Output "abc" | delete all symbols from first string that exists in second) ex: "abaca" - "a" = "bc"
+write(a_string / b_string); // Output "abcdef"
+write(a_string[0]); // Output "a"
+
+char a_char, b_char, c_char = "a", "b", "c";
+write(a + b); // Output "D" |  ASCII table (97 + 98) % 127 = 68 
+write((string)a + (string)b); // Output "ab"  
+write(a * b); // Output "l" |  ASCII table (97 * 98) % 127 = 108
+write(a / b); // Output "" |  ASCII table (97 / 98) % 127 = 0
+
+string[] a_string_array, b_string_array = ["a", "b"], ["d", "a"];
+write(a_string_array + b_string_array); // Output ["a", "b", "d", "a"]
+write(a_string_array - b_string_array); // Output ["b", "d"]
+write(a_string_array * b_string_array); // Output ["ad "aa", "bd", "ba"]
+write(a_string_array / b_string_array); // Output ["a"]
+write(a_string_array[0]); // Output "a"
+
+write(a_string + b_char); // Output "abcb"

@@ -1,7 +1,0 @@
-Shestakov Anton Bronislavovich&&Faculty of Computer Systems and Networks&&Informatics&&Head&&3&&
-Efimov Mark Borisovich&&Faculty of Computer Systems and Networks&&Informatics&&Deputy Head&&0&&
-Koroleva Valentina Bogdanovna&&Faculty of Information Technology and Management&&Informatics&&Docent&&5&&
-Nevskaya Janna Ivanovna&&Faculty of Computer Systems and Networks&&Math&&Deputy Head&&6&&
-Tarasov Illarion Yaroslavovich&&Faculty of Information Technology and Management&&Math&&Docent&&4&&
-Ivan&&Faculty of Information Technology and Management&&Foreign Languages&&Docent&&2&&
-Anna&&Faculty of Information Technology and Management&&Foreign Languages&&Head&&22&&

@@ -1,0 +1,47 @@
+// example of code in Viola language provided by eldarpoplauski111@gmail.com 
+//// Overloading user routines
+subr reverse(string input, int startIndex, int endIndex) -> string:
+	string output = "";
+	for(int i=endIndex; i>=startIndex; i--):
+		output = input[i]; // Concatenates the characters of the input string in reverse order within the specified range
+	return output; // Returns the reversed substring
+
+//// Passing parameters to a user routine by reference
+subr swap(ref string a, ref string b) -> void:
+  string temp = a;
+  a = b;
+  b = temp; // Swaps the values of a and b
+  return;
+
+a = (a++) / s + (sa) - adsf[12+1] + ((b + (daf[d] / 12)) * d);
+string x, y = "foo", "bar";
+swap(ref x, ref y);
+write(x + " " + y); // Outputs "bar foo"
+
+string message = "Hello, world!";
+string reversedSubstring = reverse(message, 0, 4);
+write(reversedSubstring); // Outputs "olleH"
+
+
+//// Implicit variable declaration
+a = "hello";        // a is a string
+b = "c";            // b is a char
+c = ["apple", "banana", "cherry"];  // c is an array of strings
+
+//// Explicit type conversion
+d = str(b);         // convert b to a string
+e = list(a);        // convert a to a list of chars
+f = "".join(c);     // join the strings in the array c into a single string
+
+//// Work with string variables
+string firstName = "John";
+string lastName = "Doe";
+string fullName = firstName + " " + lastName;
+write(fullName); // Output: "John Doe"
+
+//// if-else
+string password = "password123";
+if(password.length() < 8):
+	write("Password must be at least 8 characters long.");
+else:
+	write("Password is valid.");

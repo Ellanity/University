@@ -1,0 +1,247 @@
+// example of code in Viola language provided by eldarpoplauski111@gmail.com 
+subr reverse(string input, int startIndex, int endIndex) -> string;
+subr swap(ref string a, ref string b) -> void;
+subr countWords(string text, string word) -> int;
+subr countWords(string[] words) -> int;
+subr reverseString(string text) -> string;
+subr main() -> void;
+subr addTwo(ref int num) -> void;
+subr printArray(int[] arr, int size) -> void;
+subr printArray(char[] arr, int size) -> void;
+subr test(string input, ref int startIndex) -> void;
+subr test(int input, ref int startIndex) -> void;
+subr calculate(int a, int b, ref int sum, ref int product) -> void;
+
+// Example with complex expressions and array string type
+string[] words = ["apple", "banana", "cherry", "date", "elderberry";
+int i, j = 0, 3;
+char c = "c";
+string result = words[i + 2] + words[i + 1] + c;
+write(result); // Output: hrr
+
+// Example with while loop operator and built-in write function
+string str = "Viola is a string language";
+int i = 0;
+while (i < str.length()):
+    write(str[i]);
+    i++;
+
+// Example with overloaded subroutines and passing parameters by ref
+subr test(string input, ref int startIndex) -> void:
+    startIndex = startIndex + input.length();
+    write(startIndex);
+	return;
+    
+subr test(int input, ref int startIndex) -> void:
+    startIndex = startIndex + input;
+    write(startIndex);
+	return;
+
+int index = 0;
+test("Viola is", index); // Output: 8
+test(10, index); // Output: 18
+
+// Example with built-in operations and reading input
+char c = "a";
+string s = "b";
+int i = 5;
+string result = s + c + (i + 2) + "abc" + s[0] + (c * "a");
+write(result); // Output: bab7ab1
+
+// Example with passing parameters by ref and while loop operator
+subr calculate(int a, int b, ref int sum, ref int product) -> void:
+    sum = a + b;
+    product = a * b;
+	return product;
+
+int x, y, s, p = 3, 4, 0, 0;
+calculate(x, y, s, p);
+write(s + " " + p); // Output: 7 12
+
+while (p > 0):
+    p = p - x;
+    s = s + y;
+
+write(s); // Output: 10
+
+
+// Example using Built-in operations 
+string str1 = "Hello";
+string str2 = "World";
+string result = str1 + " " + str2 + "!";
+result = result + " Length: " + result.length();
+char ch = result[6];
+int index = result.find("Length");
+result = result.substr(index, 6);
+
+// Example using Built-in read/write functions
+int num;
+write("Enter a number: ");
+read(num);
+write("You entered: ", num);
+
+// Example using complex expressions
+int a, b, c = 2, 3, 4;
+int result = (a + b) * c / (b - a);
+
+// Example using Passing parameters based on the ref result
+subr addTwo(ref int num) -> void:
+    num = num + 2;
+	return num;
+
+int a = 5;
+addTwo(a);
+write("a: ", a); // Output: a: 7
+
+// Example using overload of subroutines and while loop operators
+subr printArray(int[] arr, int size) -> void:
+    for (int i=0; i<size; i++):
+        write(arr[i], " ");
+	return;
+
+subr printArray(char[] arr, int size) -> void:
+    for (int i=0; i<size; i++):
+        write(arr[i], " ");
+	return;
+
+int i = 0;
+while (i < 5):
+    write("Iteration ", i, ": ");
+    printArray("Hello World", 11);
+    printArray([1, 2, 3], 3);
+    i = i + 1;
+
+
+
+subr main() -> void:
+    string text = "The quick brown fox jumps over the lazy dog.";
+    string word = "the";
+    int count = countWords(text, word);
+    write("The word '" + word + "' appears " + count + " times in the text.");
+    string reversed = reverseString(text);
+    write(reversed);
+	return;
+
+subr countWords(string text, string word) -> int:
+    int count = 0;
+    int startIndex = 0;
+    int foundIndex = findIndex(text, word, startIndex);
+    while (foundIndex != -1):
+        count = count + 1;
+        startIndex = foundIndex + len(word);
+        foundIndex = findIndex(text, word, startIndex);
+    return count;
+	
+subr countWords(string[] words) -> int:
+    int count = 0;
+    for (int i=0; i<len(words); i++):
+        count = count + countWords(text, words[i]);
+    return count;
+
+subr reverseString(string text) -> string:
+    string reversed = "";
+    for (int i= len(text) - 1; i>=0; i--):
+        reversed = reversed + text[i];
+    return reversed;
+
+main();
+
+
+subr reverse(string input, int startIndex, int endIndex) -> string:
+	string output = "";
+	for(int i=endIndex; i>=startIndex; i--):
+		output = input[i]; // Concatenates the characters of the input string in reverse order within the specified range
+	return output; // Returns the reversed substring
+
+//// Passing parameters to a user routine by reference
+subr swap(ref string a, ref string b) -> void:
+  string temp = a;
+  a = b;
+  b = temp; // Swaps the values of a and b
+  return;
+
+a = (a++) / s + (sa) - adsf[12+1] + ((b + (daf[d] / 12)) * d);
+string x, y = "foo", "bar";
+swap(ref x, ref y);
+write(x + " " + y); // Outputs "bar foo"
+
+string message = "Hello, world!";
+string reversedSubstring = reverse(message, 0, 4);
+write(reversedSubstring); // Outputs "olleH"
+
+
+//// Implicit variable declaration
+a = "hello";        // a is a string
+b = "c";            // b is a char
+c = ["apple", "banana", "cherry"];  // c is an array of strings
+
+//// Explicit type conversion
+d = str(b);         // convert b to a string
+e = list(a);        // convert a to a list of chars
+f = "".join(c);     // join the strings in the array c into a single string
+
+//// Work with string variables
+string firstName = "John";
+string lastName = "Doe";
+string fullName = firstName + " " + lastName;
+write(fullName); // Output: "John Doe"
+
+//// if-else
+string password = "password123";
+if(password.length() < 8):
+	write("Password must be at least 8 characters long.");
+else:
+	write("Password is valid.");
+
+// example of code in Viola language provided by eldarpoplauski111@gmail.com 
+string a, b = "First string", "Viola is a string language";
+string substr = "string";
+int char_index = a.find(substr);
+write(char_index); // Output 6
+char_index = b.find(substr, 13, len(substr)); // string, substr, indexes of chars to search in
+write(char_index); // Output -1
+
+string substr_sliced = b.slice(0, 4);
+write(substr_sliced); // Output "Viola"
+
+string[] sliced_str = b.split(" "); 
+write(sliced_str); // Output ["Viola", "is", "a", "string", "language"];
+
+string template = "The quick [animal] [action] over the [color] [animal]";
+string[] animals = ["fox", "cat", "dog"];
+string[] actions = ["jumps", "runs", "walks"];
+string[] colors = ["brown", "white", "black"];
+
+//// For loops
+// string sentence = "The quick brown fox jumps over the lazy dog";
+// string[] words = sentence.split(" "); // Splits the sentence into an array of words
+// for(int i=0; i<words.length; i++):
+//     write(words[i]); // Outputs each word in the sentence on a new line
+
+for (int i = 0; i < animals.length(); i++):
+	for (int j = 0; j < actions.length(); j++):
+		for (int k = 0; k < colors.length(); k++):
+			string text = template.replace("[animal]", animals[i]).replace("[action]", actions[j]).replace("[color]", colors[k]);
+			write(text); // Outputs a combination of animal, action, and color for each iteration of the loop
+
+string a_string, b_string = "abc", "def";
+write(a_string + b_string); // Output "abcdef"
+write(a_string * b_string); // Output ["adef", "bdef", "cdef"] | 
+write(a_string - b_string); // Output "abc" | delete all symbols from first string that exists in second) ex: "abaca" - "a" = "bc"
+write(a_string / b_string); // Output "abcdef"
+write(a_string[0]); // Output "a"
+
+char a_char, b_char, c_char = "a", "b", "c";
+write(a + b); // Output "D" |  ASCII table (97 + 98) % 127 = 68 
+write((string)a + (string)b); // Output "ab"  
+write(a * b); // Output "l" |  ASCII table (97 * 98) % 127 = 108
+write(a / b); // Output "" |  ASCII table (97 / 98) % 127 = 0
+
+string[] a_string_array, b_string_array = ["a", "b"], ["d", "a"];
+write(a_string_array + b_string_array); // Output ["a", "b", "d", "a"]
+write(a_string_array - b_string_array); // Output ["b", "d"]
+write(a_string_array * b_string_array); // Output ["ad "aa", "bd", "ba"]
+write(a_string_array / b_string_array); // Output ["a"]
+write(a_string_array[0]); // Output "a"
+
+write(a_string + b_char); // Output "abcb"

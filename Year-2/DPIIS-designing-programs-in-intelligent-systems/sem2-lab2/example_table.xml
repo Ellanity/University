@@ -1,0 +1,159 @@
+<?xml version="1.0" ?>
+<table title="my_variant">
+	<columns>
+		<column title="Product" type_of_data="str"/>
+		<column title="Manufacturer" type_of_data="str"/>
+		<column title="UMN" type_of_data="int"/>
+		<column title="Quantity" type_of_data="int"/>
+		<column title="Address" type_of_data="str"/>
+	</columns>
+	<records>
+		<record>
+			<element Product="Phone XTE10"/>
+			<element Manufacturer="XTE"/>
+			<element UMN="123546"/>
+			<element Quantity="999"/>
+			<element Address="Chine, Pekin"/>
+		</record>
+		<record>
+			<element Product="Phone XTE11"/>
+			<element Manufacturer="XTE"/>
+			<element UMN="123546"/>
+			<element Quantity="888"/>
+			<element Address="Chine, Pekin"/>
+		</record>
+		<record>
+			<element Product="Phone XTE12"/>
+			<element Manufacturer="XTE"/>
+			<element UMN="123546"/>
+			<element Quantity="777"/>
+			<element Address="Chine, Pekin"/>
+		</record>
+		<record>
+			<element Product="Phone XTE13"/>
+			<element Manufacturer="XTE"/>
+			<element UMN="123546"/>
+			<element Quantity="666"/>
+			<element Address="Chine, Pekin"/>
+		</record>
+		<record>
+			<element Product="Phone XTE14"/>
+			<element Manufacturer="XTE"/>
+			<element UMN="123546"/>
+			<element Quantity="555"/>
+			<element Address="Chine, Pekin"/>
+		</record>
+		<record>
+			<element Product="Phone XTE15"/>
+			<element Manufacturer="XTE"/>
+			<element UMN="123546"/>
+			<element Quantity="444"/>
+			<element Address="Chine, Pekin"/>
+		</record>
+		<record>
+			<element Product="Computer Hrenovo 5"/>
+			<element Manufacturer="Hrenovo"/>
+			<element UMN="654321"/>
+			<element Quantity="100"/>
+			<element Address="Koreya, Seul"/>
+		</record>
+		<record>
+			<element Product="Computer Hrenovo 6"/>
+			<element Manufacturer="Hrenovo"/>
+			<element UMN="654321"/>
+			<element Quantity="50"/>
+			<element Address="Koreya, Seul"/>
+		</record>
+		<record>
+			<element Product="Computer Hrenovo 7"/>
+			<element Manufacturer="Hrenovo"/>
+			<element UMN="654321"/>
+			<element Quantity="25"/>
+			<element Address="Koreya, Seul"/>
+		</record>
+		<record>
+			<element Product="Computer Hrenovo 8"/>
+			<element Manufacturer="Hrenovo"/>
+			<element UMN="654321"/>
+			<element Quantity="12"/>
+			<element Address="Koreya, Seul"/>
+		</record>
+		<record>
+			<element Product="Computer Hrenovo 9"/>
+			<element Manufacturer="Hrenovo"/>
+			<element UMN="654321"/>
+			<element Quantity="6"/>
+			<element Address="Koreya, Seul"/>
+		</record>
+		<record>
+			<element Product="Watch Pear 2.3"/>
+			<element Manufacturer="Pear"/>
+			<element UMN="999999"/>
+			<element Quantity="0"/>
+			<element Address="USA, Uta"/>
+		</record>
+		<record>
+			<element Product="Watch Pear 2.5"/>
+			<element Manufacturer="Pear"/>
+			<element UMN="999999"/>
+			<element Quantity="1000"/>
+			<element Address="USA, Uta"/>
+		</record>
+		<record>
+			<element Product="Watch Pear 3.0"/>
+			<element Manufacturer="Pear"/>
+			<element UMN="999999"/>
+			<element Quantity="999"/>
+			<element Address="USA, Uta"/>
+		</record>
+		<record>
+			<element Product="Watch Pear 4.5"/>
+			<element Manufacturer="Pear"/>
+			<element UMN="999999"/>
+			<element Quantity="666"/>
+			<element Address="USA, Uta"/>
+		</record>
+		<record>
+			<element Product="Watch Pear 5.0"/>
+			<element Manufacturer="Pear"/>
+			<element UMN="999999"/>
+			<element Quantity="444"/>
+			<element Address="USA, Uta"/>
+		</record>
+		<record>
+			<element Product="Juice Evil"/>
+			<element Manufacturer="OOO Coca"/>
+			<element UMN="111111"/>
+			<element Quantity="1000000"/>
+			<element Address="Belarus, Minsk"/>
+		</record>
+		<record>
+			<element Product="Juice Good"/>
+			<element Manufacturer="OOO Coca"/>
+			<element UMN="111111"/>
+			<element Quantity="999999"/>
+			<element Address="Belarus, Minsk"/>
+		</record>
+		<record>
+			<element Product="Juice Beautiful"/>
+			<element Manufacturer="OOO Coca"/>
+			<element UMN="111111"/>
+			<element Quantity="999"/>
+			<element Address="Belarus, Minsk"/>
+		</record>
+		<record>
+			<element Product="Juice Not Beautiful"/>
+			<element Manufacturer="OOO Coca"/>
+			<element UMN="111111"/>
+			<element Quantity="0"/>
+			<element Address="Belarus, Minsk"/>
+		</record>
+		<record>
+			<element Product="Juice Top"/>
+			<element Manufacturer="OOO Coca"/>
+			<element UMN="111111"/>
+			<element Quantity="100"/>
+			<element Address="Belarus, Minsk"/>
+		</record>
+	</records>
+</table>

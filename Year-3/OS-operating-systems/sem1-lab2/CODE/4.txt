@@ -1,0 +1,188 @@
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+
+//v6    0 1 1 2 4 4 4   6    ls
+  
+//// gettimestart
+// https://stackoverflow.com/questions/3756323/how-to-get-the-current-time-in-milliseconds-from-c-in-linux
+// https://unetway.com/tutorial/c-data-i-vrema
+#define _POSIX_C_SOURCE 200809L
+
+#include <inttypes.h>
+#include <math.h>
+#include <time.h>
+#include <sys/time.h>
+
+
+/*struct tm {
+    int tm_sec;   // seconds of minutes from 0 to 61
+    int tm_min;   // minutes of hour from 0 to 59
+    int tm_hour;  // hours of day from 0 to 24
+    int tm_mday;  // day of month from 1 to 31
+    int tm_mon;   // month of year from 0 to 11
+    int tm_year;  // year since 1900
+    int tm_wday;  // days since sunday
+    int tm_yday;  // days since January 1st
+    int tm_isdst; // hours of daylight savings time
+}*/
+
+void print_current_time_with_ms (void)
+{	
+    struct tm *ltm;
+    time_t now = time(NULL);
+    ltm = localtime(&now);
+    
+    time_t          s;  // Seconds
+    long            ms; // Milliseconds
+    struct timespec spec;
+
+    clock_gettime(CLOCK_REALTIME, &spec);
+
+    s  = spec.tv_sec;
+    ms = round(spec.tv_nsec / 1.0e6); // Convert nanoseconds to milliseconds
+    if (ms > 999) {
+        s++;
+        ms = 0;
+    }
+    printf("time: H:%d M:%d S:%d MS:%03ld\n", ltm->tm_hour, ltm->tm_min, ltm->tm_sec, ms);
+}
+//// gettimeend 
+
+
+//// mainfuncstart
+// https://acm.bsu.by/wiki/Unix2017b/%D0%A2%D0%B5%D1%85%D0%BD%D0%B8%D0%BA%D0%B0_fork_%E2%80%94_exec
+int main() 
+{
+    printf("I am zero | child %d of %d\n", getpid(), getppid());
+    int status;
+    pid_t pid0, pid1, pid2, pid3, pid4, pid5;
+    
+    // first child start
+    pid0 = fork();
+    if (pid0 == -1) 
+        fprintf(stderr, "Unable to fork\n");
+        
+    else if (pid0 > 0) 
+    {
+        printf("I am parent %d\n", getpid());
+        printf("Child is %d\n", pid0);
+        
+        // second child start
+        pid_t pid1 = fork();
+        if (pid1 == -1) 
+            fprintf(stderr, "Unable to fork\n");
+        
+        else if (pid1 > 0) 
+        {
+            //printf("I am parent %d\n", getpid());
+            //printf("Child is %d\n", pid1);
+            //system("ps -x");
+        } 
+        else 
+        {
+            // second child end  
+            printf("I am second | child %d of %d\n", getpid(), getppid());
+            print_current_time_with_ms();
+        }
+        
+    } 
+    else 
+    {
+        // first child end   
+        printf("I am first | child %d of %d\n", getpid(), getppid());
+        print_current_time_with_ms();
+        /*if (execlp("ls", "ls", "-l", NULL) == -1) 
+        {
+            fprintf(stderr, "Unable to exec\n");
+        }*/
+        
+        // third child start
+        pid_t pid2 = fork();
+        if (pid2 == -1) 
+            fprintf(stderr, "Unable to fork\n");
+        
+        else if (pid2 > 0) 
+        {
+            printf("I am parent %d\n", getpid());
+            printf("Child is %d\n", pid2);
+        } 
+        else 
+        {
+            // third child end  
+            printf("I am third | child %d of %d\n", getpid(), getppid());
+            print_current_time_with_ms();
+            
+            // fourth child start
+            pid_t pid3 = fork();
+            if (pid3 == -1) 
+                fprintf(stderr, "Unable to fork\n");
+        
+            else if (pid3 > 0) 
+            {
+                printf("I am parent %d\n", getpid());
+                printf("Child is %d\n", pid3);
+                // fifth child start
+                pid_t pid4 = fork();
+                if (pid4 == -1) 
+                    fprintf(stderr, "Unable to fork\n");
+        
+                else if (pid4 > 0) 
+                {
+                    printf("I am parent %d\n", getpid());
+                    printf("Child is %d\n", pid4);
+                    
+                    // six child start
+                    pid_t pid5 = fork();
+                    if (pid5 == -1) 
+                        fprintf(stderr, "Unable to fork\n");
+        
+                    else if (pid5 > 0) 
+                    {
+                        printf("I am parent %d\n", getpid());
+                        printf("Child is %d\n", pid5);
+                    }   
+                    else 
+                    {
+                        // six child end  
+                        printf("I am six | child %d of %d\n", getpid(), getppid());
+                        print_current_time_with_ms();
+                        if (execlp("ls", "ls", "-l", NULL) == -1) 
+                        {
+                            fprintf(stderr, "Unable to exec\n");
+                        }
+                    }   
+                }   
+                else 
+                {
+                    // fifth child end  
+                    printf("I am fifth | child %d of %d\n", getpid(), getppid());
+                    print_current_time_with_ms();
+                }   
+            }   
+            else 
+            {
+                // fourth child end  
+                printf("I am fourth | child %d of %d\n", getpid(), getppid());
+                print_current_time_with_ms();
+            }   
+        }   
+    }
+    waitpid(pid0, &status, 0);
+    waitpid(pid1, &status, 0);
+    waitpid(pid2, &status, 0);
+    waitpid(pid3, &status, 0);
+    waitpid(pid4, &status, 0);
+    waitpid(pid5, &status, 0);
+    //waitpid(pid6, &status, 0);
+    return 0;
+}
+//// mainfuncend
+
+// to compile with gcc add -lm in the end of request. example: gcc main.c -o main.exe -lm
+/*
+gcc 2.c -o 2.exe -lm
+./2.exe
+
+*/

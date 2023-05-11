@@ -1,0 +1,110 @@
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <math.h>
+#define PI 3.14159265f
+
+
+double factorial (int n) 
+{
+    int result = 1;
+    for (int i = 1; i <= n; i++) 
+        result *= i;
+    return result * 1.0;
+}
+
+double get_member_of_the_taylor_series (int i, int n, int N)
+{
+    double result = 0;
+    double x = 2.0f * PI * (double)i / (double)N;
+    //printf("%d %d %d\n", i, n, N);
+    //printf("%lf %lf %lf %lf\n", (double)i, (double)N, 2.0f * 3.14159265f * ((double)i / (double)N), x);
+    result = pow(-1, (n - 1)) * (pow(x, (2 * n - 1)) / factorial((2 * n - 1)));
+    //printf("%lf %lf %lf %lf\n", pow(-1, (n - 1)), x, pow(x, (2 * n - 1)), factorial((2 * n - 1)));
+    return result;
+}
+
+//// mainfuncstart
+int main() 
+{
+    // variables
+    pid_t pid;
+    int K, N, n, status;
+    const int max_num_of_elements = 999;
+    double func_resulsts[max_num_of_elements];
+    double taylor_series[max_num_of_elements];
+    // input
+    printf("K: ");
+    scanf("%d", &K);
+    printf("N: ");
+    scanf("%d", &N);
+    printf("n: ");
+    scanf("%d", &n);
+    if (K > max_num_of_elements || n > max_num_of_elements) {
+        printf("Unable to start programm, K or n is to large.");
+        return 0;
+    }
+    if (N <= 0 || n <= 0 || K <= 0) {
+        printf("Unable to start programm, input cantains <=0.");
+        return 0;
+    }
+    // 
+    for (int i = 0; i < K; i++) 
+    {   
+        // get taylor members
+        for (int j = 0; j < n; j++) 
+        { 
+            FILE *wvfp;
+            char wvname[] = "variables.txt";
+            wvfp = fopen(wvname, "w");
+            fprintf(wvfp, "%d %d %d", i, j, N);
+            fclose(wvfp);
+            
+            pid = fork();
+            if (pid == -1) 
+                fprintf(stderr, "Unable to fork\n");
+            else if (pid == 0)
+            {
+            
+                FILE *vfp;
+                int vi, vj, vN;
+                char vname[] = "variables.txt";
+                vfp = fopen(vname, "r");
+                fscanf(vfp, "%d %d %d", &vi, &vj, &vN);
+                fclose(vfp);
+                // write in file
+                
+                FILE *fp;
+                char name[] = "taylor_member.txt";
+                fp = fopen(name, "w");
+                double res = get_member_of_the_taylor_series(vi, vj + 1, vN);
+                fprintf(fp, "%lf", res);
+                fclose(fp);
+                printf("%d: %lf | PID: %d\n", vj, res, getpid());
+                exit(0);
+            }
+            waitpid(pid, &status, 0);
+            // read from file
+            FILE *fp;
+            char name[] = "taylor_member.txt";
+            fp = fopen(name, "r");
+            fscanf(fp, "%lf", &taylor_series[j]);
+            fclose(fp);
+                
+            //printf("%d: %f | PID: %d\n", j, taylor_series[j], getpid());
+        }
+        // sum taylor
+        waitpid(pid, &status, 0);
+        for (int j = 0; j < n; j++) 
+            func_resulsts[i] += taylor_series[j];
+        printf("Sum: %f\n", func_resulsts[i]);
+        FILE *fp;
+        char name[] = "func_results.txt";
+        fp = fopen(name, "a");
+        fprintf(fp, "%lf ", func_resulsts[i]);
+        fclose(fp);
+    }
+    return 0;
+}
+//// mainfuncend
