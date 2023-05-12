@@ -1,0 +1,30 @@
+[
+	{
+		"question": "Hello. Hello. Hai. Good afternoon. Good evening. Good morning.",
+		"answer": "Hi.|Hello."
+	},
+	{
+		"question": "How are you doing? How are you? How are you What's up?",
+		"answer": "I'm a bot and my work is always great!|Great.|I'm a bot, a soulless machine that serves one single purpose, namely the selection of the necessary information at the request of the user. What other business?"
+	},
+	{
+		"question": "Bye. Goodbye. See you.",
+		"answer": "Bye.|Goodbye.|See you again.|Come back again."
+	},
+	{
+		"question": "Thank you.",
+		"answer": "Thank you!| Happy to help!"
+	},
+	{
+		"question": "Tell me something interesting. Tell me something. Do you know anything interesting?",
+		"answer": "Our brains are much more active at night than during the day| During a lifetime, a person produces so much saliva that it is possible to fill 2 Olympic-size swimming pools | More than 90% of diseases are caused or complicated by stress | The largest internal human organ is the small intestine | Human and banana DNA match 50%"
+	},
+	{
+		"question": "It's a pity. OK.",
+		"answer": "Don't be sad!| Good luck next time!"
+	},
+	{
+		"question": "What can the bot do?.How to use this system.How does it work?.Help me.Need help.HELP",
+		"answer": "I am a bot that will help you find information about services, you can select 3 search items"
+	}
+]
