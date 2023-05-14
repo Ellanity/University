@@ -9,7 +9,7 @@ import text_analyze.check_books
 
 from help_texts.main_help import MAINHELP
 
-bot = telebot.TeleBot("6293334209:AAFWZViy31bj_sM1ASuGgEvPDQZocepM-uQ")
+bot = telebot.TeleBot("id:token")
 bot_command_key = dict()
 path = os.getcwd()
 
