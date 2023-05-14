@@ -65,7 +65,7 @@ class LogicFormulaResolver:
             if vertex.vertex_type == "atomic_formula":
                 if vertex.content not in self.syntax.constants and vertex.content not in variables:
                     variables.append(vertex.content)
-        return list(variables)
+        return list(sorted(variables))
 
     def negation(self, variable: int):
         if variable == 0:
