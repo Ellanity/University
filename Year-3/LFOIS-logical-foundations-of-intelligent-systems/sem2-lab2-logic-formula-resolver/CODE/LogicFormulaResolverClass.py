@@ -19,20 +19,24 @@ class LogicFormulaResolver:
     def resolve_formula_truth_table(self, formula: Formula):
         variables = self.get_all_variables_in_formula(formula)
         table = []
-        range_right = len(variables) * len(variables)
-        if len(variables) == 1:
-            range_right = 2
-        if len(variables) == 0:
-            range_right = 1
-        for i in range(0, range_right):
-            str_variables = bin(i)[2:].rjust(len(variables), '0')
-            # print(str_variables)
+        # range_right = len(variables) * len(variables)
+        range_right = 2 ** len(variables)
+        # if len(variables) == 1:
+        #    range_right = 2
+        # if len(variables) == 0:
+        #    range_right = 1
+        # print(range_right)
+        for index in range(0, range_right):
+            str_variables = bin(index)[2:].rjust(len(variables), '0')
+            # print(str_variables, end="\r")
             values = list(str_variables)
             values = [int(item) for item in values]
             variables_with_values = dict(zip(variables, values))
+
             result = self.resolve_formula_with_variables(formula.vertexes[1], formula, variables_with_values)
             # print(variables_with_values, result)
             table.append((variables_with_values, result))
+        # print("\n")
         return table
 
     def resolve_formula_with_variables(self, vertex, formula: Formula, variables: dict):
