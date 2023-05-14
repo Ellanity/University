@@ -19,37 +19,25 @@ class LogicFormulaResolver:
     def resolve_formula_truth_table(self, formula: Formula):
         variables = self.get_all_variables_in_formula(formula)
         table = []
-        # range_right = len(variables) * len(variables)
         range_right = 2 ** len(variables)
-        # if len(variables) == 1:
-        #    range_right = 2
-        # if len(variables) == 0:
-        #    range_right = 1
-        # print(range_right)
         for index in range(0, range_right):
             str_variables = bin(index)[2:].rjust(len(variables), '0')
-            # print(str_variables, end="\r")
             values = list(str_variables)
             values = [int(item) for item in values]
             variables_with_values = dict(zip(variables, values))
 
             result = self.resolve_formula_with_variables(formula.vertexes[1], formula, variables_with_values)
-            # print(variables_with_values, result)
             table.append((variables_with_values, result))
-        # print("\n")
         return table
 
     def resolve_formula_with_variables(self, vertex, formula: Formula, variables: dict):
         if vertex.vertex_type == "constant":
-            # print(f"{vertex.content}: {int(vertex.content)}")
             return int(vertex.content)
         if vertex.vertex_type == "atomic_formula":
-            # print(f"{vertex.content}: {variables[vertex.content]}")
             return variables[vertex.content]
         if vertex.vertex_type == "unary_complex_formula":
             children_indexes = [edge.child_vertex_index for edge in formula.edges if edge.parent_vertex_index == vertex.index]
             variable = self.resolve_formula_with_variables(formula.vertexes[children_indexes[0]], formula, variables)
-            # print(f"{vertex.content}: {self.negation(variable)}")
             return self.negation(variable)
         if vertex.vertex_type == "binary_complex_formula":
             children_indexes = [edge.child_vertex_index for edge in formula.edges if edge.parent_vertex_index == vertex.index]
@@ -60,17 +48,15 @@ class LogicFormulaResolver:
             formula_func = vertex.content[start_char:finish_char]
 
             if formula_func == self.syntax.conjunction:
-                # print(f"{vertex.content}: {self.conjunction(variable_1, variable_2)}")
                 return self.conjunction(variable_1, variable_2)
-            if formula_func == self.syntax.disjunction:
-                # print(f"{vertex.content}: {self.disjunction(variable_1, variable_2)}")
+            elif formula_func == self.syntax.disjunction:
                 return self.disjunction(variable_1, variable_2)
-            if formula_func == self.syntax.implication:
-                # print(f"{vertex.content}: {self.implication(variable_1, variable_2)}")
+            elif formula_func == self.syntax.implication:
                 return self.implication(variable_1, variable_2)
-            if formula_func == self.syntax.equivalence:
-                # print(f"{vertex.content}: {self.equivalence(variable_1, variable_2)}")
+            elif formula_func == self.syntax.equivalence:
                 return self.equivalence(variable_1, variable_2)
+            else:
+                raise Exception("Undefined error. No such formula func.")
         raise Exception("The formula cannot be resolved.")
 
     def get_all_variables_in_formula(self, formula: Formula):
